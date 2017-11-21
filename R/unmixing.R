@@ -5,9 +5,14 @@
 #'
 #' @seealso load_files
 #'
-set_endmembers <- function(signatures, k, seed) {
-    raw <- signatures$data[signatures$range]
-    signatures$endmembers <- vca(raw, k, method="05", seed = seed)$indices
+set_endmembers <- function(signatures, k) {
+
+    signatures$endmembers <- sapply(
+        k,
+        function(ki) vca(signatures$data, ki, method="05")$indices
+      ) %>%
+      setNames(paste0("end", k))
+
     signatures
 }
 
@@ -19,12 +24,17 @@ set_endmembers <- function(signatures, k, seed) {
 #' @seealso \code{\link{set_endmembers}}
 #'
 endmember_files <- function(signatures) {
-  ems <- signatures$endmembers
-  k <- length(ems)
-  emData <- signatures$data[ems,]
-  endNames <- paste0("end", 1:k)
-  emData <- cbind(endmember=endNames, emData)
-  dplyr::select(emData, endmember, file)
+
+  endmembers <- signatures$endmembers
+
+  lapply(
+    endmembers, function(ems) {
+      k <- length(ems)
+      endNames <- paste0("end", 1:k)
+      emData <- cbind(endmember=endNames, signatures$data[ems,])
+      dplyr::select(emData, endmember)
+    }
+  )
 }
 
 

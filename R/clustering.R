@@ -4,16 +4,27 @@
 #'
 #' @export
 #' @import dplyr
-#' @importFrom maggritr %>%
+#' @importFrom magrittr %>%
 #' @param signatures A dataframe which contains the set of signatures. Each one contains the value for the wavelengths
 #' @return An extended data frame which includes the k (cluster index) for each signature
 #'
 clustering <- function(signatures, k) {
 
-  classes <- data.frame(cluster=as.character(kmeans(signatures$data[signatures$range], k)[[1]]))
-
-  signatures$data <- cbind(signatures$data, classes) %>%
-    dplyr::select(file, cluster, signatures$range)
+  # Apply kmeans for each class
+  signatures$clusters <-
+    sapply(
+      k,
+      function (ki) as.character(kmeans(x = signatures$data, ki)$cluster)
+    ) %>%
+    data.frame() %>%
+    setNames(paste0('k', k))
 
   signatures
+}
+
+
+elbow_withinss <- function(signatures, k = 1:20) {
+  kclusts <- data.frame(k=1:15) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
+  clusters <- kclusts %>% mutate( withinss = kclust$tot.withins)
+  ggplot(clusters, aes(k, withinss)) + geom_line()
 }

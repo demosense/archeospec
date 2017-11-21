@@ -25,29 +25,22 @@ load_files <- function(path, header=NULL, wavelength_start=NULL, wavelength_end=
   }
 
   if (is.null(wavelength_end)) {
-    warning("wavelength_end is null, defaulting to 350")
+    warning("wavelength_end is null, defaulting to 2500")
     wavelength_end <- 2500
   }
 
+  # Compute wavelength range, we asume a complete range of observations
   nwavelengths <- wavelength_end - wavelength_start + 1
   wavelength_range <- as.character(wavelength_start:wavelength_end)
 
+  # List .asd files in path
   files <- list.files(path, pattern = "\\.asd", recursive = T)
 
-  # Create empty data.frame
-  data <- data.frame(names=files)
-  zeroes <- data.frame( matrix(0, nrow = nrow(data), ncol = nwavelengths) )
-  data <- cbind(data, zeroes)
-  names(data) <- c("file", 350:2500)
+  # Parse files and load into matrix
+  data <- data.frame(t(sapply(files, function(f) .parse_signature_file(path, f, header), simplify = T)))
+  names(data) <- wavelength_range
 
-  for (i in 1:length(files)) {
-
-    f <- files[[i]]
-
-    x <- .parse_signature_file(path, f, header)
-    data[i,-1] <- x
-  }
-
+  # Create output object
   out <- list(
     data = data,
     files = files,
