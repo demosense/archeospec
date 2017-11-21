@@ -5,6 +5,7 @@ Analysis of the reflectance spectra from paintings: classification and endmember
 
 ```R
 # install.packages("devtools")
+devtools::install_git("https://gitlab.com/chemometrics/unmixR.git", subdir = "pkg/unmixR")
 devtools::install_github("jacintoarias/archeospec")
 ```
 
