@@ -11,11 +11,15 @@ devtools::install_github("jacintoarias/archeospec")
 ## Purpose
 
 This package has been developed for managing high spectral resolution reflectance from paintings.
+
 One objective is to locate the spectral regions with the maximum information contained in the spectral signature of all the pigments.
+
 On the other hand, when not having previous information about the pigments, like chemical composition, the package allows to statistically
-discriminate between the optimal (minimum number of classes and maximum information) number of them. It is also possible the alternative way,
-consisting of labelling some spectral signatures with previous information to stablish the main classes and pigments. Finally, the package
-provides the contribution of the endmembers to each of the spectral signature in the samples.
+discriminate between the optimal (minimum number of classes and maximum information) number of them.
+
+It is also possible the alternative way, consisting of labelling some spectral signatures with previous information to stablish the main classes and pigments.
+
+Finally, the package provides the contribution of the endmembers to each of the spectral signature in the samples.
 
 ## Authors
 
