@@ -1,9 +1,13 @@
-
+#' Plot all the signatures together using one color per sample.
+#'
 #' @export
 #' @import tidyr
 #' @import ggplot2
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
+#'
+#' @param signatures A dataframe which contains the set of samples. Each sample represents the value for each wavelength
+#' @return A ggplot object
 #'
 plot_signatures <- function(signatures) {
 
@@ -48,8 +52,9 @@ plot_intracorrelation <- function(signatures) {
 #' @import tidyr
 #' @import ggplot2
 #' @importFrom ggplot2 aes
-#' @importFrom geom_line
-#' @importFrom facet_wrap
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 facet_wrap
+#' @param signatures A dataframe which represents the value for each wavelength
 #'
 plot_cluster <- function(signatures) {
 

@@ -1,5 +1,17 @@
-
-gen_report <- function(
+#' Create a new report
+#'
+#' @export
+#' @param signatures A dataframe which contains the set of samples. Each sample represents the value for each wavelength
+#' @param path The output path where documents are saved. By default, "/tmp/spectral"
+#' @param data_path The path for the folder which contains the .asd.txt files (which include the wavelength measurements)
+#' @param title The title included at the begining of the reports
+#' @param kclusters The number of clusters to group the data
+#' @param kendmembers The number of endmembers to find in the data
+#' @return It creates a report in html, latex, pdf and word formats
+#'
+#'
+#'
+genReport <- function(
   signatures,
   path="/tmp/spectral",
   data_path,

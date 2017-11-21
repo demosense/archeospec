@@ -1,10 +1,21 @@
-
+#' Load the samples from a folder path
+#'
+#' It opens every file wich .asd.txt extension and process them:
+#' 1) Search for a line with the header format
+#' 2) Every line after that is supposed to be <wavelength><tab><value>
+#'
 #' @export
+#' @param path Folder path to search for .asd.txt files
+#' @param header The line format of the head of the data (the line before the data measurements)
+#' If NULL, default to wavelength<tab><filename>
+#' @param wavelength_start The shorter measured wavelength in nm. If NULL, default to 350
+#' @param wavelength_end The longer measured wavelength in nm. If NULL, default to 2500
+#' @return A spectral object. Contains the information of the signatures, the processed files and the wavelength ranges
 #'
 load_files <- function(path, header=NULL, wavelength_start=NULL, wavelength_end=NULL) {
 
   if (is.null(header)) {
-    warning("Header is null, defaulting to wavelength<filename>")
+    warning("Header is null, defaulting to wavelength<tab><filename>")
     header <- "Wavelength\t%s" # (filename)
   }
 
