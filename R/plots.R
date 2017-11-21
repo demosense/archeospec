@@ -130,10 +130,13 @@ plot_endmember_density_bar <- function(signatures) {
 
   .check_endmembers_clusters(signatures)
 
+  clusters <- signatures$clusters
+  endmembers <- signatures$endmembers
+
   lapply(
     1:length(clusters),
     function(i) {
-      endNames <- paste0("end", 1:length(signatures$endmembers[[i]]))
+      endNames <- paste0("end", 1:length(endmembers))
       .compute_weights(signatures, i) %>%
         gather("endmember", "weight", endNames) %>%
         ggplot2::ggplot(aes(x=class, y=weight, group=endmember, fill=endmember, color=class)) +
@@ -147,10 +150,13 @@ plot_endmember_density_box <- function(signatures) {
 
   .check_endmembers_clusters(signatures)
 
+  clusters <- signatures$clusters
+  endmembers <- signatures$endmembers
+
   lapply(
     1:length(clusters),
     function(i) {
-      endNames <- paste0("end", 1:length(signatures$endmembers[[i]]))
+      endNames <- paste0("end", 1:length(endmembers))
       .compute_weights(signatures, i) %>%
         gather("endmember", "weight", endNames) %>%
         ggplot(aes(x=" ", y=weight, group=endmember, fill=endmember)) +
