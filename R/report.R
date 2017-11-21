@@ -2,7 +2,7 @@
 #'
 #' @export
 #' @import rmarkdown
-#' @param signatures A spectral object built using the load_files function or the path of the
+#' @param input_source A spectral object built using the load_files function or the path of the
 #' folder which contains the .asd.txt files (which include the wavelength measurements)
 #' @param path The output path where documents are saved. By default, "/tmp/spectral"
 #' @param data_path The path for
@@ -15,7 +15,7 @@
 #'
 #'
 genReport <- function(
-  signatures,
+  input_source,
   path="/tmp/spectral",
 
   title,
@@ -34,38 +34,44 @@ html_document:
 
   s <- .add_chunk_anonymous(s, "library(archeospec)")
 
-  if(is.spectral(signatures))
-    s <- .add_chunk_anonymous(s, 'data <- signatures')
+  if(is.spectral(input_source))
+    s <- .add_chunk_anonymous(s, 'signatures <- input_source')
   else
-    s <- .add_chunk_anonymous(s, sprintf('data <- load_files(path = "%s")', signatures))
+    s <- .add_chunk_anonymous(s, sprintf('signatures <- load_files(path = "%s")', input_source))
 
-  s <- .add_chunk_anonymous(s, sprintf('data'))
-  s <- .add_chunk_md(s, "## Dataset visualization")
-  s <- .add_chunk_anonymous(s, sprintf('plot_signatures(data)'))
+  s <- .add_chunk_md(s, "## Source of signatures")
+  s <- .add_chunk_anonymous(s, sprintf('signatures'))
+
+  s <- .add_chunk_md(s, "## Signatures visualization")
+  s <- .add_chunk_anonymous(s, sprintf('plot_signatures(signatures)'))
+
   s <- .add_chunk_md(s, "## Intracorrelation analysis")
-  s <- .add_chunk_anonymous(s, sprintf('plot_intracorrelation(data)'))
+  s <- .add_chunk_anonymous(s, sprintf('plot_intracorrelation(signatures)'))
+
+  s <- .add_chunk_md(s, "## Analysis of the inter-cluster distances")
+  s <- .add_chunk_anonymous(s, sprintf('signatures %s elbow_withinss()',"%>%"))
+
+  s <- .add_chunk_md(s, "## Apply Clustering and VCA")
+  s <- .add_chunk_anonymous(s, sprintf('signatures %s elbow_withinss()',"%>%"))
+
+  s <- .add_chunk_anonymous(s, sprintf('processed <- signatures %s clustering(k = %d) %s set_endmembers(k = %d)', "%>%", kclusters, "%>%", kendmembers))
+
   s <- .add_chunk_md(s, sprintf("## Clustering k = %d", kclusters))
-  s <- .add_chunk_anonymous(s, sprintf('dataClustered <- clustering(data, %d)', kclusters))
-  s <- .add_chunk_anonymous(s, sprintf('plot_cluster(dataClustered)'))
+  s <- .add_chunk_anonymous(s, sprintf('plot_cluster(processed)'))
+
   s <- .add_chunk_md(s, sprintf("## Unmixing k = %d", kendmembers))
-  s <- .add_chunk_anonymous(s, sprintf('dataUnmixed <- set_endmembers(dataClustered, %d)', kendmembers))
-  s <- .add_chunk_anonymous(s, sprintf('endmember_files(dataUnmixed)'))
-  s <- .add_chunk_anonymous(s, sprintf('plot_endmembers(dataUnmixed)'))
-  s <- .add_chunk_md(s, sprintf("## Files included"))
-  s <- .add_chunk_anonymous(s, sprintf('data$files'))
+  s <- .add_chunk_anonymous(s, sprintf('endmember_files(processed)'))
+  s <- .add_chunk_anonymous(s, sprintf('plot_endmembers(processed)'))
 
+  s <- .add_chunk_anonymous(s, sprintf('plot_endmember_cluster(processed)'))
 
-#   "plot_signatures(data)"
-# plot_intracorrelation(data)
-#
-# dataClustered <- clustering(data, 5)
-# plot_cluster(dataClustered)
-#
-# dataUnmixed <- set_endmembers(dataClustered, 5, 1234)
-# endmember_files(dataUnmixed)
-# plot_endmembers(dataUnmixed)
+  s <- .add_chunk_anonymous(s, sprintf('plot_endmember_density_bar(processed)'))
 
-  # s <- paste(s, , sep="\n")
+  s <- .add_chunk_anonymous(s, sprintf('plot_endmember_density_box(processed)'))
+
+  s <- .add_chunk_anonymous(s, sprintf('table_weights(processed)'))
+
+  s <- .add_chunk_anonymous(s, sprintf('table_residuals(processed)'))
 
   # tmpPath <- tempfile(pattern = "file", tmpdir = tempdir())
   fileConn<-file(paste0(path, "/report.rmd"))

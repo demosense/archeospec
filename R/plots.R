@@ -124,7 +124,117 @@ plot_endmembers <- function(signatures) {
   })
 }
 
+#' Plot the endmembers using the colors of the clusters that they belongs to.
+#'
+#' @export
+#' @import tidyr
+#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @param signatures A spectral object built using the load_files function
+#'
+#' @seealso \code{\link{clustering}}
+#' @seealso \code{\link{set_endmembers}}
+#' @seealso \code{\link{load_files}}
+#'
+plot_endmember_cluster <- function(signatures) {
 
+  .check_endmembers_clusters(signatures)
 
+  clusters <- signatures$clusters
+  endmembers <- signatures$endmembers
 
+  lapply(
+    1:length(clusters),
+    function(i) {
+        classes <- clusters[[i]]
+        ems <- endmembers[[i]]
+        data <- cbind(class = classes, signatures$data)
+        k <- length(ems)
+        emData <- data[ems,]
+        endNames <- paste0("end", 1:k)
+        emData <- cbind(endmember=endNames, emData)
+        emDataGather <- tidyr::gather(emData, 'wavelength', 'value', signatures$range)
+        emDataGather$wavelength <- as.numeric(emDataGather$wavelength)
+        ggplot2::ggplot(emDataGather, aes(x=wavelength, y=value, group=endmember, color=class)) +
+          geom_line()
+    }
+  )
+}
+
+#' Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
+#'
+#' The result are a set of bar plots
+#'
+#' @export
+#' @import tidyr
+#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_bar
+#' @param signatures A spectral object built using the load_files function
+#'
+#' @seealso \code{\link{clustering}}
+#' @seealso \code{\link{set_endmembers}}
+#' @seealso \code{\link{load_files}}
+#'
+plot_endmember_density_bar <- function(signatures) {
+
+  .check_endmembers_clusters(signatures)
+
+  clusters <- signatures$clusters
+  endmembers <- signatures$endmembers
+
+  lapply(
+    1:length(clusters),
+    function(i) {
+      endNames <- paste0("end", 1:length(endmembers[[i]]))
+      weightsRaw <- .compute_weights(signatures, i)
+
+      cbind(file = row.names(signatures$data), class = clusters[[i]], weightsRaw) %>%
+      tidyr::gather("endmember", "weight", endNames) %>%
+      ggplot2::ggplot(aes(x=class, y=weight, group=endmember, fill=endmember, color=class)) +
+        geom_bar(stat = "summary", fun.y = "mean")
+    }
+  )
+}
+
+#' Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
+#'
+#' The result are a set of whiskers box plots
+#'
+#' @export
+#' @import tidyr
+#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_boxplot
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 ylim
+#' @param signatures A spectral object built using the load_files function
+#'
+#' @seealso \code{\link{clustering}}
+#' @seealso \code{\link{set_endmembers}}
+#' @seealso \code{\link{load_files}}
+#'
+plot_endmember_density_box <- function(signatures) {
+
+  .check_endmembers_clusters(signatures)
+
+  clusters <- signatures$clusters
+  endmembers <- signatures$endmembers
+
+  lapply(
+    1:length(clusters),
+    function(i) {
+      endNames <- paste0("end", 1:length(endmembers[[i]]))
+      weightsRaw <- .compute_weights(signatures, i)
+
+      cbind(file = row.names(signatures$data), class = clusters[[i]], weightsRaw) %>%
+      gather("endmember", "weight", endNames) %>%
+      ggplot(aes(x=" ", y=weight, group=endmember, fill=endmember)) +
+        geom_boxplot() +
+        facet_wrap(~class, ncol = 3) +
+        ylim(c(0,1))
+    }
+  )
+}
 

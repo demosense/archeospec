@@ -28,10 +28,11 @@ clustering <- function(signatures, k) {
 
 #' Generate the elbow plot
 #'
-#' Plot of the sum of the distances intra-clusters (y-axis) for every number of clusters in k (x-axis)
+#' Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis)
 #'
 #' @export
 #' @import ggplot2
+#' @import dplyr
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
 #' @param signatures A spectral object built using the load_files function
@@ -42,6 +43,6 @@ clustering <- function(signatures, k) {
 #'
 elbow_withinss <- function(signatures, k = 1:20) {
   kclusts <- data.frame(k=1:15) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
-  clusters <- kclusts %>% mutate( withinss = kclust$tot.withins)
+  clusters <- kclusts %>% dplyr::mutate( withinss = kclust$tot.withins)
   ggplot(clusters, aes(k, withinss)) + geom_line()
 }
