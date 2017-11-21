@@ -64,6 +64,11 @@ endmember_files <- function(signatures) {
   weightsRaw
 }
 
+.get_residuals <- function(original, weights, endmembers) {
+  recovered <- t(as.numeric(weights)) %*% as.matrix(endmembers)
+  residual  <- abs(original - recovered)
+  sum(residual)
+}
 
 .check_endmembers_clusters <- function(signature) {
   kc <- sapply(clusters, function(x) length(levels(x)) )
