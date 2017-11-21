@@ -136,11 +136,13 @@ plot_endmember_density_bar <- function(signatures) {
   lapply(
     1:length(clusters),
     function(i) {
-      endNames <- paste0("end", 1:length(endmembers))
-      .compute_weights(signatures, i) %>%
-        gather("endmember", "weight", endNames) %>%
-        ggplot2::ggplot(aes(x=class, y=weight, group=endmember, fill=endmember, color=class)) +
-          geom_bar(stat = "summary", fun.y = "mean")
+      endNames <- paste0("end", 1:length(endmembers[[i]]))
+      weightsRaw <- .compute_weights(signatures, i)
+
+      cbind(file = row.names(signatures$data), class = clusters[[i]], weightsRaw) %>%
+      gather("endmember", "weight", endNames) %>%
+      ggplot2::ggplot(aes(x=class, y=weight, group=endmember, fill=endmember, color=class)) +
+        geom_bar(stat = "summary", fun.y = "mean")
     }
   )
 }
@@ -156,13 +158,15 @@ plot_endmember_density_box <- function(signatures) {
   lapply(
     1:length(clusters),
     function(i) {
-      endNames <- paste0("end", 1:length(endmembers))
-      .compute_weights(signatures, i) %>%
-        gather("endmember", "weight", endNames) %>%
-        ggplot(aes(x=" ", y=weight, group=endmember, fill=endmember)) +
-          geom_boxplot() +
-          facet_wrap(~class, ncol = 3) +
-          ylim(c(0,1))
+      endNames <- paste0("end", 1:length(endmembers[[i]]))
+      weightsRaw <- .compute_weights(signatures, i)
+
+      cbind(file = row.names(signatures$data), class = clusters[[i]], weightsRaw) %>%
+      gather("endmember", "weight", endNames) %>%
+      ggplot(aes(x=" ", y=weight, group=endmember, fill=endmember)) +
+        geom_boxplot() +
+        facet_wrap(~class, ncol = 3) +
+        ylim(c(0,1))
     }
   )
 }

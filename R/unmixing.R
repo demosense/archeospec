@@ -61,8 +61,7 @@ endmember_files <- function(signatures) {
   models <- apply(signatures$data, 1, FUN=function(x) .cnnls(X, matrix(as.numeric(x))) )
   weightsRaw <- data.frame( t(sapply(models, function(x) c(x$solution))) )
   names(weightsRaw) <- endNames
-
-  cbind(file = row.names(signatures$data), class = classes, weightsRaw)
+  weightsRaw
 }
 
 
