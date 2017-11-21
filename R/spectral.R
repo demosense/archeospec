@@ -12,6 +12,7 @@ is.spectral <- function(x) {
 #'
 #' @export
 #' @param x Object of class spectral
+#' @param ... Further arguments to be passed from or to other methods.
 print.spectral <- function (x, ...) {
   print(sprintf("Spectral signatures of %d files", nrow(x$data)))
 }
@@ -20,6 +21,7 @@ print.spectral <- function (x, ...) {
 #'
 #' @export
 #' @param object Object of class spectral
+#' @param ... Further arguments to be passed from or to other methods.
 summary.spectral <- function (object, ...) {
   print(sprintf("Spectral signatures of %d files\n\n", nrow(object$data)))
   cat("\nRanges\n")

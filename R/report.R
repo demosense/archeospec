@@ -1,20 +1,22 @@
 #' Create a new report
 #'
 #' @export
-#' @param signatures A dataframe which contains the set of samples. Each sample represents the value for each wavelength
+#' @import rmarkdown
+#' @param signatures A spectral object built using the load_files function or the path of the
+#' folder which contains the .asd.txt files (which include the wavelength measurements)
 #' @param path The output path where documents are saved. By default, "/tmp/spectral"
-#' @param data_path The path for the folder which contains the .asd.txt files (which include the wavelength measurements)
+#' @param data_path The path for
 #' @param title The title included at the begining of the reports
 #' @param kclusters The number of clusters to group the data
 #' @param kendmembers The number of endmembers to find in the data
 #' @return It creates a report in html, latex, pdf and word formats
 #'
+#' @seealso \code{\link{load_files}}
 #'
 #'
 genReport <- function(
   signatures,
   path="/tmp/spectral",
-  data_path,
 
   title,
   kclusters,
@@ -30,8 +32,13 @@ html_document:
 ", title, date())
 
 
-  s <- .add_chunk_anonymous(s, "library(spectral)")
-  s <- .add_chunk_anonymous(s, sprintf('data <- load_files(path = "%s")', data_path))
+  s <- .add_chunk_anonymous(s, "library(archeospec)")
+
+  if(is.spectral(signatures))
+    s <- .add_chunk_anonymous(s, 'data <- signatures')
+  else
+    s <- .add_chunk_anonymous(s, sprintf('data <- load_files(path = "%s")', signatures))
+
   s <- .add_chunk_anonymous(s, sprintf('data'))
   s <- .add_chunk_md(s, "## Dataset visualization")
   s <- .add_chunk_anonymous(s, sprintf('plot_signatures(data)'))
@@ -41,7 +48,7 @@ html_document:
   s <- .add_chunk_anonymous(s, sprintf('dataClustered <- clustering(data, %d)', kclusters))
   s <- .add_chunk_anonymous(s, sprintf('plot_cluster(dataClustered)'))
   s <- .add_chunk_md(s, sprintf("## Unmixing k = %d", kendmembers))
-  s <- .add_chunk_anonymous(s, sprintf('dataUnmixed <- set_endmembers(dataClustered, %d, 1234)', kendmembers))
+  s <- .add_chunk_anonymous(s, sprintf('dataUnmixed <- set_endmembers(dataClustered, %d)', kendmembers))
   s <- .add_chunk_anonymous(s, sprintf('endmember_files(dataUnmixed)'))
   s <- .add_chunk_anonymous(s, sprintf('plot_endmembers(dataUnmixed)'))
   s <- .add_chunk_md(s, sprintf("## Files included"))

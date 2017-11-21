@@ -5,8 +5,11 @@
 #' @export
 #' @import dplyr
 #' @importFrom magrittr %>%
-#' @param signatures A dataframe which contains the set of signatures. Each one contains the value for the wavelengths
+#' @param signatures A spectral object built using the load_files function
+#' @param k K value or list of k's to be used as number of clusters
 #' @return An extended data frame which includes the k (cluster index) for each signature
+#'
+#' @seealso \code{\link{load_files}}
 #'
 clustering <- function(signatures, k) {
 
@@ -23,6 +26,20 @@ clustering <- function(signatures, k) {
 }
 
 
+#' Generate the elbow plot
+#'
+#' Plot of the sum of the distances intra-clusters (y-axis) for every number of clusters in k (x-axis)
+#'
+#' @export
+#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @param signatures A spectral object built using the load_files function
+#' @param k List of values of k to use in the x-axis
+#' @return The plot of the sum of the distances intra-clusters (y-axis) for every number of clusters in k (x-axis)
+#'
+#' @seealso \code{\link{load_files}}
+#'
 elbow_withinss <- function(signatures, k = 1:20) {
   kclusts <- data.frame(k=1:15) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
   clusters <- kclusts %>% mutate( withinss = kclust$tot.withins)

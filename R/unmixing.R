@@ -1,15 +1,18 @@
 #' VCA algorithm to obtain the k endmembers from the signatures
 #'
+#' @export
+#' @import unmixR
 #' @param signatures A spectral object built using the load_files function
+#' @param k K value or list of k's to be used as number of endmembers
 #' @return An extended spectral object which includes the indices of the endmember signatures
 #'
-#' @seealso load_files
+#' @seealso \code{\link{load_files}}
 #'
 set_endmembers <- function(signatures, k) {
 
     signatures$endmembers <- sapply(
         k,
-        function(ki) vca(signatures$data, ki, method="05")$indices
+        function(ki) unmixR::vca(signatures$data, ki, method="05")$indices
       ) %>%
       setNames(paste0("end", k))
 
@@ -18,10 +21,11 @@ set_endmembers <- function(signatures, k) {
 
 #' Find the files which match with the computed endmembers
 #'
-#' @param A spectral object which contains the indices of the endmember signatures. set_endmembers must be called before
+#' @param signatures A spectral object built using the load_files function. set_endmembers must be called before of this function
 #' @return A data frame which contains the files which  match with the computed endmembers
 #'
 #' @seealso \code{\link{set_endmembers}}
+#' @seealso \code{\link{load_files}}
 #'
 endmember_files <- function(signatures) {
 

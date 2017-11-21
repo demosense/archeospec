@@ -6,8 +6,10 @@
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
 #'
-#' @param signatures A dataframe which contains the set of samples. Each sample represents the value for each wavelength
+#' @param signatures A spectral object built using the load_files function
 #' @return A ggplot object
+#'
+#' @seealso \code{\link{load_files}}
 #'
 plot_signatures <- function(signatures) {
 
@@ -26,6 +28,8 @@ plot_signatures <- function(signatures) {
 }
 
 
+#' Plot of the intracorrelation among the wavelengths of the signatures.
+#'
 #' @export
 #' @import tidyr
 #' @import ggplot2
@@ -33,6 +37,10 @@ plot_signatures <- function(signatures) {
 #' @importFrom ggplot2 geom_raster
 #' @importFrom ggplot2 scale_fill_distiller
 #' @importFrom ggplot2 scale_y_reverse
+#' @param signatures A spectral object built using the load_files function
+#' @return A ggplot object
+#'
+#' @seealso \code{\link{load_files}}
 #'
 plot_intracorrelation <- function(signatures) {
 
@@ -51,13 +59,19 @@ plot_intracorrelation <- function(signatures) {
 }
 
 
+#' Plot the signatures coloured by its cluster asignment.
+#' The function clustering must be run before of this one.
+#'
 #' @export
 #' @import tidyr
 #' @import ggplot2
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 facet_wrap
-#' @param signatures A dataframe which represents the value for each wavelength
+#' @param signatures A spectral object built using the load_files function
+#'
+#' @seealso \code{\link{clustering}}
+#' @seealso \code{\link{load_files}}
 #'
 plot_cluster <- function(signatures) {
 
@@ -81,7 +95,18 @@ plot_cluster <- function(signatures) {
   )
 }
 
-
+#' Plot the endmember signatures. The function set_endmembers must be run before of this one.
+#'
+#' @export
+#' @import tidyr
+#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @param signatures A spectral object built using the load_files function
+#'
+#' @seealso \code{\link{set_endmembers}}
+#' @seealso \code{\link{load_files}}
+#'
 plot_endmembers <- function(signatures) {
 
   data <- cbind(file = signatures$files, signatures$data)

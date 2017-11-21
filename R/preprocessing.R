@@ -1,9 +1,11 @@
 #' Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage
 #'
 #' @export
-#' @param signatures A dataframe which contains the set of samples. Each sample represents the value for each wavelength
+#' @param signature A spectral object built using the load_files function
 #' @param leaps Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage
 #' @return The processed (smoothed) signatures
+#'
+#' @seealso \code{\link{load_files}}
 #'
 smooth_leaps <- function(signature, leaps) {
 
