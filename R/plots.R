@@ -100,6 +100,64 @@ plot_endmembers <- function(signatures) {
 }
 
 
+plot_endmember_cluster <- function(signatures) {
+
+  .check_endmembers_clusters(signatures)
+
+  clusters <- signatures$clusters
+  endmembers <- signatures$endmembers
+
+  lapply(
+    1:length(clusters),
+    function(i) {
+        classes <- clusters[[i]]
+        ems <- endmembers[[i]]
+        data <- cbind(class = classes, signatures$data)
+        k <- length(ems)
+        emData <- data[ems,]
+        endNames <- paste0("end", 1:k)
+        emData <- cbind(endmember=endNames, emData)
+        emDataGather <- gather(emData, 'wavelength', 'value', signatures$range)
+        emDataGather$wavelength <- as.numeric(emDataGather$wavelength)
+        ggplot2::ggplot(emDataGather, aes(x=wavelength, y=value, group=endmember, color=class)) +
+          geom_line()
+    }
+  )
+}
 
 
+plot_endmember_density_bar <- function(signatures) {
+
+  .check_endmembers_clusters(signatures)
+
+  lapply(
+    1:length(clusters),
+    function(i) {
+      endNames <- paste0("end", 1:length(signatures$endmembers[[i]]))
+      .compute_weights(signatures, i) %>%
+        gather("endmember", "weight", endNames) %>%
+        ggplot2::ggplot(aes(x=class, y=weight, group=endmember, fill=endmember, color=class)) +
+          geom_bar(stat = "summary", fun.y = "mean")
+    }
+  )
+}
+
+
+plot_endmember_density_box <- function(signatures) {
+
+  .check_endmembers_clusters(signatures)
+
+  lapply(
+    1:length(clusters),
+    function(i) {
+      endNames <- paste0("end", 1:length(signatures$endmembers[[i]]))
+      .compute_weights(signatures, i) %>%
+        gather("endmember", "weight", endNames) %>%
+        ggplot(aes(x=" ", y=weight, group=endmember, fill=endmember)) +
+          geom_boxplot() +
+          facet_wrap(~class, ncol = 3) +
+          ylim(c(0,1))
+    }
+  )
+}
 

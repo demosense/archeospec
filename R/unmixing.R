@@ -9,7 +9,7 @@ set_endmembers <- function(signatures, k) {
 
     signatures$endmembers <- sapply(
         k,
-        function(ki) vca(signatures$data, ki, method="05")$indices
+        function(ki) unmixr::vca(signatures$data, ki, method="05")$indices
       ) %>%
       setNames(paste0("end", k))
 
@@ -44,11 +44,33 @@ endmember_files <- function(signatures) {
   C <- cbind(rep(1,features), diag(features))
   b <- c(1, rep(0,features))
   d <- t(Y) %*% X
-  solve.QP(Dmat = Rinv, factorized = TRUE, dvec = d, Amat = C, bvec = b, meq = 1)
+  quadprog::solve.QP(Dmat = Rinv, factorized = TRUE, dvec = d, Amat = C, bvec = b, meq = 1)
 }
 
-.getResiduals <- function(original, weights, endmembers) {
-  recovered <- t(as.numeric(weights)) %*% as.matrix(endmembers)
-  residual  <- abs(original - recovered)
-  sum(residual)
+.compute_weights <- function(signatures, i) {
+  classes <- signatures$clusters[[i]]
+  ems <- signatures$endmembers[[i]]
+
+  k <- length(ems)
+  emData <- data[ems,]
+  endNames <- paste0("end", 1:length(ems))
+  emData <- cbind(endmember=endNames, emData)
+
+  X <- t(emData[, signatures$range])
+
+  models <- apply(signatures$data, 1, FUN=function(x) .cnnls(X, matrix(as.numeric(x))) )
+  weightsRaw <- data.frame( t(sapply(models, function(x) c(x$solution))) )
+  names(weightsRaw) <- endNames
+
+  cbind(file = row.names(signatures$data), class = classes, weightsRaw)
 }
+
+
+.check_endmembers_clusters <- function(signature) {
+  kc <- sapply(clusters, function(x) length(levels(x)) )
+  ke <- sapply(endmembers, function(x) length(x) )
+
+  if (sum(kc != ke) != 0)
+    stop("Cant analize endmembers and clusters. The experiments have different values of k")
+}
+
