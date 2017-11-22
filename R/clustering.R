@@ -42,7 +42,7 @@ clustering <- function(signatures, k) {
 #' @seealso \code{\link{load_files}}
 #'
 elbow_withinss <- function(signatures, k = 1:20) {
-  kclusts <- data.frame(k=1:15) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
+  kclusts <- data.frame(k=k) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
   clusters <- kclusts %>% dplyr::mutate( withinss = kclust$tot.withins)
   ggplot(clusters, aes(k, withinss)) + geom_line()
 }
