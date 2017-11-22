@@ -4,7 +4,8 @@
 \alias{genReport}
 \title{Create a new report}
 \usage{
-genReport(input_source, path = "/tmp/spectral", title, kclusters, kendmembers)
+genReport(input_source, path = "/tmp/spectral", title, kelbow, kclusters,
+  kendmembers)
 }
 \arguments{
 \item{input_source}{A spectral object built using the load_files function or the path of the

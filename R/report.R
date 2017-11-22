@@ -19,6 +19,7 @@ genReport <- function(
   path="/tmp/spectral",
 
   title,
+  kelbow,
   kclusters,
   kendmembers
 ) {
@@ -52,7 +53,7 @@ html_document:
 
   s <- .add_chunk_md(s, "## Analysis of the inter-cluster distances")
   s <- .add_chunk_md(s, "To select the optimal number of k clusters we can identify the elbow of the inter cluster distance distribution for a wide range of k. Represented by the following plot.")
-  s <- .add_chunk_anonymous(s, sprintf('signatures %s elbow_withinss()',"%>%"))
+  s <- .add_chunk_anonymous(s, sprintf('signatures %s elbow_withinss(k=kelbow)',"%>%"))
 
   s <- .add_chunk_md(s, "## Apply Clustering and VCA")
   s <- .add_chunk_anonymous(s, sprintf('processed <- signatures %s clustering(k = %d) %s set_endmembers(k = %d)', "%>%", kclusters, "%>%", kendmembers))
