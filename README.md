@@ -1,6 +1,10 @@
 # archeospec
 Analysis of the reflectance spectra from paintings: classification and endmembers.
 
+## NOTE
+
+This package is currently a **preview**, it is under desing so we can expect heavy changes on the API. Use it on your own risk and contact the authors if you have any requests.
+
 ## Install from github via devtools
 
 ```R
@@ -21,6 +25,23 @@ discriminate between the optimal (minimum number of classes and maximum informat
 It is also possible the alternative way, consisting of labelling some spectral signatures with previous information to stablish the main classes and pigments.
 
 Finally, the package provides the contribution of the endmembers to each of the spectral signature in the samples.
+
+## Basic usage
+
+#### Quick report
+
+Given a directory tree with `asd` files you can generate a quick report by calling the following function:
+
+```
+genReport(
+  input_source = <directory absolute path>, 
+  title="ArcheoSpec Example", 
+  path=<output path>,
+  kclusters=3, 
+  kendmembers=3
+)
+```
+you can change the number of clusters and enmembers by modifying the particular variables.
 
 ## Authors
 
