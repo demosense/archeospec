@@ -33,10 +33,13 @@ Finally, the package provides the contribution of the endmembers to each of the 
 Given a directory tree with `asd` files you can generate a quick report by calling the following function:
 
 ```
+library(archeospec)
+
 genReport(
   input_source = <directory absolute path>, 
   title="ArcheoSpec Example", 
-  path=<output path>,
+  path=<directory output path>,
+  kelbow=c(1,2,3),
   kclusters=3, 
   kendmembers=3
 )
