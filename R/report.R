@@ -43,35 +43,46 @@ html_document:
   s <- .add_chunk_anonymous(s, sprintf('signatures'))
 
   s <- .add_chunk_md(s, "## Signatures visualization")
+  s <- .add_chunk_md(s, "Each line correspond with a particular measure. The colors are random")
   s <- .add_chunk_anonymous(s, sprintf('plot_signatures(signatures)'))
 
   s <- .add_chunk_md(s, "## Intracorrelation analysis")
+  s <- .add_chunk_md(s, "Intracorrelation measured for each pairwise combination of the wavelength ranges")
   s <- .add_chunk_anonymous(s, sprintf('plot_intracorrelation(signatures)'))
 
   s <- .add_chunk_md(s, "## Analysis of the inter-cluster distances")
+  s <- .add_chunk_md(s, "To select the optimal number of k clusters we can identify the elbow of the inter cluster distance distribution for a wide range of k. Represented by the following plot.")
   s <- .add_chunk_anonymous(s, sprintf('signatures %s elbow_withinss()',"%>%"))
 
   s <- .add_chunk_md(s, "## Apply Clustering and VCA")
-  s <- .add_chunk_anonymous(s, sprintf('signatures %s elbow_withinss()',"%>%"))
-
   s <- .add_chunk_anonymous(s, sprintf('processed <- signatures %s clustering(k = %d) %s set_endmembers(k = %d)', "%>%", kclusters, "%>%", kendmembers))
 
   s <- .add_chunk_md(s, sprintf("## Clustering k = %d", kclusters))
+  s <- .add_chunk_md(s, "Representation of the different signatures grouped by cluster obtained via kmeans")
   s <- .add_chunk_anonymous(s, sprintf('plot_cluster(processed)'))
 
   s <- .add_chunk_md(s, sprintf("## Unmixing k = %d", kendmembers))
+  s <- .add_chunk_md(s, "Results of the unmixing algorithm")
+  s <- .add_chunk_md(s, "The following measures have been identified as the most pure components")
   s <- .add_chunk_anonymous(s, sprintf('endmember_files(processed)'))
   s <- .add_chunk_anonymous(s, sprintf('plot_endmembers(processed)'))
 
+  s <- .add_chunk_md(s, "The following plot represent the classes assigned to each endmember for each particular endmember")
   s <- .add_chunk_anonymous(s, sprintf('plot_endmember_cluster(processed)'))
 
+  s <- .add_chunk_md(s, "The following plot shows the distribution of weights for the measures of each cluster by endmember. The weights are obtained by adjusting each measure to the endmembers via nonegative restricted least squares")
   s <- .add_chunk_anonymous(s, sprintf('plot_endmember_density_bar(processed)'))
-
   s <- .add_chunk_anonymous(s, sprintf('plot_endmember_density_box(processed)'))
 
-  s <- .add_chunk_anonymous(s, sprintf('table_weights(processed)'))
+  # s <- .add_chunk_md(s, "Dstribution of the residual components obtained from the adjustment to the endmembers for the whole dataset.")
+  # s <- .add_chunk_anonymous(s, sprintf('kable(table_residuals(processed))'))
 
-  s <- .add_chunk_anonymous(s, sprintf('table_residuals(processed)'))
+  s <- .add_chunk_md(s, "## Detailed results for every measure and endmember")
+  s <- .add_chunk_md(s, "The following table shows the weights for every measure and each endmember, it also shows the corresponding class assigned by the clustering and the corresponding residual value of the adjustment.")
+  s <- .add_chunk_anonymous(s, sprintf('kable(table_weights(processed), digits=3)'))
+
+  s <- .add_chunk_md(s, "## Summary of files involved in the report")
+  s <- .add_chunk_anonymous(s, sprintf('signatures$files'))
 
   # tmpPath <- tempfile(pattern = "file", tmpdir = tempdir())
   fileConn<-file(paste0(path, "/report.rmd"))
