@@ -1,3 +1,27 @@
+#'
+#'
+#' @export
+#'
+table_endmembers <- function(signatures) {
+
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
+  if(is.null(signatures$endmembers)) {
+    stop("Error. Spectral data is not unmixed")
+  }
+
+  data <- signatures$data
+
+  endmembers <- signatures$endmembers
+  endNames <- signatures$endNames
+  files <- signatures$files
+  cbind(endmember = endNames, file = files[endmembers])
+}
+
+
+
 #' Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers.
 #'
 #' @export
@@ -10,36 +34,39 @@
 #' @seealso \code{\link{load_files}}
 #'
 table_weights <- function(signatures) {
-  .check_endmembers_clusters(signatures)
+
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
+  if(is.null(signatures$clusters)) {
+    stop("Error. Spectral data is not clustered")
+  }
+
+  if(is.null(signatures$endmembers)) {
+    stop("Error. Spectral data is not unmixed")
+  }
 
   clusters <- signatures$clusters
   endmembers <- signatures$endmembers
+  endNames <- signatures$endNames
 
-  lapply(
-    1:length(clusters),
-    function(i) {
+  data <- cbind(cluster = clusters, signatures$data)
+  k <- length(endmembers)
+  emData <- data[endmembers,]
+  emData <- cbind(endmember=endNames, emData)
 
-      classes <- clusters[[i]]
-      ems <- endmembers[[i]]
-      data <- cbind(class = classes, signatures$data)
-      k <- length(ems)
-      emData <- data[ems,]
-      endNames <- paste0("end", 1:length(endmembers[[i]]))
-      emData <- cbind(endmember=endNames, emData)
+  weightsRaw <- .compute_weights(signatures)
+  weights <- cbind(file = row.names(signatures$data), cluster = clusters, weightsRaw)
 
-      weightsRaw <- .compute_weights(signatures, i)
-      weights <- cbind(file = row.names(signatures$data), class = clusters[[i]], weightsRaw)
+  residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
+    original <- x[ 1:length(signatures$range) ]
+    weights  <- x[ (length(signatures$range)+1):length(x) ]
+    .get_residuals(original, weights, emData[,signatures$range])
+  })
 
-      residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
-        original <- x[ 1:length(signatures$range) ]
-        weights  <- x[ (length(signatures$range)+1):length(x) ]
-        .get_residuals(original, weights, emData[,signatures$range])
-      })
-
-      ordering <- dplyr::arrange(cbind(weights, residual=residuals), class, file)$file
-      cbind(weights, residual=residuals)[match(ordering, weights$file),]
-    }
-  )
+  ordering <- dplyr::arrange(cbind(weights, residual=residuals), cluster, file)$file
+  cbind(weights, residual=residuals)[match(ordering, weights$file),]
 }
 
 #' Represents each signature as a weighted combination of endmembers.
@@ -53,33 +80,37 @@ table_weights <- function(signatures) {
 #' @seealso \code{\link{set_endmembers}}
 #' @seealso \code{\link{load_files}}
 #'
-table_residuals <- function(signatures) {
+table_residuals_summary <- function(signatures) {
+
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
+  if(is.null(signatures$clusters)) {
+    stop("Error. Spectral data is not clustered")
+  }
+
+  if(is.null(signatures$endmembers)) {
+    stop("Error. Spectral data is not unmixed")
+  }
 
   clusters <- signatures$clusters
   endmembers <- signatures$endmembers
+  endNames <- signatures$endNames
 
-  lapply(
-    1:length(endmembers),
-    function(i) {
+  data <- cbind(cluster = clusters, signatures$data)
+  k <- length(endmembers)
+  emData <- data[endmembers,]
+  emData <- cbind(endmember=endNames, emData)
 
-      classes <- clusters[[i]]
-      ems <- endmembers[[i]]
-      data <- cbind(class = classes, signatures$data)
-      k <- length(ems)
-      emData <- data[ems,]
-      endNames <- paste0("end", 1:length(endmembers[[i]]))
-      emData <- cbind(endmember=endNames, emData)
+  weightsRaw <- .compute_weights(signatures)
+  weights <- cbind(file = row.names(signatures$data), cluster = clusters, weightsRaw)
 
-      weightsRaw <- .compute_weights(signatures, i)
-      weights <- cbind(file = row.names(signatures$data), class = clusters[[i]], weightsRaw)
+  residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
+    original <- x[ 1:length(signatures$range) ]
+    weights  <- x[ (length(signatures$range)+1):length(x) ]
+    .get_residuals(original, weights, emData[,signatures$range])
+  })
 
-      residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
-        original <- x[ 1:length(signatures$range) ]
-        weights  <- x[ (length(signatures$range)+1):length(x) ]
-        .get_residuals(original, weights, emData[,signatures$range])
-      })
-
-      summary(residuals)
-    }
-  )
+  summary(residuals)
 }

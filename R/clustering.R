@@ -11,20 +11,48 @@
 #'
 #' @seealso \code{\link{load_files}}
 #'
-clustering <- function(signatures, k) {
+clustering_kmeans <- function(signatures, k) {
 
-  # Apply kmeans for each class
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
   signatures$clusters <-
-    sapply(
-      k,
-      function (ki) as.character(kmeans(x = signatures$data, ki)$cluster)
-    ) %>%
-    data.frame() %>%
-    setNames(paste0('k', k))
+    as.character(kmeans(x = signatures$data, k)$cluster) %>%
+      data.frame() %>%
+      setNames("cluster")
+
+  signatures$clustering <- "kmeans"
 
   signatures
 }
 
+#'
+#'
+#' @export
+#'
+clustering_endmembers <- function(signatures) {
+
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
+  if(is.null(signatures$endmembers)) {
+    stop("Error. Spectral data is not unmixed")
+  }
+
+  data <- signatures$data
+  endmembers <- signatures$endmembers
+  dataEnd <- data[endmembers,]
+
+  clusters <- apply(data, 1, FUN = function (x) .euclideanKmeans(x, dataEnd))
+
+  signatures$clusters <- as.character(clusters)
+
+  signatures$clustering <- "endmembers"
+
+  signatures
+}
 
 #' Generate the elbow plot
 #'
@@ -41,8 +69,35 @@ clustering <- function(signatures, k) {
 #'
 #' @seealso \code{\link{load_files}}
 #'
-elbow_withinss <- function(signatures, k = 1:20) {
+plot_elbow <- function(signatures, k = 1:20, selected=NULL) {
+
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
+  if (!selected %in% k) {
+    stop("Error. Selected k is not within the range provided for elbow graph")
+  }
+
   kclusts <- data.frame(k=k) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
   clusters <- kclusts %>% dplyr::mutate( withinss = kclust$tot.withins)
-  ggplot(clusters, aes(k, withinss)) + geom_line()
+
+  plot <- ggplot(clusters, aes(k, withinss)) +
+    geom_line()
+
+  if (!is.null(selected))
+    plot <- plot +
+      geom_point(
+        aes(x=c(selected), y=c(clusters[clusters$k==selected,]$withinss)),
+        color="red",
+        size=3
+      )
+
+  plot
+}
+
+
+.euclideanKmeans <- function(X, centroids) {
+  distances <- apply(centroids, 1, FUN = function (x) sqrt(sum((x-X)**2)) )
+  match( min(distances), distances)
 }

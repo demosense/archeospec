@@ -25,7 +25,12 @@ print.spectral <- function (x, ...) {
 summary.spectral <- function (object, ...) {
   print(sprintf("Spectral signatures of %d files\n\n", nrow(object$data)))
   cat("\nRanges\n")
-  print(object$range)
+
+  max(as.numeric(object$range))
+  cat(sprintf("  Length: %s\n", length(as.numeric(object$range))))
+  cat(sprintf("  Min: %s\n", min(as.numeric(object$range))))
+  cat(sprintf("  Max: %s\n", max(as.numeric(object$range))))
+
   cat("\nFiles\n")
   print(object$files)
 }

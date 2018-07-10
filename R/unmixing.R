@@ -8,15 +8,19 @@
 #'
 #' @seealso \code{\link{load_files}}
 #'
-set_endmembers <- function(signatures, k) {
+unmixing_vca <- function(signatures, k) {
 
-    signatures$endmembers <- data.frame(sapply(
-        k,
-        function(ki) unmixR::vca(signatures$data, ki, method="05")$indices
-      )) %>%
-      setNames(paste0("end", k))
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
 
-    signatures
+  endmembers <- unmixR::vca(signatures$data, k, method="05")$indice
+  endNames <- paste0("end", 1:length(endmembers))
+
+  signatures$endmembers <- endmembers
+  signatures$endNames <- endNames
+
+  signatures
 }
 
 #' Find the files which match with the computed endmembers
@@ -28,18 +32,27 @@ set_endmembers <- function(signatures, k) {
 #' @seealso \code{\link{set_endmembers}}
 #' @seealso \code{\link{load_files}}
 #'
-endmember_files <- function(signatures) {
+unmixing_fixed <- function(signatures, files, names=NULL, colors=NULL) {
 
-  endmembers <- signatures$endmembers
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
 
-  lapply(
-    endmembers, function(ems) {
-      k <- length(ems)
-      endNames <- paste0("end", 1:k)
-      emData <- cbind(endmember=endNames, signatures$data[ems,])
-      dplyr::select(emData, endmember)
-    }
-  )
+  if (!all(files %in% signatures$files)) {
+    file = files[[match(FALSE,  files %in% signatures$files)]]
+    stop(sprintf("Error. File %s not found in signature", file))
+  }
+
+  endmembers <- unlist(lapply(files, function(f) match(f, signatures$files)))
+  endNames <- if (is.null(names)) files else names
+  names(colors) <- levels(endNames)
+
+  signatures$endmembers <- endmembers
+  signatures$endNames <- endNames
+  signatures$colors <- colors
+
+  signatures
+
 }
 
 
@@ -52,13 +65,13 @@ endmember_files <- function(signatures) {
   quadprog::solve.QP(Dmat = Rinv, factorized = TRUE, dvec = d, Amat = C, bvec = b, meq = 1)
 }
 
-.compute_weights <- function(signatures, i) {
-  classes <- signatures$clusters[[i]]
-  ems <- signatures$endmembers[[i]]
+.compute_weights <- function(signatures) {
+  classes <- signatures$cluster
+  ems <- signatures$endmembers
+  endNames <- signatures$endNames
 
   k <- length(ems)
   emData <- signatures$data[ems,]
-  endNames <- paste0("end", 1:length(ems))
   emData <- cbind(endmember=endNames, emData)
 
   X <- t(emData[, signatures$range])

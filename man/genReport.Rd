@@ -4,22 +4,24 @@
 \alias{genReport}
 \title{Create a new report}
 \usage{
-genReport(input_source, path = "/tmp/spectral", title, kelbow, kclusters,
-  kendmembers)
+genReport(input_source, output, endmembers, kmeans, title = "archeospec",
+  clean_head = NULL, clean_tail = NULL, smooth_points = NULL,
+  wavelength_start = NULL, wavelength_end = NULL, intracorrelation = T,
+  mutualinfo = T)
 }
 \arguments{
 \item{input_source}{A spectral object built using the load_files function or the path of the
 folder which contains the .asd.txt files (which include the wavelength measurements)}
 
-\item{path}{The output path where documents are saved. By default, "/tmp/spectral"}
+\item{endmembers}{The number of endmembers to find in the data}
 
 \item{title}{The title included at the begining of the reports}
 
-\item{kclusters}{The number of clusters to group the data}
-
-\item{kendmembers}{The number of endmembers to find in the data}
+\item{path}{The output path where documents are saved. By default, "/tmp/spectral"}
 
 \item{data_path}{The path for}
+
+\item{clusters}{The number of clusters to group the data}
 }
 \value{
 It creates a report in html, latex, pdf and word formats

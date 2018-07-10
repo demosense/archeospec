@@ -4,12 +4,12 @@
 \alias{smooth_leaps}
 \title{Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage}
 \usage{
-smooth_leaps(signature, leaps)
+smooth_leaps(signatures, leaps)
 }
 \arguments{
-\item{signature}{A spectral object built using the load_files function}
-
 \item{leaps}{Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage}
+
+\item{signature}{A spectral object built using the load_files function}
 }
 \value{
 The processed (smoothed) signatures
