@@ -2,20 +2,24 @@
 % Please edit documentation in R/plots.R
 \name{plot_clusters}
 \alias{plot_clusters}
-\title{Plot the signatures coloured by its cluster asignment.
-The function clustering must be run before of this one.}
+\title{Plot clustering}
 \usage{
 plot_clusters(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.
+The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers).}
+}
+\value{
+A ggplot2 object
 }
 \description{
 Plot the signatures coloured by its cluster asignment.
-The function clustering must be run before of this one.
 }
 \seealso{
-\code{\link{clustering}}
+\code{\link{clustering_kmeans}}
 
-\code{\link{load_files}}
+\code{\link{clustering_endmembers}}
+
+\code{\link{load_signature_files}}
 }

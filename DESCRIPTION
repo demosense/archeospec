@@ -2,7 +2,7 @@ Package: archeospec
 Type: Package
 Title: Analysis of the Reflectance Spectra From Paintings: Classification and Endmembers.
 Version: 0.1.0
-Author: Who wrote it
+Authors@R: person("Jacinto", "Arias", role = c("aut", "cre"), email = "jacinto.arias@demosense.com")
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
@@ -13,6 +13,7 @@ Depends:
 Imports:
     dplyr,
     ggplot2,
+    infotheo,
     magrittr,
     methods,
     rmarkdown,

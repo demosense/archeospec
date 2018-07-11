@@ -4,10 +4,10 @@
 \alias{genReport}
 \title{Create a new report}
 \usage{
-genReport(input_source, output, endmembers, kmeans, title = "archeospec",
+genReport(input_source, output, endmembers, clustering, title = "archeospec",
   clean_head = NULL, clean_tail = NULL, smooth_points = NULL,
-  wavelength_start = NULL, wavelength_end = NULL, intracorrelation = T,
-  mutualinfo = T)
+  file_header = NULL, wavelength_start = NULL, wavelength_end = NULL,
+  intracorrelation = T, mutualinfo = T)
 }
 \arguments{
 \item{input_source}{A spectral object built using the load_files function or the path of the

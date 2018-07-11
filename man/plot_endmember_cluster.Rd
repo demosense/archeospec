@@ -2,20 +2,29 @@
 % Please edit documentation in R/plots.R
 \name{plot_endmember_cluster}
 \alias{plot_endmember_cluster}
-\title{Plot the endmembers using the colors of the clusters that they belongs to.}
+\title{Plot endmembers coloured by clustering}
 \usage{
 plot_endmember_cluster(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.
+The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
+and unmixed (using unmixing_fixed or unmixing_vca).}
+}
+\value{
+A ggplot2 object
 }
 \description{
 Plot the endmembers using the colors of the clusters that they belongs to.
 }
 \seealso{
-\code{\link{clustering}}
+\code{\link{clustering_kmeans}}
 
-\code{\link{set_endmembers}}
+\code{\link{clustering_endmembers}}
 
-\code{\link{load_files}}
+\code{\link{unmixing_fixed}}
+
+\code{\link{unmixing_vca}}
+
+\code{\link{load_signature_files}}
 }
