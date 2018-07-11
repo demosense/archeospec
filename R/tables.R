@@ -73,7 +73,7 @@ table_weights <- function(signatures) {
 #' This function generates a table which contains the residuals of this adjustment: the sum of the errors between the represented and the real values.
 #'
 #' @export
-#' @import knitr
+#' @import dplyr
 #' @param signatures A spectral object built using the load_files function
 #'
 #' @seealso \code{\link{clustering}}
@@ -112,5 +112,5 @@ table_residuals_summary <- function(signatures) {
     .get_residuals(original, weights, emData[,signatures$range])
   })
 
-  summary(residuals)
+  t(as.matrix(summary(residuals)))
 }

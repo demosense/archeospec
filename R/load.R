@@ -12,22 +12,7 @@
 #' @param wavelength_end The longer measured wavelength in nm. If NULL, default to 2500
 #' @return A spectral object. Contains the information of the signatures, the processed files and the wavelength ranges
 #'
-load_signature_files <- function(path, header=NULL, wavelength_start=NULL, wavelength_end=NULL) {
-
-  if (is.null(header)) {
-    warning("Header is null, defaulting to wavelength<tab><filename>")
-    header <- "Wavelength\t%s" # (filename)
-  }
-
-  if (is.null(wavelength_start)) {
-    warning("wavelength_start is null, defaulting to 350")
-    wavelength_start <- 350
-  }
-
-  if (is.null(wavelength_end)) {
-    warning("wavelength_end is null, defaulting to 2500")
-    wavelength_end <- 2500
-  }
+load_signature_files <- function(path, header, wavelength_start, wavelength_end) {
 
   # Compute wavelength range, we asume a complete range of observations
   nwavelengths <- wavelength_end - wavelength_start + 1
