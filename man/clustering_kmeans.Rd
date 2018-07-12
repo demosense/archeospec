@@ -7,15 +7,20 @@
 clustering_kmeans(signatures, k)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{k}{K value to be used as number of clusters}
+\item{k}{K value to be used as number of clusters.}
 }
 \value{
-An extended spectral object which includes the clustering indices of the signatures
+An extended spectral object which includes the clustering indices of the signatures.
 }
 \description{
-Apply the k-means clustering algorithm to group samples into k clusters
+Apply the k-means clustering algorithm to group samples into k clusters.
+}
+\examples{
+data(signatures)
+clustered_signatures <- clustering_kmeans(signatures, k=3)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

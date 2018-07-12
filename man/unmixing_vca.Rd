@@ -7,15 +7,20 @@
 unmixing_vca(signatures, k)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{k}{K value or list of k's to be used as number of endmembers}
+\item{k}{The number of endmembers to find.}
 }
 \value{
-An extended spectral object which includes the indices of the endmember signatures
+An extended spectral object which includes the indices of the endmember signatures.
 }
 \description{
-VCA algorithm to obtain the k endmembers from the signatures
+VCA algorithm to obtain the k endmembers from the signatures.
+}
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_vca(signatures, k=2)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

@@ -11,7 +11,7 @@ plot_residuals(signatures)
 The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
 Represents each signature as a weighted combination of endmembers.
@@ -19,6 +19,13 @@ Plot the residuals the residuals of this adjustment: the sum of the errors betwe
 }
 \details{
 The result is a histogram and a density plot of the residuals.
+}
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+
+plot_residuals(unmixed_signatures)
+
 }
 \seealso{
 \code{\link{unmixing_fixed}}

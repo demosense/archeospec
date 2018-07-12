@@ -1,21 +1,94 @@
-#' Create a new report
+#' Create a report
+#'
+#' Create a report composed of elements specified in the parametrization.
+#'
+#' First load the data from input source. This must be an ABSOLUTE path to a folder which contains .asd files, or a tree of
+#' folders which contains in the end .asd files. These files must contain the data as a pair wavelength<tab>value, and the
+#' data must starts after the line file_header (by default "Wavelength<tab>%s").
+#'
+#' Then, a filtering process can be applied to the signatures if any of clean_head, clean_tail or clean_leaps are specified.
+#' This consists, respectively, on cutting the lower / higher wavelength values. clean_leaps smooth the leaps produced when
+#' using multiple sensors for different range of wavelengths, produced between sensor changes.
+#'
+#' Finally, the signatures are unmixed. If endmembers is a number, it computes such number of endmembers using the VCA algorithm.
+#' If endmembers is a vector of filenames, then those signatures will be selected as endmembers. In this case, we can assign them a
+#' representative name and a fixed color (using endmember_names and endmember_colors), so we can easily recognize this signatures
+#' in the report. endmember_names is a vector of string names, and endmember_colors is a vector of string colors (check \code{\link{colors}}).
+#'
+#' Different outputs can optionaly be included in the report:
+#' \itemize{
+#' \item   kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.
+#' \item   intracorrelation: included (TRUE) or not (FALSE).
+#' \item   mutualinfo: included (TRUE) or not (FALSE).
+#' }
+#'
+#' The report will always include:
+#' \itemize{
+#' \item A brief description of the dataset (list of signatures)
+#' \item The list of parameters used to create the report
+#' \item The signature plot
+#' \item The selected or computed endmembers, in tabular and plot formats
+#' \item The elbow plot
+#' \item The correspondence between endmembers and clusters plot
+#' \item The endmember weights by cluster bar and whisker box plot
+#' \item The residual values for each signature plot
+#' \item The summary table for the signatures and its weights by endmembers
+#' }
+#'
+#'
+#' For more details see the doc in [GitHub](https://github.com/jacintoArias/archeospec/).
 #'
 #' @export
 #' @import rmarkdown
 #' @import knitr
 #' @importFrom magrittr %>%
+#' @param input_source The absolute path to a folder which contains .asd files (or subfolders with .asd files).
+#' These files must contain the data as a pair wavelength<tab>value.
+#' @param output The path for the output folder. It will contain the report files.
+#' @param format The report formats to be generated. One option of "html_document", "pdf_document", "word" or "all" (by default).
+#' The "pdf_document" will also include the latex sources.
+#' @param title The title for the report, included at the begining of them.
+#' @param endmembers It can be a number or a vector of strings. If it is a number, this number of endmembers will be computer from the signatures.
+#' If it is a vector of strings, they will be the filenames of the endmembers which will be fixed.
+#' @param kmeans Whether to include the clustering plot or not (TRUE / FALSE)
+#' @param clean_head Optional. If provided, it filters out the wavelengths smaller than clean_head (a number).
+#' @param clean_tail Optional. If provided, it filters out the wavelengths greater than clean_tail (a number)
+#' @param clean_leaps Optional. If provided, it must be a vector of wavelength values. It will smooth the leaps produced between sensor changes,
+#' when using multiple sensors for different wavelength ranges.
+#' @param file_header The format of the hehad in .asd files. After the header, the measurements will be in format wavelength<tab>value.
+#' By default, the file header is Wavelength\\\\t\%s (note the double backslash to escape the special character bakslash).
+#' @param wavelength_start The smallest wavelength of the measured range.
+#' @param wavelength_end The greatest wavelength of the measured range.
+#' @param intracorrelation Whether to include the intracorrelation plot or not (TRUE / FALSE)
+#' @param mutualinfo Whether to include the mutual information plot or not (TRUE / FALSE)
+#' @param endmember_names Optional. If provided, it must be a list of names (strings) to be related to selected endmembers, so we
+#' can easily recognise the endmembers in the report. If endmembers is not a list of filenames, this parameter is ignored.
+#' @param endmember_colors Optional. If provided, it must be a list of colors (strings) to be related to selected endmembers, so we
+#' can easily recognise the endmembers in the report. If endmembers is not a list of filenames, this parameter is ignored.
+#' To check the available colors, refer to \code{\link{colors}}.
+#' @return It creates a report in html, latex, pdf and / or word formats.
 #'
-#' @param input_source A spectral object built using the load_files function or the path of the
-#' folder which contains the .asd.txt files (which include the wavelength measurements)
-#' @param path The output path where documents are saved. By default, "/tmp/spectral"
-#' @param data_path The path for
-#' @param title The title included at the begining of the reports
-#' @param clusters The number of clusters to group the data
-#' @param endmembers The number of endmembers to find in the data
-#' @return It creates a report in html, latex, pdf and word formats
+#' @seealso \code{\link{load_signature_files}}
 #'
-#' @seealso \code{\link{load_files}}
+#' @examples
+#' \dontrun{
+#' input_source <- "/path/to/asd/folder"
+#' # generate a report computing three endmembers.
+#' genReport(input_source, endmembers=3)
 #'
+#' # generate a report selecting two endmembers.
+#' genReport(input_source, endmembers=c("almagre.asd.txt", "blanco.asd.txt"))
+#'
+#' # generate a report filtering the signatures and computing three endmembers.
+#' genReport(input_source, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3)
+#'
+#' # generate a report filtering the signatures and selecting two endmembers, giving them a name and a color.
+#' endmembers <- c("almagre.asd.txt", "blanco.asd.txt")
+#' names <- c("red", "white")
+#' colors <- c("red2", "white")
+#' genReport(input_source, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831),
+#'           endmembers=endmembers, endmember_names=names, endmember_colors=colors)
+#' }
 #'
 genReport <- function(
   input_source,
@@ -27,7 +100,7 @@ genReport <- function(
   clean_head=NULL,
   clean_tail=NULL,
   clean_leaps=NULL,
-  file_header="Wavelength\t%s",
+  file_header="Wavelength\\t%s",
   wavelength_start=350,
   wavelength_end=2500,
   intracorrelation=T,
@@ -39,11 +112,11 @@ genReport <- function(
   ###
   ### Code Chunks
 
-  #'
-  #'  Libraries
-  #'
-  #'  Load R libraries
-  #'
+  #
+  #  Libraries
+  #
+  #  Load R libraries
+  #
   libs <- c(
     "library(archeospec)",
     "library(knitr)"
@@ -52,11 +125,11 @@ genReport <- function(
   chunk_libs <- paste0(libs, collapse="\n")
 
 
-  #'
-  #' Loading
-  #'
-  #' Load spectral data
-  #'
+  #
+  # Loading
+  #
+  # Load spectral data
+  #
   chunk_loading <- sprintf(
     'signatures <- load_signature_files(path = "%s", header="%s", wavelength_start=%s, wavelength_end=%s)',
     input_source,
@@ -65,11 +138,11 @@ genReport <- function(
     wavelength_end
   )
 
-  #'
-  #' Smooth Leaps
-  #'
-  #' Smooth leaps conditioned on argument
-  #'
+  #
+  # Smooth Leaps
+  #
+  # Smooth leaps conditioned on argument
+  #
   chunk_cleaning_leaps <-
     if (!is.null(clean_leaps)) {
       leaps <- paste0(clean_leaps, collapse=",")
@@ -79,11 +152,11 @@ genReport <- function(
       "# Clean Leaps not activated"
     }
 
-  #'
-  #' Clean head frequencies
-  #'
-  #' Conditioned on argument
-  #'
+  #
+  # Clean head frequencies
+  #
+  # Conditioned on argument
+  #
   chunk_clean_head <-
     if (!is.null(clean_head)) {
       sprintf("signatures <- remove_head(signatures, head=%s)", clean_head)
@@ -92,11 +165,11 @@ genReport <- function(
       "# Clean head not activated"
     }
 
-  #'
-  #' Clean tail frequencies
-  #'
-  #' Conditioned on argument
-  #'
+  #
+  # Clean tail frequencies
+  #
+  # Conditioned on argument
+  #
   chunk_clean_tail <-
     if (!is.null(clean_tail)) {
       sprintf("signatures <- remove_tail(signatures, tail=%s)", clean_tail)
@@ -105,13 +178,13 @@ genReport <- function(
       "# Clean tail not activated"
     }
 
-  #'
-  #'  Unmixing
-  #'
-  #'  Perform unmixing, conditioned on argument 'endmembers'
-  #'
-  #'  if endmembers is 'vca' call function, otherwise pass on fixed lists
-  #'
+  #
+  #  Unmixing
+  #
+  #  Perform unmixing, conditioned on argument 'endmembers'
+  #
+  #  if endmembers is 'vca' call function, otherwise pass on fixed lists
+  #
   chunk_unmixing <-
   if (class(endmembers) == "numeric") {
     # Perform VCA
@@ -131,13 +204,13 @@ genReport <- function(
     )
   }
 
-  #'
-  #' Clustering
-  #'
-  #' Conditioned on type of clustering
-  #'
-  #' Can be kmeans of fixed. The k argument in kmeans is computed from the endmembers arg
-  #'
+  #
+  # Clustering
+  #
+  # Conditioned on type of clustering
+  #
+  # Can be kmeans of fixed. The k argument in kmeans is computed from the endmembers arg
+  #
 
   # k is set as the number of endmembers, that can be a number or a list
   k <- if (class(endmembers) == "numeric") endmembers else length(endmembers)
@@ -153,9 +226,9 @@ genReport <- function(
     }
 
 
-  #'
-  #'  Plots
-  #'
+  #
+  #  Plots
+  #
 
   chunk_plot_signatures <- "plot_signatures(signatures)"
 
@@ -193,24 +266,24 @@ genReport <- function(
 
   chunk_plot_residuals <- "plot_residuals(signatures)"
 
-  #'
-  #' Tables
-  #'
+  #
+  # Tables
+  #
 
   chunk_table_endmembers <- "knitr::kable(table_endmembers(signatures), row.names=F)"
   chunk_table_residuals <- "knitr::kable(table_residuals_summary(signatures))"
   chunk_table_weights <- "knitr::kable(table_weights(signatures), row.names=F)"
 
 
-  #'
-  #' Texts
-  #'
+  #
+  # Texts
+  #
 
 s_unmix_tech <- if (class(endmembers) == "numeric") "Manually selected endmembers" else sprintf("VCA algorithm with %s endmembers", k)
 s_kmeans_tech <- if (kmeans) sprintf("Kmeans algorithm with k=%s", k) else "Endmembers selected as centroids"
-s_cleaning_head <- if(clean_head) sprintf("Noise reduction has removed wavelengths ranges until %s", clean_head) else "No wavelength ranges have been cleaned at the beggining of the signature"
-s_cleaning_tail <- if(clean_tail) sprintf("Noise reduction has removed wavelengths ranges from %s", clean_tail) else "No wavelength ranges have been cleaned at the end of the signature"
-s_cleaning_smooth <- if(clean_leaps) sprintf("Signatures have been smoothed on ranges %s", paste0(clean_leaps, collapse=",")) else "No smoothing has been performed"
+s_cleaning_head <- if(!is.null(clean_head)) sprintf("Noise reduction has removed wavelengths ranges until %s", clean_head) else "No wavelength ranges have been cleaned at the beggining of the signature"
+s_cleaning_tail <- if(!is.null(clean_tail)) sprintf("Noise reduction has removed wavelengths ranges from %s", clean_tail) else "No wavelength ranges have been cleaned at the end of the signature"
+s_cleaning_smooth <- if(!is.null(clean_leaps)) sprintf("Signatures have been smoothed on ranges %s", paste0(clean_leaps, collapse=",")) else "No smoothing has been performed"
 
   text_introduction <- sprintf(
 "

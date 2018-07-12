@@ -7,16 +7,29 @@
 unmixing_fixed(signatures, files, names = NULL, colors = NULL)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function. set_endmembers must be called before of this function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
+
+\item{files}{A vector of filenames (strings) of the selected signatures to be fixed as endmembers.}
+
+\item{names}{A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.}
+
+\item{colors}{A vector of color names to be assigned to each selected endmember. Check for possible colors \code{\link{colors}}.
+Optional, by default (NONE) use random colors.}
 }
 \value{
-A data frame which contains the files which  match with the computed endmembers
+A data frame which contains the files which match with the selected endmembers.
 }
 \description{
-Find the files which match with the computed endmembers
+Find the files which match with the computed endmembers.
+}
+\examples{
+data(signatures)
+files <- c("almagre.asd.txt", "blanco.asd.txt")
+names <- c("red", "white")
+colors <- c("red2", "white")
+unmixed_signatures <- unmixing_fixed(signatures, files=files, names=names, colors=colors)
+
 }
 \seealso{
-\code{\link{set_endmembers}}
-
 \code{\link{load_signature_files}}
 }

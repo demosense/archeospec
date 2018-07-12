@@ -16,6 +16,12 @@ A ggplot2 object
 \description{
 Plot the endmember signatures.
 }
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+plot_endmembers(unmixed_signatures)
+
+}
 \seealso{
 \code{\link{unmixing_fixed}}
 

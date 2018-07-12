@@ -2,33 +2,118 @@
 % Please edit documentation in R/report.R
 \name{genReport}
 \alias{genReport}
-\title{Create a new report}
+\title{Create a report}
 \usage{
-genReport(input_source, output, endmembers, clustering, title = "archeospec",
-  clean_head = NULL, clean_tail = NULL, smooth_points = NULL,
-  file_header = NULL, wavelength_start = NULL, wavelength_end = NULL,
-  intracorrelation = T, mutualinfo = T)
+genReport(input_source, output, format = "all", endmembers, kmeans = T,
+  title = "archeospec", clean_head = NULL, clean_tail = NULL,
+  clean_leaps = NULL, file_header = "Wavelength\\\\t\%s",
+  wavelength_start = 350, wavelength_end = 2500, intracorrelation = T,
+  mutualinfo = T, endmember_names = NULL, endmember_colors = NULL)
 }
 \arguments{
-\item{input_source}{A spectral object built using the load_files function or the path of the
-folder which contains the .asd.txt files (which include the wavelength measurements)}
+\item{input_source}{The absolute path to a folder which contains .asd files (or subfolders with .asd files).
+These files must contain the data as a pair wavelength<tab>value.}
 
-\item{endmembers}{The number of endmembers to find in the data}
+\item{output}{The path for the output folder. It will contain the report files.}
 
-\item{title}{The title included at the begining of the reports}
+\item{format}{The report formats to be generated. One option of "html_document", "pdf_document", "word" or "all" (by default).
+The "pdf_document" will also include the latex sources.}
 
-\item{path}{The output path where documents are saved. By default, "/tmp/spectral"}
+\item{endmembers}{It can be a number or a vector of strings. If it is a number, this number of endmembers will be computer from the signatures.
+If it is a vector of strings, they will be the filenames of the endmembers which will be fixed.}
 
-\item{data_path}{The path for}
+\item{kmeans}{Whether to include the clustering plot or not (TRUE / FALSE)}
 
-\item{clusters}{The number of clusters to group the data}
+\item{title}{The title for the report, included at the begining of them.}
+
+\item{clean_head}{Optional. If provided, it filters out the wavelengths smaller than clean_head (a number).}
+
+\item{clean_tail}{Optional. If provided, it filters out the wavelengths greater than clean_tail (a number)}
+
+\item{clean_leaps}{Optional. If provided, it must be a vector of wavelength values. It will smooth the leaps produced between sensor changes,
+when using multiple sensors for different wavelength ranges.}
+
+\item{file_header}{The format of the hehad in .asd files. After the header, the measurements will be in format wavelength<tab>value.
+By default, the file header is Wavelength\\\\t\%s (note the double backslash to escape the special character bakslash).}
+
+\item{wavelength_start}{The smallest wavelength of the measured range.}
+
+\item{wavelength_end}{The greatest wavelength of the measured range.}
+
+\item{intracorrelation}{Whether to include the intracorrelation plot or not (TRUE / FALSE)}
+
+\item{mutualinfo}{Whether to include the mutual information plot or not (TRUE / FALSE)}
+
+\item{endmember_names}{Optional. If provided, it must be a list of names (strings) to be related to selected endmembers, so we
+can easily recognise the endmembers in the report. If endmembers is not a list of filenames, this parameter is ignored.}
+
+\item{endmember_colors}{Optional. If provided, it must be a list of colors (strings) to be related to selected endmembers, so we
+can easily recognise the endmembers in the report. If endmembers is not a list of filenames, this parameter is ignored.
+To check the available colors, refer to \code{\link{colors}}.}
 }
 \value{
-It creates a report in html, latex, pdf and word formats
+It creates a report in html, latex, pdf and / or word formats.
 }
 \description{
-Create a new report
+Create a report composed of elements specified in the parametrization.
+}
+\details{
+First load the data from input source. This must be an ABSOLUTE path to a folder which contains .asd files, or a tree of
+folders which contains in the end .asd files. These files must contain the data as a pair wavelength<tab>value, and the
+data must starts after the line file_header (by default "Wavelength<tab>%s").
+
+Then, a filtering process can be applied to the signatures if any of clean_head, clean_tail or clean_leaps are specified.
+This consists, respectively, on cutting the lower / higher wavelength values. clean_leaps smooth the leaps produced when
+using multiple sensors for different range of wavelengths, produced between sensor changes.
+
+Finally, the signatures are unmixed. If endmembers is a number, it computes such number of endmembers using the VCA algorithm.
+If endmembers is a vector of filenames, then those signatures will be selected as endmembers. In this case, we can assign them a
+representative name and a fixed color (using endmember_names and endmember_colors), so we can easily recognize this signatures
+in the report. endmember_names is a vector of string names, and endmember_colors is a vector of string colors (check \code{\link{colors}}).
+
+Different outputs can optionaly be included in the report:
+\itemize{
+\item   kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.
+\item   intracorrelation: included (TRUE) or not (FALSE).
+\item   mutualinfo: included (TRUE) or not (FALSE).
+}
+
+The report will always include:
+\itemize{
+\item A brief description of the dataset (list of signatures)
+\item The list of parameters used to create the report
+\item The signature plot
+\item The selected or computed endmembers, in tabular and plot formats
+\item The elbow plot
+\item The correspondence between endmembers and clusters plot
+\item The endmember weights by cluster bar and whisker box plot
+\item The residual values for each signature plot
+\item The summary table for the signatures and its weights by endmembers
+}
+
+For more details see the doc in [GitHub](https://github.com/jacintoArias/archeospec/).
+}
+\examples{
+\dontrun{
+input_source <- "/path/to/asd/folder"
+# generate a report computing three endmembers.
+genReport(input_source, endmembers=3)
+
+# generate a report selecting two endmembers.
+genReport(input_source, endmembers=c("almagre.asd.txt", "blanco.asd.txt"))
+
+# generate a report filtering the signatures and computing three endmembers.
+genReport(input_source, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3)
+
+# generate a report filtering the signatures and selecting two endmembers, giving them a name and a color.
+endmembers <- c("almagre.asd.txt", "blanco.asd.txt")
+names <- c("red", "white")
+colors <- c("red2", "white")
+genReport(input_source, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831),
+          endmembers=endmembers, endmember_names=names, endmember_colors=colors)
+}
+
 }
 \seealso{
-\code{\link{load_files}}
+\code{\link{load_signature_files}}
 }

@@ -26,25 +26,6 @@ It is also possible the alternative way, consisting of labelling some spectral s
 
 Finally, the package provides the contribution of the endmembers to each of the spectral signature in the samples.
 
-## Basic usage
-
-#### Quick report
-
-Given a directory tree with `asd` files you can generate a quick report by calling the following function:
-
-```
-library(archeospec)
-
-genReport(
-  input_source = <directory absolute path>, 
-  title="ArcheoSpec Example", 
-  path=<directory output path>,
-  kelbow=c(1,2,3),
-  kclusters=3, 
-  kendmembers=3
-)
-```
-you can change the number of clusters and enmembers by modifying the particular variables.
 
 ## Authors
 

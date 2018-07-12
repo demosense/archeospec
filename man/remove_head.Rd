@@ -7,15 +7,20 @@
 remove_head(signatures, head)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{head}{The wavelengths from the minimum to head will be removed}
+\item{head}{The wavelengths from the minimum to head will be removed.}
 }
 \value{
-The processed (low wavelength filtered) signatures
+The processed (low wavelength filtered) signatures.
 }
 \description{
-Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise
+Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise.
+}
+\examples{
+data(signatures)
+filtered_signatures <- remove_head(signatures, head=400)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

@@ -7,10 +7,20 @@
 table_endmembers(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).}
+\item{signatures}{A spectral object built using the load_signature_files function.
+The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).}
+}
+\value{
+A matrix object with the tabular information.
 }
 \description{
 Generate the table which contains the endmembers and the files which they corresponds to.
+}
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_vca(signatures, k=2)
+table_endmembers(unmixed_signatures)
+
 }
 \seealso{
 \code{\link{unmixing_fixed}}

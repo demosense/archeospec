@@ -12,13 +12,18 @@ The spectral object needs to be clustered (using clustering_kmeans or clustering
 and unmixed (using unmixing_fixed or unmixing_vca).}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
 Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
+The result is a set of bar plots.
 }
-\details{
-The result is a set of bar plots
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+clustered_signatures <- clustering_kmeans(unmixed_signatures, k=2)
+plot_endmember_density_bar(clustered_signatures)
+
 }
 \seealso{
 \code{\link{clustering_kmeans}}

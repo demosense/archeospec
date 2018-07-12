@@ -4,24 +4,28 @@
 \alias{load_signature_files}
 \title{Load the samples from a folder path}
 \usage{
-load_signature_files(path, header = NULL, wavelength_start = NULL,
-  wavelength_end = NULL)
+load_signature_files(path, header, wavelength_start, wavelength_end)
 }
 \arguments{
-\item{path}{Folder path to search for .asd.txt files}
+\item{path}{Folder path which contains the .asd files. The files might be in subfolders as well.}
 
-\item{header}{The line format of the head of the data (the line before the data measurements)
-If NULL, default to wavelength<tab><filename>}
+\item{header}{The line format of the head of the data (the line before the data measurements).}
 
-\item{wavelength_start}{The shorter measured wavelength in nm. If NULL, default to 350}
+\item{wavelength_start}{The shorter measured wavelength in nm.}
 
-\item{wavelength_end}{The longer measured wavelength in nm. If NULL, default to 2500}
+\item{wavelength_end}{The longer measured wavelength in nm.}
 }
 \value{
-A spectral object. Contains the information of the signatures, the processed files and the wavelength ranges
+A spectral object. Contains the information of the signatures, the processed files and the wavelength ranges.
 }
 \description{
 It opens every file wich .asd.txt extension and process them:
-1) Search for a line with the header format
-2) Every line after that is supposed to be <wavelength><tab><value>
+1) Search for a line with the header format.
+2) Every line after that is supposed to be <wavelength><tab><value>.
+}
+\examples{
+\dontrun{
+# Do not escape special characters for header parameter, like \\t
+load_signature_files(path = "/path/mydata", header="Wavelength\\t\%s", wavelength_start=350, wavelength_end=2500)
+}
 }

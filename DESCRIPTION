@@ -2,7 +2,10 @@ Package: archeospec
 Type: Package
 Title: Analysis of the Reflectance Spectra From Paintings: Classification and Endmembers.
 Version: 0.1.0
-Authors@R: person("Jacinto", "Arias", role = c("aut", "cre"), email = "jacinto.arias@demosense.com")
+Authors@R: c(
+  person("Jacinto", "Arias", role = c("aut", "cre"), email = "jacinto.arias@demosense.com"),
+  person("Javier", "Cozar", role = c("aut"), email = "javier.cozar@demosense.com")
+  )
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
@@ -14,9 +17,14 @@ Imports:
     dplyr,
     ggplot2,
     infotheo,
+    knitr,
     magrittr,
     methods,
+    purrr,
+    quadprog,
     rmarkdown,
-    tidyr
+    tidyr,
+    unmixR
 LazyData: true
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr

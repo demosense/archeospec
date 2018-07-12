@@ -7,14 +7,28 @@
 plot_mutualinfo(signatures, bins = 10)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.
+The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers).}
+
+\item{bins}{The amplitude for each wavelength is discretized into this number of bins, in order to compute the mutual info.
+By default, the number of bins is 10.}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
 Plot of the mutual information among wavelengths for all the signatures.
 }
+\examples{
+data(signatures)
+clustered_signatures <- clustering_kmeans(signatures, k=3)
+plot_mutualinfo(clustered_signatures)
+
+}
 \seealso{
+\code{\link{clustering_kmeans}}
+
+\code{\link{clustering_endmembers}}
+
 \code{\link{load_signature_files}}
 }

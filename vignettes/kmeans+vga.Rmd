@@ -1,0 +1,93 @@
+---
+title: "K-Means and VCA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(archeospec)
+library(purrr)
+```
+
+## Loading the data
+
+The package includes a small set of signatures called `signatures`. Load the data
+
+```{r data}
+# Loading data
+data(signatures)
+```
+
+## Spectral class
+
+Let's see the information of the signatures
+```{r description}
+print(signatures)
+summary(signatures)
+is.spectral(signatures)
+```
+
+## Cleaning
+
+We can filter signatures in three different ways:
+1.  We have used three different sensors for different wavelengths. The change of sensor introduces some error, which can be corrected by `smooth_leaps` function: just tell the first wavelength of each sensor (but the first one).
+2.  The lowest wavelengths might include more noise than the rest of the measures. We can filter out the lower wavelengths by using `remove_head`.
+3.  The highest wavelengths might include more noise than the rest of the measures. We can filter out the higher wavelengths by using `remove_tail`.
+
+```{r filter}
+signatures <- smooth_leaps(signatures, leaps=c(1001, 1831))
+signatures <- remove_head(signatures, head=400)
+signatures <- remove_tail(signatures,  tail=2400)
+```
+
+## Simple plots
+
+We can see the simple plots like signatures and intracorrelation among wavelengths.
+
+```{r simple_plots}
+plot_signatures(signatures)
+plot_intracorrelation(signatures)
+```
+
+
+# Clustering + endmembers
+
+If we are not sure aboud the possible number of endmembers, we can use the `plot_elbow` to check the K-Means intercluster error
+for different number of groups (`k`). For report purposes, we might want to select a specific value of `k` in the plot.
+
+```{r elbow}
+plot_elbow(signatures, k=2:4, selected=3)
+```
+
+
+# VCA + K-Means
+
+Apply VCA to compute the endmembers using `k=2`. Then, apply K-Means clustering using a number of clusters `k=3`.
+
+```{r vca_kmeans}
+signatures <- unmixing_vca(signatures, k=2)
+signatures <- clustering_kmeans(signatures, k=3)
+```
+
+# VCA results in tabular format
+
+See information of VCA in tabular format
+
+```{r tables}
+table_endmembers(signatures)
+table_residuals_summary(signatures)
+table_weights(signatures)
+```
+
+# VCA and clustering results as plots
+
+See information of VCA and K-Means as plots
+
+```{r plots}
+plot_endmembers(signatures)
+plot_clusters(signatures)
+plot_mutualinfo(signatures)
+plot_endmember_cluster(signatures)
+plot_endmember_density_bar(signatures)
+plot_endmember_density_box(signatures)
+plot_residuals(signatures)
+```

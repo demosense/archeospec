@@ -7,13 +7,18 @@
 plot_signatures(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
 Plot all the signatures together using one color per sample.
+}
+\examples{
+data(signatures)
+plot_signatures(signatures)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

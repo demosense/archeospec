@@ -16,6 +16,12 @@ A ggplot2 object
 \description{
 Plot the signatures coloured by its cluster asignment.
 }
+\examples{
+data(signatures)
+clustered_signatures <- clustering_kmeans(signatures, k=3)
+plot_clusters(clustered_signatures)
+
+}
 \seealso{
 \code{\link{clustering_kmeans}}
 

@@ -8,10 +8,14 @@
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
 #'
-#' @param signatures A spectral object built using the load_signature_files function
-#' @return A ggplot2 object
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' plot_signatures(signatures)
 #'
 plot_signatures <- function(signatures) {
 
@@ -41,10 +45,14 @@ plot_signatures <- function(signatures) {
 #' @importFrom ggplot2 geom_raster
 #' @importFrom ggplot2 scale_fill_distiller
 #' @importFrom ggplot2 scale_y_reverse
-#' @param signatures A spectral object built using the load_signature_files function
-#' @return A ggplot2 object
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' plot_intracorrelation(signatures)
 #'
 plot_intracorrelation <- function(signatures) {
 
@@ -86,6 +94,11 @@ plot_intracorrelation <- function(signatures) {
 #' @seealso \code{\link{clustering_endmembers}}
 #' @seealso \code{\link{load_signature_files}}
 #'
+#' @examples
+#' data(signatures)
+#' clustered_signatures <- clustering_kmeans(signatures, k=3)
+#' plot_clusters(clustered_signatures)
+#'
 plot_clusters <- function(signatures) {
 
   if(!is.spectral(signatures)) {
@@ -119,10 +132,20 @@ plot_clusters <- function(signatures) {
 #' @import ggplot2
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
-#' @param signatures A spectral object built using the load_signature_files function
-#' @return A ggplot2 object
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers).
+#' @param bins The amplitude for each wavelength is discretized into this number of bins, in order to compute the mutual info.
+#' By default, the number of bins is 10.
+#' @return A ggplot2 object.
 #'
+#' @seealso \code{\link{clustering_kmeans}}
+#' @seealso \code{\link{clustering_endmembers}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' clustered_signatures <- clustering_kmeans(signatures, k=3)
+#' plot_mutualinfo(clustered_signatures)
 #'
 plot_mutualinfo <- function(signatures, bins=10) {
 
@@ -169,6 +192,11 @@ plot_mutualinfo <- function(signatures, bins=10) {
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' plot_endmembers(unmixed_signatures)
 #'
 plot_endmembers <- function(signatures) {
 
@@ -217,13 +245,19 @@ plot_endmembers <- function(signatures) {
 #' @param signatures A spectral object built using the load_signature_files function.
 #' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
 #' and unmixed (using unmixing_fixed or unmixing_vca).
-#' @return A ggplot2 object
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{clustering_kmeans}}
 #' @seealso \code{\link{clustering_endmembers}}
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' clustered_signatures <- clustering_kmeans(unmixed_signatures, k=2)
+#' plot_endmember_cluster(clustered_signatures)
 #'
 plot_endmember_cluster <- function(signatures) {
 
@@ -266,8 +300,7 @@ plot_endmember_cluster <- function(signatures) {
 #' Plot of endmember density bar by clusters
 #'
 #' Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
-#'
-#' The result is a set of bar plots
+#' The result is a set of bar plots.
 #'
 #' @export
 #' @import tidyr
@@ -279,13 +312,19 @@ plot_endmember_cluster <- function(signatures) {
 #' @param signatures A spectral object built using the load_signature_files function.
 #' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
 #' and unmixed (using unmixing_fixed or unmixing_vca).
-#' @return A ggplot2 object
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{clustering_kmeans}}
 #' @seealso \code{\link{clustering_endmembers}}
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' clustered_signatures <- clustering_kmeans(unmixed_signatures, k=2)
+#' plot_endmember_density_bar(clustered_signatures)
 #'
 plot_endmember_density_bar <- function(signatures) {
 
@@ -340,13 +379,19 @@ plot_endmember_density_bar <- function(signatures) {
 #' @param signatures A spectral object built using the load_signature_files function.
 #' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
 #' and unmixed (using unmixing_fixed or unmixing_vca).
-#' @return A ggplot2 object
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{clustering_kmeans}}
 #' @seealso \code{\link{clustering_endmembers}}
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' clustered_signatures <- clustering_kmeans(unmixed_signatures, k=2)
+#' plot_endmember_density_box(clustered_signatures)
 #'
 plot_endmember_density_box <- function(signatures) {
 
@@ -401,11 +446,17 @@ plot_endmember_density_box <- function(signatures) {
 #' @importFrom ggplot2 ylim
 #' @param signatures A spectral object built using the load_signature_files function.
 #' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
-#' @return A ggplot2 object
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#'
+#' plot_residuals(unmixed_signatures)
 #'
 plot_residuals <- function(signatures) {
 
@@ -413,25 +464,20 @@ plot_residuals <- function(signatures) {
     stop("Error. Signatures parameter is not a spectral data collection")
   }
 
-  if(is.null(signatures$clusters)) {
-    stop("Error. Spectral data is not clustered")
-  }
-
   if(is.null(signatures$endmembers)) {
     stop("Error. Spectral data is not unmixed")
   }
 
-  clusters <- signatures$clusters
   endmembers <- signatures$endmembers
   endNames <- signatures$endNames
 
-  data <- cbind(cluster = clusters, signatures$data)
+  data <- signatures$data
   k <- length(endmembers)
   emData <- data[endmembers,]
   emData <- cbind(endmember=endNames, emData)
 
   weightsRaw <- .compute_weights(signatures)
-  weights <- cbind(file = row.names(signatures$data), cluster = clusters, weightsRaw)
+  weights <- cbind(file = row.names(signatures$data), weightsRaw)
 
   residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
     original <- x[ 1:length(signatures$range) ]
@@ -446,19 +492,23 @@ plot_residuals <- function(signatures) {
 
 #' Generate the elbow plot
 #'
-#' Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis)
+#' Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis).
 #'
 #' @export
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
-#' @param signatures A spectral object built using the load_signature_files function
-#' @param k List of values of k to use in the x-axis
-#' @param selected The selected value for the report. If provided, it will be printed as a red point in this plot
-#' @return A ggplot2 object
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param k List of values of k to use in the x-axis.
+#' @param selected The selected value for the report. If provided, it will be printed as a red point in this plot.
+#' @return A ggplot2 object.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' plot_elbow(signatures, k=1:3)
 #'
 plot_elbow <- function(signatures, k = 1:20, selected=NULL) {
 
@@ -466,7 +516,7 @@ plot_elbow <- function(signatures, k = 1:20, selected=NULL) {
     stop("Error. Signatures parameter is not a spectral data collection")
   }
 
-  if (!selected %in% k) {
+  if (!is.null(selected) && !selected %in% k) {
     stop("Error. Selected k is not within the range provided for elbow graph")
   }
 

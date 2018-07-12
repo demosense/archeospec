@@ -12,10 +12,17 @@ The spectral object needs to be clustered (using clustering_kmeans or clustering
 and unmixed (using unmixing_fixed or unmixing_vca).}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
 Plot the endmembers using the colors of the clusters that they belongs to.
+}
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+clustered_signatures <- clustering_kmeans(unmixed_signatures, k=2)
+plot_endmember_cluster(clustered_signatures)
+
 }
 \seealso{
 \code{\link{clustering_kmeans}}

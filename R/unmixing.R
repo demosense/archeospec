@@ -1,14 +1,18 @@
 #' Unmixing based on VCA
 #'
-#' VCA algorithm to obtain the k endmembers from the signatures
+#' VCA algorithm to obtain the k endmembers from the signatures.
 #'
 #' @export
 #' @import unmixR
-#' @param signatures A spectral object built using the load_signature_files function
-#' @param k K value or list of k's to be used as number of endmembers
-#' @return An extended spectral object which includes the indices of the endmember signatures
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param k The number of endmembers to find.
+#' @return An extended spectral object which includes the indices of the endmember signatures.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_vca(signatures, k=2)
 #'
 unmixing_vca <- function(signatures, k) {
 
@@ -27,14 +31,24 @@ unmixing_vca <- function(signatures, k) {
 
 #' Fix the endmembers
 #'
-#' Find the files which match with the computed endmembers
+#' Find the files which match with the computed endmembers.
 #'
 #' @export
-#' @param signatures A spectral object built using the load_signature_files function. set_endmembers must be called before of this function
-#' @return A data frame which contains the files which  match with the computed endmembers
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param files A vector of filenames (strings) of the selected signatures to be fixed as endmembers.
+#' @param names A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.
+#' @param colors A vector of color names to be assigned to each selected endmember. Check for possible colors \code{\link{colors}}.
+#' Optional, by default (NONE) use random colors.
+#' @return A data frame which contains the files which match with the selected endmembers.
 #'
-#' @seealso \code{\link{set_endmembers}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' files <- c("almagre.asd.txt", "blanco.asd.txt")
+#' names <- c("red", "white")
+#' colors <- c("red2", "white")
+#' unmixed_signatures <- unmixing_fixed(signatures, files=files, names=names, colors=colors)
 #'
 unmixing_fixed <- function(signatures, files, names=NULL, colors=NULL) {
 
@@ -70,7 +84,6 @@ unmixing_fixed <- function(signatures, files, names=NULL, colors=NULL) {
 }
 
 .compute_weights <- function(signatures) {
-  classes <- signatures$cluster
   ems <- signatures$endmembers
   endNames <- signatures$endNames
 

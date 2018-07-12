@@ -5,11 +5,18 @@
 #' @export
 #' @import dplyr
 #' @import knitr
-#' @param signatures A spectral object built using the load_signature_files function. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A matrix object with the tabular information.
 #'
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_vca(signatures, k=2)
+#' table_endmembers(unmixed_signatures)
 #'
 table_endmembers <- function(signatures) {
 
@@ -32,16 +39,24 @@ table_endmembers <- function(signatures) {
 
 #' Signature endmember weights
 #'
-#' Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers.
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
 #'
 #' @export
 #' @import dplyr
 #' @import knitr
 #' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A matrix object with the tabular information.
 #'
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' table_weights(unmixed_signatures)
 #'
 table_weights <- function(signatures) {
 
@@ -49,25 +64,20 @@ table_weights <- function(signatures) {
     stop("Error. Signatures parameter is not a spectral data collection")
   }
 
-  if(is.null(signatures$clusters)) {
-    stop("Error. Spectral data is not clustered")
-  }
-
   if(is.null(signatures$endmembers)) {
     stop("Error. Spectral data is not unmixed")
   }
 
-  clusters <- signatures$clusters
   endmembers <- signatures$endmembers
   endNames <- signatures$endNames
 
-  data <- cbind(cluster = clusters, signatures$data)
+  data <- signatures$data
   k <- length(endmembers)
   emData <- data[endmembers,]
   emData <- cbind(endmember=endNames, emData)
 
   weightsRaw <- .compute_weights(signatures)
-  weights <- cbind(file = row.names(signatures$data), cluster = clusters, weightsRaw)
+  weights <- cbind(file = row.names(signatures$data), weightsRaw)
 
   residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
     original <- x[ 1:length(signatures$range) ]
@@ -75,7 +85,7 @@ table_weights <- function(signatures) {
     .get_residuals(original, weights, emData[,signatures$range])
   })
 
-  ordering <- dplyr::arrange(cbind(weights, residual=residuals), cluster, file)$file
+  ordering <- dplyr::arrange(cbind(weights, residual=residuals), file)$file
   cbind(weights, residual=residuals)[match(ordering, weights$file),]
 }
 
@@ -86,11 +96,18 @@ table_weights <- function(signatures) {
 #'
 #' @export
 #' @import knitr
-#' @param signatures A spectral object built using the load_signature_files function. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A matrix object with the tabular information.
 #'
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' table_residuals_summary(unmixed_signatures)
 #'
 table_residuals_summary <- function(signatures) {
 
@@ -98,25 +115,20 @@ table_residuals_summary <- function(signatures) {
     stop("Error. Signatures parameter is not a spectral data collection")
   }
 
-  if(is.null(signatures$clusters)) {
-    stop("Error. Spectral data is not clustered")
-  }
-
   if(is.null(signatures$endmembers)) {
     stop("Error. Spectral data is not unmixed")
   }
 
-  clusters <- signatures$clusters
   endmembers <- signatures$endmembers
   endNames <- signatures$endNames
 
-  data <- cbind(cluster = clusters, signatures$data)
+  data <- signatures$data
   k <- length(endmembers)
   emData <- data[endmembers,]
   emData <- cbind(endmember=endNames, emData)
 
   weightsRaw <- .compute_weights(signatures)
-  weights <- cbind(file = row.names(signatures$data), cluster = clusters, weightsRaw)
+  weights <- cbind(file = row.names(signatures$data), weightsRaw)
 
   residuals <- apply(cbind(signatures$data, weightsRaw), 1, FUN = function (x) {
     original <- x[ 1:length(signatures$range) ]

@@ -7,15 +7,20 @@
 remove_tail(signatures, tail)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{tail}{The wavelengths from tail to the maximum will be removed}
+\item{tail}{The wavelengths from tail to the maximum will be removed.}
 }
 \value{
-The processed (high wavelength filtered) signatures
+The processed (high wavelength filtered) signatures.
 }
 \description{
-Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise
+Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise.
+}
+\examples{
+data(signatures)
+filtered_signatures <- remove_tail(signatures, tail=2400)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

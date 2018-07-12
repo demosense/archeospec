@@ -1,15 +1,19 @@
 #' K-Means clustering
 #'
-#' Apply the k-means clustering algorithm to group samples into k clusters
+#' Apply the k-means clustering algorithm to group samples into k clusters.
 #'
 #' @export
 #' @import dplyr
 #' @importFrom magrittr %>%
-#' @param signatures A spectral object built using the load_signature_files function
-#' @param k K value to be used as number of clusters
-#' @return An extended spectral object which includes the clustering indices of the signatures
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param k K value to be used as number of clusters.
+#' @return An extended spectral object which includes the clustering indices of the signatures.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' clustered_signatures <- clustering_kmeans(signatures, k=3)
 #'
 clustering_kmeans <- function(signatures, k) {
 
@@ -36,12 +40,19 @@ clustering_kmeans <- function(signatures, k) {
 #' @import dplyr
 #' @importFrom magrittr %>%
 #' @param signatures A spectral object built using the load_signature_files function.
-#' #' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
-#' @return An extended spectral object which includes the clustering indices of the signatures
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return An extended spectral object which includes the clustering indices of the signatures.
 #'
 #' @seealso \code{\link{unmixing_fixed}}
 #' @seealso \code{\link{unmixing_vca}}
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' \donttest{
+#' data(signatures)
+#' unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+#' clustered_signatures <- clustering_endmembers(unmixed_signatures)
+#' }
 #'
 clustering_endmembers <- function(signatures) {
 

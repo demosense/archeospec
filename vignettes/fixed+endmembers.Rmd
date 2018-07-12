@@ -1,0 +1,58 @@
+---
+title: "Fixed endmembers"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(archeospec)
+library(purrr)
+```
+
+## Loading the data
+
+The package includes a small set of signatures called `signatures`. Load the data
+
+```{r data}
+# Loading data
+data(signatures)
+```
+
+
+# Fix endmembers
+
+Fix the endmembers to a set of samples. Apply the clustering to group all the signatures to the selected endmembers.
+
+```{r vca_kmeans}
+signatures <- unmixing_fixed(
+  signatures, 
+  files = c("almagre.asd.txt", "negro.asd.txt"),
+  names = c("red","black"),
+  colors = c("red2", "gray15")
+)
+signatures <- clustering_endmembers(signatures)
+```
+
+
+# VCA results in tabular format
+
+See information of VCA in tabular format
+
+```{r tables}
+table_endmembers(signatures)
+table_residuals_summary(signatures)
+table_weights(signatures)
+```
+
+# VCA and clustering results as plots
+
+See information of VCA and K-Means as plots
+
+```{r plots}
+plot_endmembers(signatures)
+plot_clusters(signatures)
+plot_mutualinfo(signatures)
+plot_endmember_cluster(signatures)
+plot_endmember_density_bar(signatures)
+plot_endmember_density_box(signatures)
+plot_residuals(signatures)
+```

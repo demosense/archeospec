@@ -7,10 +7,21 @@
 table_weights(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function.}
+\item{signatures}{A spectral object built using the load_signature_files function.
+The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).}
+}
+\value{
+A matrix object with the tabular information.
 }
 \description{
-Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers.
+The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+}
+\examples{
+data(signatures)
+unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+table_weights(unmixed_signatures)
+
 }
 \seealso{
 \code{\link{unmixing_fixed}}

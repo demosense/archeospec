@@ -7,13 +7,18 @@
 plot_intracorrelation(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
 Plot of the intracorrelation among the wavelengths of the signatures.
+}
+\examples{
+data(signatures)
+plot_intracorrelation(signatures)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

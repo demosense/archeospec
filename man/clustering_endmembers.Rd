@@ -8,14 +8,22 @@ clustering_endmembers(signatures)
 }
 \arguments{
 \item{signatures}{A spectral object built using the load_signature_files function.
-#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).}
+The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).}
 }
 \value{
-An extended spectral object which includes the clustering indices of the signatures
+An extended spectral object which includes the clustering indices of the signatures.
 }
 \description{
 Assign an endmember to each signature based on its distance, similarly
 to k-means clustering being fixed the centroids to the endmembers
+}
+\examples{
+\donttest{
+data(signatures)
+unmixed_signatures <- unmixing_fixed(signatures, files=c("almagre.asd.txt", "blanco.asd.txt"))
+clustered_signatures <- clustering_endmembers(unmixed_signatures)
+}
+
 }
 \seealso{
 \code{\link{unmixing_fixed}}

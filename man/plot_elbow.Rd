@@ -7,17 +7,22 @@
 plot_elbow(signatures, k = 1:20, selected = NULL)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_signature_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{k}{List of values of k to use in the x-axis}
+\item{k}{List of values of k to use in the x-axis.}
 
-\item{selected}{The selected value for the report. If provided, it will be printed as a red point in this plot}
+\item{selected}{The selected value for the report. If provided, it will be printed as a red point in this plot.}
 }
 \value{
-A ggplot2 object
+A ggplot2 object.
 }
 \description{
-Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis)
+Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis).
+}
+\examples{
+data(signatures)
+plot_elbow(signatures, k=1:3)
+
 }
 \seealso{
 \code{\link{load_signature_files}}

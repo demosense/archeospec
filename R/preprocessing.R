@@ -1,13 +1,17 @@
 #' Smooth leaps of signatures
 #'
-#' Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage
+#' Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage.
 #'
 #' @export
-#' @param signatures A spectral object built using the load_signature_files function
-#' @param leaps Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage
-#' @return The processed (smoothed) signatures
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param leaps Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage.
+#' @return The processed (smoothed) signatures.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' filtered_signatures <- smooth_leaps(signatures, leaps=c(1001, 1831))
 #'
 smooth_leaps <- function(signatures, leaps) {
 
@@ -28,7 +32,7 @@ smooth_leaps <- function(signatures, leaps) {
     m <- as.matrix(data)
 
     leaps <- c(leaps, length(data))
-    leaps_idx <- map(leaps, function(x) which(names(data)==x))
+    leaps_idx <- purrr::map(leaps, function(x) which(names(data)==x))
 
     for (i in 1:(length(leaps)-1)) {
       leap1 <- leaps_idx[[i]]
@@ -51,14 +55,18 @@ smooth_leaps <- function(signatures, leaps) {
 
 #' Filter out the high wavelength values
 #'
-#' Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise
+#' Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise.
 #'
 #' @export
-#' @param signatures A spectral object built using the load_signature_files function
-#' @param head The wavelengths from the minimum to head will be removed
-#' @return The processed (low wavelength filtered) signatures
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param head The wavelengths from the minimum to head will be removed.
+#' @return The processed (low wavelength filtered) signatures.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' filtered_signatures <- remove_head(signatures, head=400)
 #'
 remove_head <- function(signatures, head) {
 
@@ -83,14 +91,18 @@ remove_head <- function(signatures, head) {
 
 #' Filter out the low wavelength values
 #'
-#' Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise
+#' Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise.
 #'
 #' @export
-#' @param signatures A spectral object built using the load_signature_files function
-#' @param tail The wavelengths from tail to the maximum will be removed
-#' @return The processed (high wavelength filtered) signatures
+#' @param signatures A spectral object built using the load_signature_files function.
+#' @param tail The wavelengths from tail to the maximum will be removed.
+#' @return The processed (high wavelength filtered) signatures.
 #'
 #' @seealso \code{\link{load_signature_files}}
+#'
+#' @examples
+#' data(signatures)
+#' filtered_signatures <- remove_tail(signatures, tail=2400)
 #'
 remove_tail <- function(signatures, tail) {
 
