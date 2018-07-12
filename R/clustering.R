@@ -1,15 +1,15 @@
-#' Clustering algorithm
+#' K-Means clustering
 #'
-#' Apply the clustering algorithm to group samples into k clusters
+#' Apply the k-means clustering algorithm to group samples into k clusters
 #'
 #' @export
 #' @import dplyr
 #' @importFrom magrittr %>%
-#' @param signatures A spectral object built using the load_files function
-#' @param k K value or list of k's to be used as number of clusters
-#' @return An extended data frame which includes the k (cluster index) for each signature
+#' @param signatures A spectral object built using the load_signature_files function
+#' @param k K value to be used as number of clusters
+#' @return An extended spectral object which includes the clustering indices of the signatures
 #'
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 clustering_kmeans <- function(signatures, k) {
 
@@ -27,9 +27,21 @@ clustering_kmeans <- function(signatures, k) {
   signatures
 }
 
+#' Clustering fixing centroids to endmembers
 #'
+#' Assign an endmember to each signature based on its distance, similarly
+#' to k-means clustering being fixed the centroids to the endmembers
 #'
 #' @export
+#' @import dplyr
+#' @importFrom magrittr %>%
+#' @param signatures A spectral object built using the load_signature_files function.
+#' #' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return An extended spectral object which includes the clustering indices of the signatures
+#'
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 clustering_endmembers <- function(signatures) {
 
@@ -52,48 +64,6 @@ clustering_endmembers <- function(signatures) {
   signatures$clustering <- "endmembers"
 
   signatures
-}
-
-#' Generate the elbow plot
-#'
-#' Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis)
-#'
-#' @export
-#' @import ggplot2
-#' @import dplyr
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_line
-#' @param signatures A spectral object built using the load_files function
-#' @param k List of values of k to use in the x-axis
-#' @return The plot of the sum of the distances intra-clusters (y-axis) for every number of clusters in k (x-axis)
-#'
-#' @seealso \code{\link{load_files}}
-#'
-plot_elbow <- function(signatures, k = 1:20, selected=NULL) {
-
-  if(!is.spectral(signatures)) {
-    stop("Error. Signatures parameter is not a spectral data collection")
-  }
-
-  if (!selected %in% k) {
-    stop("Error. Selected k is not within the range provided for elbow graph")
-  }
-
-  kclusts <- data.frame(k=k) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
-  clusters <- kclusts %>% dplyr::mutate( withinss = kclust$tot.withins)
-
-  plot <- ggplot(clusters, aes(k, withinss)) +
-    geom_line()
-
-  if (!is.null(selected))
-    plot <- plot +
-      geom_point(
-        aes(x=c(selected), y=c(clusters[clusters$k==selected,]$withinss)),
-        color="red",
-        size=3
-      )
-
-  plot
 }
 
 

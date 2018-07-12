@@ -10,7 +10,7 @@ is.spectral(x)
 \item{x}{Object to check if it is of class spectral}
 }
 \value{
-TRUE if x is of class spectral. False otherwise
+TRUE if x is of class spectral. FALSE otherwise
 }
 \description{
 Check if the object x is of class spectral

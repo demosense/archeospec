@@ -3,7 +3,7 @@
 #' @export
 #' @importFrom methods is
 #' @param x Object to check if it is of class spectral
-#' @return TRUE if x is of class spectral. False otherwise
+#' @return TRUE if x is of class spectral. FALSE otherwise
 is.spectral <- function(x) {
   is(x, "spectral")
 }

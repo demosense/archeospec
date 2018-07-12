@@ -2,20 +2,32 @@
 % Please edit documentation in R/plots.R
 \name{plot_endmember_density_box}
 \alias{plot_endmember_density_box}
-\title{Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.}
+\title{Plot of endmember density box by clusters}
 \usage{
 plot_endmember_density_box(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.
+The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
+and unmixed (using unmixing_fixed or unmixing_vca).}
+}
+\value{
+A ggplot2 object
 }
 \description{
-The result are a set of whiskers box plots
+Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
+}
+\details{
+The result is a set of whiskers box plots
 }
 \seealso{
-\code{\link{clustering}}
+\code{\link{clustering_kmeans}}
 
-\code{\link{set_endmembers}}
+\code{\link{clustering_endmembers}}
 
-\code{\link{load_files}}
+\code{\link{unmixing_fixed}}
+
+\code{\link{unmixing_vca}}
+
+\code{\link{load_signature_files}}
 }

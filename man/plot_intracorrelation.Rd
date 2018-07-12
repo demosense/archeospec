@@ -2,19 +2,19 @@
 % Please edit documentation in R/plots.R
 \name{plot_intracorrelation}
 \alias{plot_intracorrelation}
-\title{Plot of the intracorrelation among the wavelengths of the signatures.}
+\title{Intercorrelation plot}
 \usage{
 plot_intracorrelation(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function}
 }
 \value{
-A ggplot object
+A ggplot2 object
 }
 \description{
 Plot of the intracorrelation among the wavelengths of the signatures.
 }
 \seealso{
-\code{\link{load_files}}
+\code{\link{load_signature_files}}
 }

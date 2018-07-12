@@ -2,14 +2,14 @@
 % Please edit documentation in R/preprocessing.R
 \name{smooth_leaps}
 \alias{smooth_leaps}
-\title{Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage}
+\title{Smooth leaps of signatures}
 \usage{
 smooth_leaps(signatures, leaps)
 }
 \arguments{
-\item{leaps}{Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage}
+\item{signatures}{A spectral object built using the load_signature_files function}
 
-\item{signature}{A spectral object built using the load_files function}
+\item{leaps}{Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage}
 }
 \value{
 The processed (smoothed) signatures
@@ -18,5 +18,5 @@ The processed (smoothed) signatures
 Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage
 }
 \seealso{
-\code{\link{load_files}}
+\code{\link{load_signature_files}}
 }

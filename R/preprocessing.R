@@ -1,11 +1,13 @@
+#' Smooth leaps of signatures
+#'
 #' Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage
 #'
 #' @export
-#' @param signature A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function
 #' @param leaps Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage
 #' @return The processed (smoothed) signatures
 #'
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 smooth_leaps <- function(signatures, leaps) {
 
@@ -47,9 +49,17 @@ smooth_leaps <- function(signatures, leaps) {
 
 }
 
+#' Filter out the high wavelength values
 #'
+#' Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise
 #'
 #' @export
+#' @param signatures A spectral object built using the load_signature_files function
+#' @param head The wavelengths from the minimum to head will be removed
+#' @return The processed (low wavelength filtered) signatures
+#'
+#' @seealso \code{\link{load_signature_files}}
+#'
 remove_head <- function(signatures, head) {
 
   if(!is.spectral(signatures)) {
@@ -71,9 +81,17 @@ remove_head <- function(signatures, head) {
   signatures
 }
 
+#' Filter out the low wavelength values
 #'
+#' Data preprocessing to remove the lowest wavelengths for each signature, possibly because of noise
 #'
 #' @export
+#' @param signatures A spectral object built using the load_signature_files function
+#' @param tail The wavelengths from tail to the maximum will be removed
+#' @return The processed (high wavelength filtered) signatures
+#'
+#' @seealso \code{\link{load_signature_files}}
+#'
 remove_tail <- function(signatures, tail) {
 
   if(!is.spectral(signatures)) {

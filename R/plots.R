@@ -1,3 +1,5 @@
+#' Plot signatures
+#'
 #' Plot all the signatures together using one color per sample.
 #'
 #' @export
@@ -6,10 +8,10 @@
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
 #'
-#' @param signatures A spectral object built using the load_files function
-#' @return A ggplot object
+#' @param signatures A spectral object built using the load_signature_files function
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_signatures <- function(signatures) {
 
@@ -28,6 +30,8 @@ plot_signatures <- function(signatures) {
 }
 
 
+#' Intercorrelation plot
+#'
 #' Plot of the intracorrelation among the wavelengths of the signatures.
 #'
 #' @export
@@ -37,10 +41,10 @@ plot_signatures <- function(signatures) {
 #' @importFrom ggplot2 geom_raster
 #' @importFrom ggplot2 scale_fill_distiller
 #' @importFrom ggplot2 scale_y_reverse
-#' @param signatures A spectral object built using the load_files function
-#' @return A ggplot object
+#' @param signatures A spectral object built using the load_signature_files function
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_intracorrelation <- function(signatures) {
 
@@ -62,9 +66,9 @@ plot_intracorrelation <- function(signatures) {
     # scale_y_reverse()
 }
 
-
+#' Plot clustering
+#'
 #' Plot the signatures coloured by its cluster asignment.
-#' The function clustering must be run before of this one.
 #'
 #' @export
 #' @import tidyr
@@ -74,10 +78,13 @@ plot_intracorrelation <- function(signatures) {
 #' @importFrom ggplot2 facet_wrap
 #' @importFrom ggplot2 scale_color_brewer
 #' @importFrom ggplot2 scale_color_manual
-#' @param signatures A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers).
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{clustering}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{clustering_kmeans}}
+#' @seealso \code{\link{clustering_endmembers}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_clusters <- function(signatures) {
 
@@ -103,10 +110,19 @@ plot_clusters <- function(signatures) {
     facet_wrap(~ cluster, ncol=3)
 }
 
+#' Mutual information plot
 #'
+#' Plot of the mutual information among wavelengths for all the signatures.
 #'
 #' @export
 #' @import infotheo
+#' @import ggplot2
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @param signatures A spectral object built using the load_signature_files function
+#' @return A ggplot2 object
+#'
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_mutualinfo <- function(signatures, bins=10) {
 
@@ -135,7 +151,9 @@ plot_mutualinfo <- function(signatures, bins=10) {
 }
 
 
-#' Plot the endmember signatures. The function set_endmembers must be run before of this one.
+#' Plot endmember signatures
+#'
+#' Plot the endmember signatures.
 #'
 #' @export
 #' @import tidyr
@@ -144,10 +162,13 @@ plot_mutualinfo <- function(signatures, bins=10) {
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 scale_color_brewer
 #' @importFrom ggplot2 scale_color_manual
-#' @param signatures A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{set_endmembers}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_endmembers <- function(signatures) {
 
@@ -182,6 +203,8 @@ plot_endmembers <- function(signatures) {
   plot
 }
 
+#' Plot endmembers coloured by clustering
+#'
 #' Plot the endmembers using the colors of the clusters that they belongs to.
 #'
 #' @export
@@ -191,11 +214,16 @@ plot_endmembers <- function(signatures) {
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 scale_color_brewer
 #' @importFrom ggplot2 scale_color_manual
-#' @param signatures A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
+#' and unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{clustering}}
-#' @seealso \code{\link{set_endmembers}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{clustering_kmeans}}
+#' @seealso \code{\link{clustering_endmembers}}
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_endmember_cluster <- function(signatures) {
 
@@ -235,9 +263,11 @@ plot_endmember_cluster <- function(signatures) {
   plot
 }
 
+#' Plot of endmember density bar by clusters
+#'
 #' Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
 #'
-#' The result are a set of bar plots
+#' The result is a set of bar plots
 #'
 #' @export
 #' @import tidyr
@@ -246,11 +276,16 @@ plot_endmember_cluster <- function(signatures) {
 #' @importFrom ggplot2 geom_bar
 #' @importFrom ggplot2 scale_fill_brewer
 #' @importFrom ggplot2 scale_fill_manual
-#' @param signatures A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
+#' and unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{clustering}}
-#' @seealso \code{\link{set_endmembers}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{clustering_kmeans}}
+#' @seealso \code{\link{clustering_endmembers}}
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_endmember_density_bar <- function(signatures) {
 
@@ -287,9 +322,11 @@ plot_endmember_density_bar <- function(signatures) {
   plot
 }
 
+#' Plot of endmember density box by clusters
+#'
 #' Plot the mean composition of each signature expressed as a combination of endmembers, grouped by clusters.
 #'
-#' The result are a set of whiskers box plots
+#' The result is a set of whiskers box plots
 #'
 #' @export
 #' @import tidyr
@@ -300,11 +337,16 @@ plot_endmember_density_bar <- function(signatures) {
 #' @importFrom ggplot2 ylim
 #' @importFrom ggplot2 scale_fill_brewer
 #' @importFrom ggplot2 scale_fill_manual
-#' @param signatures A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be clustered (using clustering_kmeans or clustering_endmembers)
+#' and unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A ggplot2 object
 #'
-#' @seealso \code{\link{clustering}}
-#' @seealso \code{\link{set_endmembers}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{clustering_kmeans}}
+#' @seealso \code{\link{clustering_endmembers}}
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_endmember_density_box <- function(signatures) {
 
@@ -343,7 +385,12 @@ plot_endmember_density_box <- function(signatures) {
   plot
 }
 
+#' Residuals plot
 #'
+#' Represents each signature as a weighted combination of endmembers.
+#' Plot the residuals the residuals of this adjustment: the sum of the errors between the represented and the real values.
+#'
+#' The result is a histogram and a density plot of the residuals.
 #'
 #' @export
 #' @import tidyr
@@ -352,6 +399,13 @@ plot_endmember_density_box <- function(signatures) {
 #' @importFrom ggplot2 geom_boxplot
 #' @importFrom ggplot2 facet_wrap
 #' @importFrom ggplot2 ylim
+#' @param signatures A spectral object built using the load_signature_files function.
+#' The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#' @return A ggplot2 object
+#'
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 plot_residuals <- function(signatures) {
 
@@ -388,4 +442,47 @@ plot_residuals <- function(signatures) {
   ggplot(data.frame(residuals), aes(x=residuals)) +
     geom_histogram(aes(y =..density..), fill="lightskyblue3", color="lightskyblue3", alpha=0.5, binwidth = 10) +
     geom_density(color="salmon", size=1)
+}
+
+#' Generate the elbow plot
+#'
+#' Plot of the sum of the inter-clusters distances (y-axis) for every number of clusters in k (x-axis)
+#'
+#' @export
+#' @import ggplot2
+#' @import dplyr
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @param signatures A spectral object built using the load_signature_files function
+#' @param k List of values of k to use in the x-axis
+#' @param selected The selected value for the report. If provided, it will be printed as a red point in this plot
+#' @return A ggplot2 object
+#'
+#' @seealso \code{\link{load_signature_files}}
+#'
+plot_elbow <- function(signatures, k = 1:20, selected=NULL) {
+
+  if(!is.spectral(signatures)) {
+    stop("Error. Signatures parameter is not a spectral data collection")
+  }
+
+  if (!selected %in% k) {
+    stop("Error. Selected k is not within the range provided for elbow graph")
+  }
+
+  kclusts <- data.frame(k=k) %>% group_by(k) %>% do(kclust=kmeans(signatures$data, .$k))
+  clusters <- kclusts %>% dplyr::mutate( withinss = kclust$tot.withins)
+
+  plot <- ggplot(clusters, aes(k, withinss)) +
+    geom_line()
+
+  if (!is.null(selected))
+    plot <- plot +
+    geom_point(
+      aes(x=c(selected), y=c(clusters[clusters$k==selected,]$withinss)),
+      color="red",
+      size=3
+    )
+
+  plot
 }

@@ -1,6 +1,15 @@
+#' Endmembers description
 #'
+#' Generate the table which contains the endmembers and the files which they corresponds to.
 #'
 #' @export
+#' @import dplyr
+#' @import knitr
+#' @param signatures A spectral object built using the load_signature_files function. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
+#'
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 table_endmembers <- function(signatures) {
 
@@ -21,17 +30,18 @@ table_endmembers <- function(signatures) {
 }
 
 
-
-#' Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers.
+#' Signature endmember weights
+#'
+#' Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
 #'
 #' @export
 #' @import dplyr
 #' @import knitr
-#' @param signatures A spectral object built using the load_files function
+#' @param signatures A spectral object built using the load_signature_files function.
 #'
-#' @seealso \code{\link{clustering}}
-#' @seealso \code{\link{set_endmembers}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 table_weights <- function(signatures) {
 
@@ -69,16 +79,18 @@ table_weights <- function(signatures) {
   cbind(weights, residual=residuals)[match(ordering, weights$file),]
 }
 
+#' Residuals for each signature
+#'
 #' Represents each signature as a weighted combination of endmembers.
 #' This function generates a table which contains the residuals of this adjustment: the sum of the errors between the represented and the real values.
 #'
 #' @export
-#' @import dplyr
-#' @param signatures A spectral object built using the load_files function
+#' @import knitr
+#' @param signatures A spectral object built using the load_signature_files function. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
 #'
-#' @seealso \code{\link{clustering}}
-#' @seealso \code{\link{set_endmembers}}
-#' @seealso \code{\link{load_files}}
+#' @seealso \code{\link{unmixing_fixed}}
+#' @seealso \code{\link{unmixing_vca}}
+#' @seealso \code{\link{load_signature_files}}
 #'
 table_residuals_summary <- function(signatures) {
 

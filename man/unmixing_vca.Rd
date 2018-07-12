@@ -2,12 +2,12 @@
 % Please edit documentation in R/unmixing.R
 \name{unmixing_vca}
 \alias{unmixing_vca}
-\title{VCA algorithm to obtain the k endmembers from the signatures}
+\title{Unmixing based on VCA}
 \usage{
 unmixing_vca(signatures, k)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function}
 
 \item{k}{K value or list of k's to be used as number of endmembers}
 }
@@ -18,5 +18,5 @@ An extended spectral object which includes the indices of the endmember signatur
 VCA algorithm to obtain the k endmembers from the signatures
 }
 \seealso{
-\code{\link{load_files}}
+\code{\link{load_signature_files}}
 }

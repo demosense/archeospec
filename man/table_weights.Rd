@@ -2,20 +2,20 @@
 % Please edit documentation in R/tables.R
 \name{table_weights}
 \alias{table_weights}
-\title{Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers.}
+\title{Signature endmember weights}
 \usage{
 table_weights(signatures)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function.}
 }
 \description{
-Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers.
+Generate the table which contains the composition of each signature expressed as a weighted combination of endmembers. The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).
 }
 \seealso{
-\code{\link{clustering}}
+\code{\link{unmixing_fixed}}
 
-\code{\link{set_endmembers}}
+\code{\link{unmixing_vca}}
 
-\code{\link{load_files}}
+\code{\link{load_signature_files}}
 }

@@ -2,21 +2,21 @@
 % Please edit documentation in R/clustering.R
 \name{clustering_kmeans}
 \alias{clustering_kmeans}
-\title{Clustering algorithm}
+\title{K-Means clustering}
 \usage{
 clustering_kmeans(signatures, k)
 }
 \arguments{
-\item{signatures}{A spectral object built using the load_files function}
+\item{signatures}{A spectral object built using the load_signature_files function}
 
-\item{k}{K value or list of k's to be used as number of clusters}
+\item{k}{K value to be used as number of clusters}
 }
 \value{
-An extended data frame which includes the k (cluster index) for each signature
+An extended spectral object which includes the clustering indices of the signatures
 }
 \description{
-Apply the clustering algorithm to group samples into k clusters
+Apply the k-means clustering algorithm to group samples into k clusters
 }
 \seealso{
-\code{\link{load_files}}
+\code{\link{load_signature_files}}
 }
