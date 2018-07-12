@@ -27,6 +27,18 @@ It is also possible the alternative way, consisting of labelling some spectral s
 Finally, the package provides the contribution of the endmembers to each of the spectral signature in the samples.
 
 
+## Basic usage
+
+Example generating a report with all the information (default parametrization), using VCA to compute 3 endmembers
+
+```r
+genReport(
+  input_source="/path/to/asd_folder/",
+  output="/tmp/archeospec/",
+  endmembers=3
+  )
+```
+
 ## Authors
 
 It was carried out by the Remote Sensing Group in collaboration with the Intelligent Systems and Data Mining Research Group and the Laboratory of Archaeology,
