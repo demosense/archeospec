@@ -79,16 +79,15 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#archeospec" class="anchor"></a>archeospec</h1></div>
 <p>Analysis of the reflectance spectra from paintings: classification and endmembers.</p>
-<div id="note" class="section level2">
-<h2 class="hasAnchor">
-<a href="#note" class="anchor"></a>NOTE</h2>
-<p>This package is currently a <strong>preview</strong>, it is under desing so we can expect heavy changes on the API. Use it on your own risk and contact the authors if you have any requests.</p>
-</div>
+<hr>
+<p><code>archeospec</code> is a reporting tool for automation and reproducibility of research results. It encapsulates a particular analysis on the data gathered by spectometry sensors and automatically generates the research reports in different formats.</p>
 <div id="install-from-github-via-devtools" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install-from-github-via-devtools" class="anchor"></a>Install from github via devtools</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_git">install_git</a></span>(<span class="st">"https://gitlab.com/chemometrics/unmixR.git"</span>, <span class="dt">subdir =</span> <span class="st">"pkg/unmixR"</span>)
+<span class="co"># archeospec depends on this non CRAN external dependency</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"jcozar87/unmixR"</span>, <span class="dt">subdir =</span> <span class="st">"pkg/unmixR"</span>)
+<span class="co"># archeospec in currently only available trough github</span>
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"jacintoarias/archeospec"</span>)</code></pre></div>
 </div>
 <div id="purpose" class="section level2">
@@ -100,10 +99,52 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <p>It is also possible the alternative way, consisting of labelling some spectral signatures with previous information to stablish the main classes and pigments.</p>
 <p>Finally, the package provides the contribution of the endmembers to each of the spectral signature in the samples.</p>
 </div>
+<div id="api-docs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#api-docs" class="anchor"></a>API Docs</h2>
+<p>Please refer to our comprehensive <a href="">documentation</a> for a complete quickstart.</p>
+</div>
+<div id="basic-usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#basic-usage" class="anchor"></a>Basic usage</h2>
+<p>We provide a direct and simple API to quickly generate report documents from data sources. It can be configured to reflect any combination of the mentioned study.</p>
+<p>The following example generates a report, using VCA to compute 3 endmembers and kmeans to perform unsupervised classification.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/genReport.html">genReport</a></span>(
+  <span class="dt">input_source=</span><span class="st">"/path/to/asd_folder/"</span>,
+  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
+  <span class="dt">format=</span><span class="st">"html_document"</span>
+  <span class="dt">endmembers=</span><span class="dv">3</span>,
+  <span class="dt">kmeans=</span>T
+  )</code></pre></div>
+<div id="output-formats" class="section level3">
+<h3 class="hasAnchor">
+<a href="#output-formats" class="anchor"></a>Output formats</h3>
+<p>The following formats are available:</p>
+<ul>
+<li>
+<code>html_document</code> (and md)</li>
+<li>
+<code>pdf_document</code> (and LaTeX)</li>
+<li><code>word_document</code></li>
+<li>
+<code>all</code> (generating all previous document)</li>
+</ul>
+</div>
+<div id="additional-configuration" class="section level3">
+<h3 class="hasAnchor">
+<a href="#additional-configuration" class="anchor"></a>Additional configuration</h3>
+<p>The reports may be configured to show/hide some of the plots and customize properties like colors and series names. Please refer to our <a href="">documentation</a> for a comprehensive list of parameters.</p>
+</div>
+</div>
+<div id="advanced-usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#advanced-usage" class="anchor"></a>Advanced Usage</h2>
+<p>We provide an advanced API for a fine grained control of the different plots. tables and statistics. You can use it to generate your own documents via <code>rmarkdown</code> or to extend the results with additional analysis. Please refer to our <a href="">documentation</a> and <a href="">examples</a> to explore the package’s capabilities.</p>
+</div>
 <div id="authors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authors" class="anchor"></a>Authors</h2>
-<p>It was carried out by the Remote Sensing Group in collaboration with the Intelligent Systems and Data Mining Research Group and the Laboratory of Archaeology, Heritage and Emerging Technologies in the University of Castilla-La Mancha. The Cueva Pintada Museum and the Cabildo of Gran Canaria have funded the work.</p>
+<p>This work was carried out by the Remote Sensing Group in collaboration with the Intelligent Systems and Data Mining Research Group and the Laboratory of Archaeology, Heritage and Emerging Technologies in the University of Castilla-La Mancha. The Cueva Pintada Museum and the Cabildo of Gran Canaria have funded the work.</p>
 </div>
 </div>
   </div>
