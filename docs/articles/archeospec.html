@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Introduction to archeospec • archeospec</title>
+<title>Get Started • archeospec</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to archeospec">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Get Started">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -75,7 +75,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Introduction to archeospec</h1>
+      <h1>Get Started</h1>
                         <h4 class="author">Jacinto Arias</h4>
             
       
@@ -86,83 +86,150 @@
 
     
     
-<div id="basic-usage" class="section level2">
+<div id="basic-usage-report-generation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic usage</h2>
-<div id="create-a-report-composed-of-elements-specified-in-the-parametrization-" class="section level4">
-<h4 class="hasAnchor">
-<a href="#create-a-report-composed-of-elements-specified-in-the-parametrization-" class="anchor"></a>Create a report composed of elements specified in the parametrization.</h4>
-<p>First load the data from input source. This must be an ABSOLUTE path to a folder which contains .asd files, or a tree of folders which contains in the end .asd files. These files must contain the data as a pair wavelength<tab>value, and the data must starts after the line file_header (by default “Wavelength<tab>%s”).</tab></tab></p>
-<p>Then, a filtering process can be applied to the signatures if any of clean_head, clean_tail or clean_leaps are specified. This consists, respectively, on cutting the lower / higher wavelength values. clean_leaps smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes.</p>
-<p>Finally, the signatures are unmixed. If endmembers is a number, it computes such number of endmembers using the VCA algorithm. If endmembers is a vector of filenames, then those signatures will be selected as endmembers. In this case, we can assign them a representative name and a fixed color (using endmember_names and endmember_colors), so we can easily recognize this signatures in the report. endmember_names is a vector of string names, and endmember_colors is a vector of string colors (check ).</p>
-<p>Different outputs can optionaly be included in the report:</p>
+<a href="#basic-usage-report-generation" class="anchor"></a>Basic usage, report generation</h2>
+<p>The basic API encapsulates all the functionality of the package in a <strong>single function</strong>, <code><a href="../reference/genReport.html">archeospec::genReport</a></code>. It allows different configuration options to generate the combination of outputs carried out in the study.</p>
+<div id="data-loading" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-loading" class="anchor"></a>Data loading</h3>
+<p>Data must be provided with an <strong>absolute</strong> path to directory or tree of directories containing <code>.asd</code> files. If you must configure the data format you can do so by appliying the same parametrization from the <code>load_signatures_files</code>.</p>
+<p>We provide sample <code>.asd</code> files with the package, you can find it in the package’s root folder:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(archeospec)
+
+path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">path.package</span>(<span class="st">"archeospec"</span>), <span class="st">"/extdata"</span>, <span class="dt">sep=</span><span class="st">""</span>)   </code></pre></div>
+</div>
+<div id="experimental-approaches" class="section level3">
+<h3 class="hasAnchor">
+<a href="#experimental-approaches" class="anchor"></a>Experimental approaches</h3>
+<p>You may choose between different approaches for <strong>unmixing</strong> and <strong>clustering</strong> as explored in the original study:</p>
 <ul>
-<li>kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.</li>
-<li>intracorrelation: included (TRUE) or not (FALSE).</li>
-<li>mutualinfo: included (TRUE) or not (FALSE).</li>
+<li>Unmixing via VCA algorithm</li>
+<li><p>Unmixing specifiying the endmembers</p></li>
+<li>Kmeans clustering</li>
+<li><p>Fixed centroid clustering (selects the endmembers as centroids)</p></li>
 </ul>
-<p>The report will always include:</p>
+<p><strong>Unmixing</strong> can be controlled via the <code>endmembers</code> argument, a numeric value will trigger the VCA algorithm and a list of characters values will trigger the manual unmixing, notice that the files must be existing signatures in the data.</p>
+<p><strong>Clustering</strong> can be controlled via the <code>kmeans</code> boolean argument, a positive value will perform the algorithm while a negative one will fix the endmembers.</p>
+<div id="example-of-vca-kmeans" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-of-vca-kmeans" class="anchor"></a>Example of VCA + kmeans</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A default report using VCA to compute k=3 endmembers and kmeans:</span>
+<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
+  <span class="dt">input_source=</span>path,
+  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
+  <span class="dt">endmembers=</span><span class="dv">2</span>,
+  <span class="dt">kmeans=</span>T
+)</code></pre></div>
+<div class="figure">
+<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+</div>
+</div>
+<div id="example-of-fixed-endmembers-and-clusters" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-of-fixed-endmembers-and-clusters" class="anchor"></a>Example of fixed endmembers and clusters</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A default report usingfixed endmembers and clusters:</span>
+<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
+  <span class="dt">input_source=</span>path,
+  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
+  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"red.asd"</span>, <span class="st">"black.asd"</span>),
+  <span class="dt">kmeans=</span>F
+)</code></pre></div>
+<div class="figure">
+<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+</div>
+</div>
+</div>
+<div id="data-cleaning" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-cleaning" class="anchor"></a>Data cleaning</h3>
+<p>We can apply a cleaning process to the data using different options. Please notice that they are <strong>disabled by default</strong>.</p>
+<ul>
+<li>
+<code>clean_head</code> cuts the lower wavelength values until the value specified</li>
+<li>
+<code>clean_tail</code> cuts the lower wavelength values from the value specified</li>
+<li>
+<code>clean_leaps</code> smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes. You may pass an arbritary number of points.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter wavelengths less than 400 and above 2400, and</span>
+<span class="co"># smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.</span>
+<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
+  <span class="dt">input_source=</span>path,
+  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
+  <span class="dt">endmembers=</span><span class="dv">3</span>,
+  <span class="dt">kmeans=</span>T,
+  <span class="dt">clean_head=</span><span class="dv">400</span>,
+  <span class="dt">clean_tail=</span><span class="dv">2400</span>,
+  <span class="dt">smooth_points=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>)
+  )</code></pre></div>
+<div class="figure">
+<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+</div>
+</div>
+<div id="controlling-the-outputs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#controlling-the-outputs" class="anchor"></a>Controlling the outputs</h3>
+<p>The report will always include the following plots and tables:</p>
 <ul>
 <li>A brief description of the dataset (list of signatures)</li>
 <li>The list of parameters used to create the report</li>
 <li>The signature plot</li>
 <li>The selected or computed endmembers, in tabular and plot formats</li>
-<li>The elbow plot</li>
+<li>The elbow plot (if kmeans was performed)</li>
 <li>The correspondence between endmembers and clusters plot</li>
 <li>The endmember weights by cluster bar and whisker box plot</li>
 <li>The residual values for each signature plot</li>
 <li>The summary table for the signatures and its weights by endmembers</li>
 </ul>
-<p>For more information refer to the documentation and Get starter section in <a href="https://github.com/jacintoArias/archeospec/">GitHub</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># If we want a report with all the information, using VCA to compute k=3 endmembers:</span>
-<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
-  <span class="dt">input_source=</span><span class="st">"/path/to/asd_folder/"</span>,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="dv">3</span>
-  )</code></pre></div>
-<div class="figure">
-<embed src="/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf"></embed><p class="caption">Generated report in pdf format</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The same than before, but filtering the signatures: filter out wavelengths less than 400 and above 2400, and</span>
-<span class="co"># smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.</span>
-<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
-  <span class="dt">input_source=</span><span class="st">"/path/to/asd_folder/"</span>,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="dv">3</span>,
-  <span class="dt">clean_head=</span><span class="dv">400</span>,
-  <span class="dt">clean_tail=</span><span class="dv">2400</span>,
-  <span class="dt">smooth_points=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>)
-  )</code></pre></div>
-<div class="figure">
-<embed src="/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf"></embed><p class="caption">Generated report in pdf format</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># If we know which signatures are the endmembers, we can fix them:</span>
-<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
-  <span class="dt">input_source=</span><span class="st">"/path/to/asd_folder/"</span>,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"almagre.asd.txt"</span>, <span class="st">"blanco.asd.txt"</span>),
-  <span class="dt">clean_head=</span><span class="dv">400</span>,
-  <span class="dt">clean_tail=</span><span class="dv">2400</span>,
-  <span class="dt">smooth_points=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>)
-  )</code></pre></div>
-<div class="figure">
-<embed src="/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf"></embed><p class="caption">Generated report in pdf format</p>
-</div>
+<p>Additional plots are included by default, and can be hidden show using the following options:</p>
+<ul>
+<li>
+<code>intracorrelation=TRUE</code> shows the intracorrelation plot. We advise to hide it if not needed as it costly to generate.</li>
+<li>
+<code>mutualinfo=TRUE</code> shows the mutual information between clusters and wavelengths</li>
+</ul>
+<p>If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the <code>endmember_names</code> and <code>endmember_colors</code> property.</p>
+<div id="example-of-hidden-plots-and-namedcolored-endmembers" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-of-hidden-plots-and-namedcolored-endmembers" class="anchor"></a>Example of hidden plots and named/colored endmembers</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We might want to customize the report by removing plots which are not interesting for some cases.</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
-  <span class="dt">input_source=</span><span class="st">"/path/to/asd_folder/"</span>,
+  <span class="dt">input_source=</span>path,
   <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"almagre.asd.txt"</span>, <span class="st">"blanco.asd.txt"</span>),
+  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"red.asd"</span>, <span class="st">"black.asd"</span>),
+  <span class="dt">endmember_names=</span><span class="kw">c</span>(<span class="st">"red"</span>, <span class="st">"black"</span>),
+  <span class="dt">endmember_colors=</span><span class="kw">c</span>(<span class="st">"red2"</span>, <span class="st">"gray15"</span>)
+  <span class="dt">kmeans=</span>F
   <span class="dt">clean_head=</span><span class="dv">400</span>,
   <span class="dt">clean_tail=</span><span class="dv">2400</span>,
   <span class="dt">smooth_points=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>),
-  <span class="dt">kmeans=</span>F,
   <span class="dt">intracorrelation=</span>F,
   <span class="dt">mutualinfo=</span>F
   )</code></pre></div>
 <div class="figure">
-<embed src="/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf"></embed><p class="caption">Generated report in pdf format</p>
+<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
 </div>
+</div>
+</div>
+<div id="controlling-the-output" class="section level3">
+<h3 class="hasAnchor">
+<a href="#controlling-the-output" class="anchor"></a>Controlling the output</h3>
+<p><code>genReport</code> will produce all different outputs formats by default, if only a particular type of document is required then it can be specified with the <code>format</code> options, it takes values from:</p>
+<ul>
+<li>
+<code>html_document</code> (and md)</li>
+<li>
+<code>pdf_document</code> (and LaTeX)</li>
+<li><code>word_document</code></li>
+<li>
+<code>all</code> (generating all previous document)</li>
+</ul>
+</div>
+<div id="api-docs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#api-docs" class="anchor"></a>API Docs</h3>
+<p>Please refer to the [documentation] for a comprehensive description of the <code>genReport</code> function</p>
 </div>
 </div>
   </div>
@@ -172,7 +239,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#basic-usage">Basic usage</a></li>
+<li><a href="#basic-usage-report-generation">Basic usage, report generation</a></li>
       </ul>
 </div>
       </div>
