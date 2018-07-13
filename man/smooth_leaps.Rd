@@ -9,7 +9,7 @@ smooth_leaps(signatures, leaps)
 \arguments{
 \item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{leaps}{Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage.}
+\item{leaps}{Wavelengths where there is a leap in the value measurement as a consequence of a different sensor usage.}
 }
 \value{
 The processed (smoothed) signatures.

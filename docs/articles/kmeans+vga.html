@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -63,7 +63,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/demosense/archeospec/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -78,7 +85,7 @@
       <h1>K-Means and VCA</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/demosense/archeospec//blob/master/vignettes/kmeans+vga.Rmd"><code>vignettes/kmeans+vga.Rmd</code></a></small>
       <div class="hidden name"><code>kmeans+vga.Rmd</code></div>
 
     </div>
@@ -134,7 +141,6 @@ signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <a href="#clustering-endmembers" class="anchor"></a>Clustering + endmembers</h1>
 <p>If we are not sure aboud the possible number of endmembers, we can use the <code>plot_elbow</code> to check the K-Means intercluster error for different number of groups (<code>k</code>). For report purposes, we might want to select a specific value of <code>k</code> in the plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_elbow.html">plot_elbow</a></span>(signatures, <span class="dt">k=</span><span class="dv">2</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">selected=</span><span class="dv">3</span>)</code></pre></div>
-<pre><code>## Warning: package 'bindrcpp' was built under R version 3.4.4</code></pre>
 <p><img src="kmeans+vga_files/figure-html/elbow-1.png" width="700"></p>
 </div>
 <div id="vca-k-means" class="section level1">

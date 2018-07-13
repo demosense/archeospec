@@ -4,16 +4,17 @@
 \alias{unmixing_fixed}
 \title{Fix the endmembers}
 \usage{
-unmixing_fixed(signatures, files, names = NULL, colors = NULL)
+unmixing_fixed(signatures, endmember_files, endmember_names = NULL,
+  endmember_colors = NULL)
 }
 \arguments{
 \item{signatures}{A spectral object built using the load_signature_files function.}
 
-\item{files}{A vector of filenames (strings) of the selected signatures to be fixed as endmembers.}
+\item{endmember_files}{A vector of filenames (strings) of the selected signatures to be fixed as endmembers.}
 
-\item{names}{A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.}
+\item{endmember_names}{A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.}
 
-\item{colors}{A vector of color names to be assigned to each selected endmember. Check for possible colors \code{\link{colors}}.
+\item{endmember_colors}{A vector of color names to be assigned to each selected endmember. Check for possible colors \code{\link{colors}}.
 Optional, by default (NONE) use random colors.}
 }
 \value{
@@ -27,7 +28,7 @@ data(signatures)
 files <- c("almagre.asd.txt", "blanco.asd.txt")
 names <- c("red", "white")
 colors <- c("red2", "white")
-unmixed_signatures <- unmixing_fixed(signatures, files=files, names=names, colors=colors)
+unmixed_signatures <- unmixing_fixed(signatures, endmember_files=files, endmember_names=names, endmember_colors=colors)
 
 }
 \seealso{

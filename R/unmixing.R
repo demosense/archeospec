@@ -35,9 +35,9 @@ unmixing_vca <- function(signatures, k) {
 #'
 #' @export
 #' @param signatures A spectral object built using the load_signature_files function.
-#' @param files A vector of filenames (strings) of the selected signatures to be fixed as endmembers.
-#' @param names A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.
-#' @param colors A vector of color names to be assigned to each selected endmember. Check for possible colors \code{\link{colors}}.
+#' @param endmember_files A vector of filenames (strings) of the selected signatures to be fixed as endmembers.
+#' @param endmember_names A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.
+#' @param endmember_colors A vector of color names to be assigned to each selected endmember. Check for possible colors \code{\link{colors}}.
 #' Optional, by default (NONE) use random colors.
 #' @return A data frame which contains the files which match with the selected endmembers.
 #'
@@ -48,26 +48,29 @@ unmixing_vca <- function(signatures, k) {
 #' files <- c("almagre.asd.txt", "blanco.asd.txt")
 #' names <- c("red", "white")
 #' colors <- c("red2", "white")
-#' unmixed_signatures <- unmixing_fixed(signatures, files=files, names=names, colors=colors)
+#' unmixed_signatures <- unmixing_fixed(signatures, endmember_files=files, endmember_names=names, endmember_colors=colors)
 #'
-unmixing_fixed <- function(signatures, files, names=NULL, colors=NULL) {
+unmixing_fixed <- function(signatures, endmember_files, endmember_names=NULL, endmember_colors=NULL) {
 
   if(!is.spectral(signatures)) {
     stop("Error. Signatures parameter is not a spectral data collection")
   }
 
-  if (!all(files %in% signatures$files)) {
-    file = files[[match(FALSE,  files %in% signatures$files)]]
+  if (!all(endmember_files %in% signatures$files)) {
+    file = endmember_files[[match(FALSE,  endmember_files %in% signatures$files)]]
     stop(sprintf("Error. File %s not found in signature", file))
   }
 
-  endmembers <- unlist(lapply(files, function(f) match(f, signatures$files)))
-  endNames <- if (is.null(names)) files else names
-  names(colors) <- levels(endNames)
+  endmembers <- unlist(lapply(endmember_files, function(f) match(f, signatures$files)))
+  endNames <- if (is.null(endmember_names)) endmember_files else endmember_names
+
+  if (!is.null(endmember_colors)) {
+    names(endmember_colors) <- endNames
+  }
 
   signatures$endmembers <- endmembers
   signatures$endNames <- endNames
-  signatures$colors <- colors
+  signatures$colors <- endmember_colors
 
   signatures
 

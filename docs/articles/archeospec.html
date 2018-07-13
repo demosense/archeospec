@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -63,7 +63,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/demosense/archeospec/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -79,29 +86,43 @@
                         <h4 class="author">Jacinto Arias</h4>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/demosense/archeospec//blob/master/vignettes/archeospec.Rmd"><code>vignettes/archeospec.Rmd</code></a></small>
       <div class="hidden name"><code>archeospec.Rmd</code></div>
 
     </div>
 
     
     
-<div id="basic-usage-report-generation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-usage-report-generation" class="anchor"></a>Basic usage, report generation</h2>
+<div id="basic-usage-report-generation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#basic-usage-report-generation" class="anchor"></a>Basic usage, report generation</h1>
 <p>The basic API encapsulates all the functionality of the package in a <strong>single function</strong>, <code><a href="../reference/genReport.html">archeospec::genReport</a></code>. It allows different configuration options to generate the combination of outputs carried out in the study.</p>
-<div id="data-loading" class="section level3">
+<div id="data-loading" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-loading" class="anchor"></a>Data loading</h2>
+<p>Data must be provided with an <strong>absolute</strong> path to directory or tree of directories containing <code>.asd</code> files. If you need to configure the data format you can do so by appliying the same parametrization from the <code>load_signatures_files</code> files.</p>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(archeospec)
+
+<span class="co"># In windows 10</span>
+path &lt;-<span class="st"> "C:/Users/(username)/Documents/data/signatures"</span>
+<span class="co"># Where signatures contain .asd files and folders with more .asd files</span>
+
+
+<span class="co"># In linux</span>
+path &lt;-<span class="st"> "/home/(username)/data/signatures"</span></code></pre></div>
+<div id="sample-data-included-with-the-package" class="section level3">
 <h3 class="hasAnchor">
-<a href="#data-loading" class="anchor"></a>Data loading</h3>
-<p>Data must be provided with an <strong>absolute</strong> path to directory or tree of directories containing <code>.asd</code> files. If you must configure the data format you can do so by appliying the same parametrization from the <code>load_signatures_files</code>.</p>
+<a href="#sample-data-included-with-the-package" class="anchor"></a>Sample data included with the package</h3>
 <p>We provide sample <code>.asd</code> files with the package, you can find it in the package’s root folder:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(archeospec)
 
 path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">path.package</span>(<span class="st">"archeospec"</span>), <span class="st">"/extdata"</span>, <span class="dt">sep=</span><span class="st">""</span>)   </code></pre></div>
 </div>
-<div id="experimental-approaches" class="section level3">
-<h3 class="hasAnchor">
-<a href="#experimental-approaches" class="anchor"></a>Experimental approaches</h3>
+</div>
+<div id="experimental-approaches" class="section level2">
+<h2 class="hasAnchor">
+<a href="#experimental-approaches" class="anchor"></a>Experimental approaches</h2>
 <p>You may choose between different approaches for <strong>unmixing</strong> and <strong>clustering</strong> as explored in the original study:</p>
 <ul>
 <li>Unmixing via VCA algorithm</li>
@@ -111,65 +132,74 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 </ul>
 <p><strong>Unmixing</strong> can be controlled via the <code>endmembers</code> argument, a numeric value will trigger the VCA algorithm and a list of characters values will trigger the manual unmixing, notice that the files must be existing signatures in the data.</p>
 <p><strong>Clustering</strong> can be controlled via the <code>kmeans</code> boolean argument, a positive value will perform the algorithm while a negative one will fix the endmembers.</p>
-<div id="example-of-vca-kmeans" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-of-vca-kmeans" class="anchor"></a>Example of VCA + kmeans</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A default report using VCA to compute k=3 endmembers and kmeans:</span>
+<div id="example-of-vca-kmeans" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-of-vca-kmeans" class="anchor"></a>Example of VCA + kmeans</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">934587</span>)
+
+<span class="co"># A default report using VCA to compute k=3 endmembers and kmeans:</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="dv">2</span>,
+  <span class="dt">output=</span><span class="st">"./ex1"</span>,
+  <span class="dt">endmembers=</span><span class="dv">5</span>,
   <span class="dt">kmeans=</span>T
 )</code></pre></div>
-<div class="figure">
-<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+<p><embed src="report_ex1.pdf" height="0"></embed><a href="report_ex1.pdf">See rendered result in PDF</a></p>
+<p><embed src="report_ex1.html" height="0"></embed><a href="report_ex1.html">See rendered result in HTML</a></p>
 </div>
-</div>
-<div id="example-of-fixed-endmembers-and-clusters" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-of-fixed-endmembers-and-clusters" class="anchor"></a>Example of fixed endmembers and clusters</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A default report usingfixed endmembers and clusters:</span>
+<div id="example-of-fixed-endmembers-and-clusters" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-of-fixed-endmembers-and-clusters" class="anchor"></a>Example of fixed endmembers and clusters</h3>
+<p>If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the <code>endmember_names</code> and <code>endmember_colors</code> property.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">934587</span>)
+
+<span class="co"># A default report usingfixed endmembers and clusters:</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"red.asd"</span>, <span class="st">"black.asd"</span>),
+  <span class="dt">output=</span><span class="st">"./ex2"</span>,
+  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"signature0000.asd"</span>, <span class="st">"signature0001.asd"</span>, <span class="st">"signature0002.asd"</span>, <span class="st">"signature0003.asd"</span>, <span class="st">"signature0005.asd"</span>),
+  <span class="dt">endmember_names=</span><span class="kw">c</span>(<span class="st">"orange"</span>, <span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"white"</span>, <span class="st">"base"</span>),
+  <span class="dt">endmember_colors =</span> <span class="kw">c</span>(<span class="st">"darkorange2"</span>, <span class="st">"red2"</span>,  <span class="st">"gray15"</span>, <span class="st">"white"</span>, <span class="st">"green4"</span>),
   <span class="dt">kmeans=</span>F
 )</code></pre></div>
-<div class="figure">
-<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+<p><embed src="report_ex2.pdf" height="0"></embed><a href="report_ex2.pdf">See rendered result in PDF</a></p>
+<p><embed src="report_ex2.html" height="0"></embed><a href="report_ex2.html">See rendered result in HTML</a></p>
 </div>
 </div>
-</div>
-<div id="data-cleaning" class="section level3">
-<h3 class="hasAnchor">
-<a href="#data-cleaning" class="anchor"></a>Data cleaning</h3>
+<div id="data-cleaning" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-cleaning" class="anchor"></a>Data cleaning</h2>
 <p>We can apply a cleaning process to the data using different options. Please notice that they are <strong>disabled by default</strong>.</p>
 <ul>
 <li>
 <code>clean_head</code> cuts the lower wavelength values until the value specified</li>
 <li>
-<code>clean_tail</code> cuts the lower wavelength values from the value specified</li>
+<code>clean_tail</code> cuts the higher wavelength values from the value specified</li>
 <li>
 <code>clean_leaps</code> smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes. You may pass an arbritary number of points.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter wavelengths less than 400 and above 2400, and</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">934587</span>)
+
+<span class="co"># Filter wavelengths less than 400 and above 2400, and</span>
 <span class="co"># smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="dv">3</span>,
-  <span class="dt">kmeans=</span>T,
+  <span class="dt">output=</span><span class="st">"./ex3"</span>,
+  <span class="dt">endmembers=</span><span class="dv">5</span>,
+  <span class="dt">kmeans=</span>F,
   <span class="dt">clean_head=</span><span class="dv">400</span>,
   <span class="dt">clean_tail=</span><span class="dv">2400</span>,
-  <span class="dt">smooth_points=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>)
-  )</code></pre></div>
-<div class="figure">
-<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+  <span class="dt">clean_leaps=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>)
+)</code></pre></div>
+<p><embed src="report_ex3.pdf" height="0"></embed><a href="report_ex3.pdf">See rendered result in PDF</a></p>
+<p><embed src="report_ex3.html" height="0"></embed><a href="report_ex3.html">See rendered result in HTML</a></p>
 </div>
-</div>
-<div id="controlling-the-outputs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#controlling-the-outputs" class="anchor"></a>Controlling the outputs</h3>
+<div id="controlling-the-outputs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#controlling-the-outputs" class="anchor"></a>Controlling the outputs</h2>
 <p>The report will always include the following plots and tables:</p>
 <ul>
 <li>A brief description of the dataset (list of signatures)</li>
@@ -189,32 +219,33 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <li>
 <code>mutualinfo=TRUE</code> shows the mutual information between clusters and wavelengths</li>
 </ul>
-<p>If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the <code>endmember_names</code> and <code>endmember_colors</code> property.</p>
-<div id="example-of-hidden-plots-and-namedcolored-endmembers" class="section level4">
-<h4 class="hasAnchor">
-<a href="#example-of-hidden-plots-and-namedcolored-endmembers" class="anchor"></a>Example of hidden plots and named/colored endmembers</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We might want to customize the report by removing plots which are not interesting for some cases.</span>
+<div id="example-of-hidden-plots-and-namedcolored-endmembers" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-of-hidden-plots-and-namedcolored-endmembers" class="anchor"></a>Example of hidden plots and named/colored endmembers</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">934587</span>)
+
+<span class="co"># We might want to customize the report by removing plots which are not interesting for some cases.</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
-  <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
-  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"red.asd"</span>, <span class="st">"black.asd"</span>),
-  <span class="dt">endmember_names=</span><span class="kw">c</span>(<span class="st">"red"</span>, <span class="st">"black"</span>),
-  <span class="dt">endmember_colors=</span><span class="kw">c</span>(<span class="st">"red2"</span>, <span class="st">"gray15"</span>)
-  <span class="dt">kmeans=</span>F
+  <span class="dt">output=</span><span class="st">"./ex4"</span>,
+  <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"signature0000.asd"</span>, <span class="st">"signature0001.asd"</span>, <span class="st">"signature0002.asd"</span>, <span class="st">"signature0003.asd"</span>, <span class="st">"signature0005.asd"</span>),
+  <span class="dt">endmember_names=</span><span class="kw">c</span>(<span class="st">"orange"</span>, <span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"white"</span>, <span class="st">"base"</span>),
+  <span class="dt">endmember_colors =</span> <span class="kw">c</span>(<span class="st">"darkorange2"</span>, <span class="st">"red2"</span>,  <span class="st">"gray15"</span>, <span class="st">"white"</span>, <span class="st">"green4"</span>),
+  <span class="dt">kmeans=</span>F,
   <span class="dt">clean_head=</span><span class="dv">400</span>,
   <span class="dt">clean_tail=</span><span class="dv">2400</span>,
-  <span class="dt">smooth_points=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>),
+  <span class="dt">clean_leaps=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>),
   <span class="dt">intracorrelation=</span>F,
   <span class="dt">mutualinfo=</span>F
-  )</code></pre></div>
-<div class="figure">
-<img src="" alt="Generated report in pdf format"><p class="caption">Generated report in pdf format</p>
+)</code></pre></div>
+<p><embed src="report_ex4.pdf" height="0"></embed><a href="report_ex4.pdf">See rendered result in PDF</a></p>
+<p><embed src="report_ex4.html" height="0"></embed><a href="report_ex4.html">See rendered result in HTML</a></p>
 </div>
 </div>
-</div>
-<div id="controlling-the-output" class="section level3">
-<h3 class="hasAnchor">
-<a href="#controlling-the-output" class="anchor"></a>Controlling the output</h3>
+<div id="controlling-the-output" class="section level2">
+<h2 class="hasAnchor">
+<a href="#controlling-the-output" class="anchor"></a>Controlling the output</h2>
 <p><code>genReport</code> will produce all different outputs formats by default, if only a particular type of document is required then it can be specified with the <code>format</code> options, it takes values from:</p>
 <ul>
 <li>
@@ -225,10 +256,21 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <li>
 <code>all</code> (generating all previous document)</li>
 </ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
+<span class="kw">set.seed</span>(<span class="dv">934587</span>)
+
+<span class="co"># We can render a single format for extended efficiency</span>
+<span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
+  <span class="dt">input_source=</span>path,
+  <span class="dt">output=</span><span class="st">"./ex5"</span>,
+  <span class="dt">format=</span><span class="st">"pdf_document"</span>
+  <span class="dt">endmembers=</span><span class="dv">5</span>,
+  <span class="dt">kmeans=</span>T
+)</code></pre></div>
 </div>
-<div id="api-docs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#api-docs" class="anchor"></a>API Docs</h3>
+<div id="api-docs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#api-docs" class="anchor"></a>API Docs</h2>
 <p>Please refer to the [documentation] for a comprehensive description of the <code>genReport</code> function</p>
 </div>
 </div>
@@ -239,7 +281,16 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#basic-usage-report-generation">Basic usage, report generation</a></li>
+<li>
+<a href="#basic-usage-report-generation">Basic usage, report generation</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#data-loading">Data loading</a></li>
+      <li><a href="#experimental-approaches">Experimental approaches</a></li>
+      <li><a href="#data-cleaning">Data cleaning</a></li>
+      <li><a href="#controlling-the-outputs">Controlling the outputs</a></li>
+      <li><a href="#controlling-the-output">Controlling the output</a></li>
+      <li><a href="#api-docs">API Docs</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

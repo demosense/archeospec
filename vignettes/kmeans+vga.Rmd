@@ -5,7 +5,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(archeospec)
-library(purrr)
+
+# Set a seed value to ensure reproducibility
+set.seed(934587)
 ```
 
 ## Loading the data

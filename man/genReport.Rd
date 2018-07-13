@@ -4,7 +4,7 @@
 \alias{genReport}
 \title{Create a report}
 \usage{
-genReport(input_source, output, format = "all", endmembers, kmeans = T,
+genReport(input_source, output, format = "all", endmembers, kmeans = F,
   title = "archeospec", clean_head = NULL, clean_tail = NULL,
   clean_leaps = NULL, file_header = "Wavelength\\\\t\%s",
   wavelength_start = 350, wavelength_end = 2500, intracorrelation = T,
@@ -73,7 +73,7 @@ in the report. endmember_names is a vector of string names, and endmember_colors
 
 Different outputs can optionaly be included in the report:
 \itemize{
-\item   kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.
+\item   kmeans: (TRUE) run kmeans clustering algorithms; (FALSE) use the endmembers as centroids.
 \item   intracorrelation: included (TRUE) or not (FALSE).
 \item   mutualinfo: included (TRUE) or not (FALSE).
 }

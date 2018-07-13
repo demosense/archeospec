@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -97,7 +97,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/demosense/archeospec/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -111,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fix the endmembers</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/demosense/archeospec//blob/master/R/unmixing.R'><code>R/unmixing.R</code></a></small>
     <div class="hidden name"><code>unmixing_fixed.Rd</code></div>
     </div>
 
@@ -121,7 +126,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>unmixing_fixed</span>(<span class='no'>signatures</span>, <span class='no'>files</span>, <span class='kw'>names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>unmixing_fixed</span>(<span class='no'>signatures</span>, <span class='no'>endmember_files</span>, <span class='kw'>endmember_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>endmember_colors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,15 +137,15 @@
       <td><p>A spectral object built using the load_signature_files function.</p></td>
     </tr>
     <tr>
-      <th>files</th>
+      <th>endmember_files</th>
       <td><p>A vector of filenames (strings) of the selected signatures to be fixed as endmembers.</p></td>
     </tr>
     <tr>
-      <th>names</th>
+      <th>endmember_names</th>
       <td><p>A vector of names to be assigned to each selected endmember. Optional, by default (NONE) uses the filenames.</p></td>
     </tr>
     <tr>
-      <th>colors</th>
+      <th>endmember_colors</th>
       <td><p>A vector of color names to be assigned to each selected endmember. Check for possible colors <code>colors</code>.
 Optional, by default (NONE) use random colors.</p></td>
     </tr>
@@ -159,7 +165,8 @@ Optional, by default (NONE) use random colors.</p></td>
 <span class='no'>files</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"almagre.asd.txt"</span>, <span class='st'>"blanco.asd.txt"</span>)
 <span class='no'>names</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"red"</span>, <span class='st'>"white"</span>)
 <span class='no'>colors</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"red2"</span>, <span class='st'>"white"</span>)
-<span class='no'>unmixed_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'>unmixing_fixed</span>(<span class='no'>signatures</span>, <span class='kw'>files</span><span class='kw'>=</span><span class='no'>files</span>, <span class='kw'>names</span><span class='kw'>=</span><span class='no'>names</span>, <span class='kw'>colors</span><span class='kw'>=</span><span class='no'>colors</span>)</div></pre>
+<span class='no'>unmixed_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'>unmixing_fixed</span>(<span class='no'>signatures</span>, <span class='kw'>endmember_files</span><span class='kw'>=</span><span class='no'>files</span>, <span class='kw'>endmember_names</span><span class='kw'>=</span><span class='no'>names</span>, <span class='kw'>endmember_colors</span><span class='kw'>=</span><span class='no'>colors</span>)</div><div class='output co'>#&gt; <span class='error'>Error in unmixing_fixed(signatures, endmember_files = files, endmember_names = names,     endmember_colors = colors): Error. File almagre.asd.txt not found in signature</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -17,7 +17,7 @@
 #'
 #' Different outputs can optionaly be included in the report:
 #' \itemize{
-#' \item   kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.
+#' \item   kmeans: (TRUE) run kmeans clustering algorithms; (FALSE) use the endmembers as centroids.
 #' \item   intracorrelation: included (TRUE) or not (FALSE).
 #' \item   mutualinfo: included (TRUE) or not (FALSE).
 #' }
@@ -95,7 +95,7 @@ genReport <- function(
   output,
   format="all",
   endmembers,
-  kmeans=T,
+  kmeans=F,
   title="archeospec",
   clean_head=NULL,
   clean_tail=NULL,
@@ -197,7 +197,7 @@ genReport <- function(
     endmember_colors_list <- paste0('"', endmember_colors, '"', collapse=",")
     # Set endmembers
     sprintf(
-      'signatures <- unmixing_fixed(signatures, files=c(%s), names=c(%s), colors=c(%s))',
+      'signatures <- unmixing_fixed(signatures, endmember_files=c(%s), endmember_names=c(%s), endmember_colors=c(%s))',
       endmember_list,
       endmember_names_list,
       endmember_colors_list
@@ -279,7 +279,7 @@ genReport <- function(
   # Texts
   #
 
-s_unmix_tech <- if (class(endmembers) == "numeric") "Manually selected endmembers" else sprintf("VCA algorithm with %s endmembers", k)
+s_unmix_tech <- if (class(endmembers) == "numeric") sprintf("VCA algorithm with %s endmembers", k) else "Manually selected endmembers"
 s_kmeans_tech <- if (kmeans) sprintf("Kmeans algorithm with k=%s", k) else "Endmembers selected as centroids"
 s_cleaning_head <- if(!is.null(clean_head)) sprintf("Noise reduction has removed wavelengths ranges until %s", clean_head) else "No wavelength ranges have been cleaned at the beggining of the signature"
 s_cleaning_tail <- if(!is.null(clean_tail)) sprintf("Noise reduction has removed wavelengths ranges from %s", clean_tail) else "No wavelength ranges have been cleaned at the end of the signature"

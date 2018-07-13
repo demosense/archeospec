@@ -62,7 +62,7 @@ to k-means clustering being fixed the centroids to the endmembers" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -98,7 +98,12 @@ to k-means clustering being fixed the centroids to the endmembers" />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/demosense/archeospec/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -112,7 +117,7 @@ to k-means clustering being fixed the centroids to the endmembers" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Clustering fixing centroids to endmembers</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/demosense/archeospec//blob/master/R/clustering.R'><code>R/clustering.R</code></a></small>
     <div class="hidden name"><code>clustering_endmembers.Rd</code></div>
     </div>
 
@@ -148,8 +153,7 @@ The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).<
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>signatures</span>)
-<span class='no'>unmixed_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='unmixing_fixed.html'>unmixing_fixed</a></span>(<span class='no'>signatures</span>, <span class='kw'>files</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"almagre.asd.txt"</span>, <span class='st'>"blanco.asd.txt"</span>))
-<span class='no'>clustered_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'>clustering_endmembers</span>(<span class='no'>unmixed_signatures</span>)</div><div class='input'>
+<span class='no'>unmixed_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='unmixing_fixed.html'>unmixing_fixed</a></span>(<span class='no'>signatures</span>, <span class='kw'>files</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"almagre.asd.txt"</span>, <span class='st'>"blanco.asd.txt"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in unmixing_fixed(signatures, files = c("almagre.asd.txt", "blanco.asd.txt")): unused argument (files = c("almagre.asd.txt", "blanco.asd.txt"))</span></div><div class='input'><span class='no'>clustered_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'>clustering_endmembers</span>(<span class='no'>unmixed_signatures</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is(x, "spectral"): object 'unmixed_signatures' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

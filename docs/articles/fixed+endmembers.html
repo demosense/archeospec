@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -63,7 +63,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/demosense/archeospec/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -78,7 +85,7 @@
       <h1>Fixed endmembers</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/demosense/archeospec//blob/master/vignettes/fixed+endmembers.Rmd"><code>vignettes/fixed+endmembers.Rmd</code></a></small>
       <div class="hidden name"><code>fixed+endmembers.Rmd</code></div>
 
     </div>
@@ -98,9 +105,9 @@
 <p>Fix the endmembers to a set of samples. Apply the clustering to group all the signatures to the selected endmembers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/unmixing_fixed.html">unmixing_fixed</a></span>(
   signatures, 
-  <span class="dt">files =</span> <span class="kw">c</span>(<span class="st">"almagre.asd.txt"</span>, <span class="st">"negro.asd.txt"</span>),
-  <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">"red"</span>,<span class="st">"black"</span>),
-  <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">"red2"</span>, <span class="st">"gray15"</span>)
+  <span class="dt">endmember_files=</span><span class="kw">c</span>(<span class="st">"signature0000.asd"</span>, <span class="st">"signature0001.asd"</span>, <span class="st">"signature0002.asd"</span>, <span class="st">"signature0003.asd"</span>, <span class="st">"signature0005.asd"</span>),
+  <span class="dt">endmember_names=</span><span class="kw">c</span>(<span class="st">"orange"</span>, <span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"white"</span>, <span class="st">"base"</span>),
+  <span class="dt">endmember_colors =</span> <span class="kw">c</span>(<span class="st">"darkorange2"</span>, <span class="st">"red2"</span>,  <span class="st">"gray15"</span>, <span class="st">"white"</span>, <span class="st">"green4"</span>)
 )
 signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clustering_endmembers.html">clustering_endmembers</a></span>(signatures)</code></pre></div>
 </div>
@@ -109,20 +116,78 @@ signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <a href="#vca-results-in-tabular-format" class="anchor"></a>VCA results in tabular format</h1>
 <p>See information of VCA in tabular format</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/table_endmembers.html">table_endmembers</a></span>(signatures)</code></pre></div>
-<pre><code>##      endmember file             
-## [1,] "red"     "almagre.asd.txt"
-## [2,] "black"   "negro.asd.txt"</code></pre>
+<pre><code>##      endmember file               
+## [1,] "orange"  "signature0000.asd"
+## [2,] "red"     "signature0001.asd"
+## [3,] "black"   "signature0002.asd"
+## [4,] "white"   "signature0003.asd"
+## [5,] "base"    "signature0005.asd"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/table_residuals_summary.html">table_residuals_summary</a></span>(signatures)</code></pre></div>
-<pre><code>##              Min.      1st Qu.   Median     Mean  3rd Qu.    Max.
-## [1,] 2.526312e-13 3.874678e-13 35.53512 108.1128 231.7377 273.291</code></pre>
+<pre><code>##              Min.  1st Qu.   Median    Mean  3rd Qu.     Max.
+## [1,] 9.971191e-14 11.57293 28.60715 59.5672 110.6532 187.0987</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/table_weights.html">table_weights</a></span>(signatures)</code></pre></div>
-<pre><code>## Warning: package 'bindrcpp' was built under R version 3.4.4</code></pre>
-<pre><code>##                            file           red        black     residual
-## almagre.asd.txt almagre.asd.txt  1.000000e+00 1.770370e-15 3.874678e-13
-## blanco.asd.txt   blanco.asd.txt  3.896406e-01 6.103594e-01 2.732910e+02
-## naranja.asd.txt naranja.asd.txt  0.000000e+00 1.000000e+00 2.317377e+02
-## negro.asd.txt     negro.asd.txt -9.992007e-16 1.000000e+00 2.526312e-13
-## soporte.asd.txt soporte.asd.txt  2.352153e-01 7.647847e-01 3.553512e+01</code></pre>
+<pre><code>##                                file        orange           red
+## signature0000.asd signature0000.asd  1.000000e+00 -7.432719e-30
+## signature0001.asd signature0001.asd  1.644694e-29  1.000000e+00
+## signature0002.asd signature0002.asd  1.897325e-15  0.000000e+00
+## signature0003.asd signature0003.asd  7.950637e-30  5.471607e-15
+## signature0004.asd signature0004.asd  0.000000e+00 -3.258245e-18
+## signature0005.asd signature0005.asd  1.988332e-29  3.706398e-14
+## signature0006.asd signature0006.asd  0.000000e+00  6.492648e-01
+## signature0007.asd signature0007.asd  2.301933e-01  1.039789e-01
+## signature0008.asd signature0008.asd  6.117484e-01  0.000000e+00
+## signature0009.asd signature0009.asd  8.046357e-01  0.000000e+00
+## signature0010.asd signature0010.asd -6.894095e-17  2.885436e-01
+## signature0011.asd signature0011.asd  0.000000e+00 -1.366724e-17
+## signature0012.asd signature0012.asd -1.954974e-15  5.270256e-01
+## signature0013.asd signature0013.asd  5.518222e-01  2.598554e-17
+## signature0014.asd signature0014.asd -9.865632e-16  6.835330e-01
+## signature0015.asd signature0015.asd  4.461284e-01  3.858825e-01
+## signature0016.asd signature0016.asd  2.220446e-16  3.673836e-01
+## signature0017.asd signature0017.asd  0.000000e+00  7.643482e-01
+## signature0018.asd signature0018.asd  0.000000e+00  5.490726e-01
+## signature0019.asd signature0019.asd  7.483491e-01  9.871972e-18
+## signature0020.asd signature0020.asd -3.612476e-16  3.117442e-01
+## signature0021.asd signature0021.asd  3.486409e-01  6.255469e-01
+## signature0022.asd signature0022.asd -2.579149e-16  4.726668e-01
+## signature0023.asd signature0023.asd  1.534763e-17  5.869949e-01
+## signature0024.asd signature0024.asd  4.120744e-01  5.645638e-01
+## signature0025.asd signature0025.asd -1.985209e-15  4.509488e-01
+## signature0026.asd signature0026.asd  0.000000e+00  5.897058e-01
+## signature0027.asd signature0027.asd -3.367778e-16  3.135165e-01
+## signature0028.asd signature0028.asd  2.759228e-17 -1.844173e-17
+## signature0029.asd signature0029.asd  1.122430e-17  1.632989e-01
+##                           black         white          base     residual
+## signature0000.asd  0.000000e+00 -3.466898e-16  3.045037e-14 1.292300e-12
+## signature0001.asd  1.098264e-29  0.000000e+00  1.527233e-31 9.971191e-14
+## signature0002.asd  1.000000e+00 -4.032974e-16  0.000000e+00 2.179368e-13
+## signature0003.asd  6.789385e-30  1.000000e+00  0.000000e+00 1.181610e-12
+## signature0004.asd  8.585429e-01  0.000000e+00  1.414571e-01 1.090753e+01
+## signature0005.asd  1.548471e-14  6.703459e-15  1.000000e+00 1.438238e-12
+## signature0006.asd  1.635713e-16  7.618757e-02  2.745477e-01 1.464710e+01
+## signature0007.asd  1.089780e-01  5.568497e-01 -2.061613e-17 3.454363e+01
+## signature0008.asd  3.882516e-01  7.973438e-18  0.000000e+00 3.780592e+01
+## signature0009.asd  1.953643e-01  0.000000e+00  0.000000e+00 1.489777e+01
+## signature0010.asd  2.031692e-16  1.336018e-01  5.778546e-01 1.356915e+01
+## signature0011.asd  1.000000e+00  0.000000e+00  1.189479e-16 1.132500e+02
+## signature0012.asd  7.013035e-16  4.729744e-01  0.000000e+00 1.269291e+02
+## signature0013.asd  3.196861e-01  3.162343e-02  9.686827e-02 6.561241e+00
+## signature0014.asd  2.810979e-16  3.164670e-01  0.000000e+00 6.017148e+01
+## signature0015.asd  0.000000e+00  7.545640e-03  1.604435e-01 1.949513e+01
+## signature0016.asd -1.293310e-17  6.326164e-01  0.000000e+00 1.235679e+02
+## signature0017.asd  1.292693e-15  2.356518e-01  0.000000e+00 1.637615e+02
+## signature0018.asd  7.067564e-16  4.509274e-01  0.000000e+00 9.273347e+01
+## signature0019.asd  2.516509e-01  3.925020e-18  0.000000e+00 2.267067e+01
+## signature0020.asd  2.336856e-15  6.882558e-01  0.000000e+00 1.870987e+02
+## signature0021.asd  8.605112e-17  2.581213e-02  0.000000e+00 1.880435e+01
+## signature0022.asd  2.036745e-15  5.273332e-01  0.000000e+00 1.473095e+02
+## signature0023.asd -3.163612e-16  4.130051e-01  0.000000e+00 1.028627e+02
+## signature0024.asd  1.693501e-18  2.336178e-02  0.000000e+00 1.403885e+01
+## signature0025.asd  2.072427e-15  5.490512e-01  0.000000e+00 1.503420e+02
+## signature0026.asd  7.002006e-16  4.102942e-01 -4.079678e-17 7.224375e+01
+## signature0027.asd  2.424087e-15  6.864835e-01  4.440892e-16 1.844504e+02
+## signature0028.asd  3.052732e-01  1.808045e-02  6.766463e-01 1.055850e+01
+## signature0029.asd  1.102018e-02  8.256809e-01 -2.084762e-18 4.379584e+01</code></pre>
 </div>
 <div id="vca-and-clustering-results-as-plots" class="section level1">
 <h1 class="hasAnchor">
@@ -139,7 +204,7 @@ signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_endmember_density_bar.html">plot_endmember_density_bar</a></span>(signatures)</code></pre></div>
 <p><img src="fixed+endmembers_files/figure-html/plots-5.png" width="700"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_endmember_density_box.html">plot_endmember_density_box</a></span>(signatures)</code></pre></div>
-<pre><code>## Warning: Removed 2 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 19 rows containing non-finite values (stat_boxplot).</code></pre>
 <p><img src="fixed+endmembers_files/figure-html/plots-6.png" width="700"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_residuals.html">plot_residuals</a></span>(signatures)</code></pre></div>
 <p><img src="fixed+endmembers_files/figure-html/plots-7.png" width="700"></p>

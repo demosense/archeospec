@@ -8,13 +8,30 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Basic usage, report generation
+# Basic usage, report generation
 
 The basic API encapsulates all the functionality of the package in a __single function__, `archeospec::genReport`. It allows different configuration options to generate the combination of outputs carried out in the study.
 
-### Data loading
+## Data loading
 
-Data must be provided with an __absolute__ path to directory or tree of directories containing `.asd` files. If you must configure the data format you can do so by appliying the same parametrization from the `load_signatures_files`.
+Data must be provided with an __absolute__ path to directory or tree of directories containing `.asd` files. If you need to configure the data format you can do so by appliying the same parametrization from the `load_signatures_files` files.
+
+For example:
+
+```{r, eval=FALSE}
+library(archeospec)
+
+# In windows 10
+path <- "C:/Users/(username)/Documents/data/signatures"
+# Where signatures contain .asd files and folders with more .asd files
+
+
+# In linux
+path <- "/home/(username)/data/signatures"
+```
+
+
+### Sample data included with the package
 
 We provide sample `.asd` files with the package, you can find it in the package's root folder:
 
@@ -24,7 +41,8 @@ library(archeospec)
 path <- paste(path.package("archeospec"), "/extdata", sep="")   
 ```
 
-### Experimental approaches
+
+## Experimental approaches
 
 You may choose between different approaches for __unmixing__ and __clustering__ as explored in the original study:
 
@@ -38,59 +56,87 @@ __Unmixing__ can be controlled via the `endmembers` argument, a numeric value wi
 
 __Clustering__ can be controlled via the `kmeans` boolean argument, a positive value will perform the algorithm while a negative one will fix the endmembers.
 
-#### Example of VCA + kmeans
+
+### Example of VCA + kmeans
 
 ```{r archeospec_vca, eval=FALSE}
+# Set a seed value to ensure reproducibility
+set.seed(934587)
+
 # A default report using VCA to compute k=3 endmembers and kmeans:
 genReport(
   input_source=path,
   output="./ex1",
-  endmembers=2,
+  endmembers=5,
   kmeans=T
 )
 ```
 
-![Generated report in pdf format]()
+![See rendered result in PDF](report_ex1.pdf){width=0px, height=0px}
+[See rendered result in PDF](report_ex1.pdf)
 
-#### Example of fixed endmembers and clusters
+![See rendered result in HTML](report_ex1.html){width=0px, height=0px}
+[See rendered result in HTML](report_ex1.html)
+
+### Example of fixed endmembers and clusters
+
+If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the `endmember_names` and `endmember_colors` property.
 
 ```{r archeospec_fixed, eval=FALSE}
+# Set a seed value to ensure reproducibility
+set.seed(934587)
+
 # A default report usingfixed endmembers and clusters:
 genReport(
   input_source=path,
   output="./ex2",
-  endmembers=c("red.asd", "black.asd"),
+  endmembers=c("signature0000.asd", "signature0001.asd", "signature0002.asd", "signature0003.asd", "signature0005.asd"),
+  endmember_names=c("orange", "red", "black", "white", "base"),
+  endmember_colors = c("darkorange2", "red2",  "gray15", "white", "green4"),
   kmeans=F
 )
 ```
 
-![Generated report in pdf format]()
+![See rendered result in PDF](report_ex2.pdf){width=0px, height=0px}
+[See rendered result in PDF](report_ex2.pdf)
 
-### Data cleaning
+![See rendered result in HTML](report_ex2.html){width=0px, height=0px}
+[See rendered result in HTML](report_ex2.html)
+
+
+## Data cleaning
 
 We can apply a cleaning process to the data using different options. Please notice that they are __disabled by default__.
 
 - `clean_head` cuts the lower wavelength values until the value specified
-- `clean_tail` cuts the lower wavelength values from the value specified
+- `clean_tail` cuts the higher wavelength values from the value specified
 - `clean_leaps` smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes. You may pass an arbritary number of points.
 
 ```{r archeospec_filter, eval=FALSE}
+# Set a seed value to ensure reproducibility
+set.seed(934587)
+
 # Filter wavelengths less than 400 and above 2400, and
 # smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.
 genReport(
   input_source=path,
   output="./ex3",
-  endmembers=3,
-  kmeans=T,
+  endmembers=5,
+  kmeans=F,
   clean_head=400,
   clean_tail=2400,
-  clean_points=c(1001, 1831)
-  )
+  clean_leaps=c(1001, 1831)
+)
 ```
 
-![Generated report in pdf format]()
+![See rendered result in PDF](report_ex3.pdf){width=0px, height=0px}
+[See rendered result in PDF](report_ex3.pdf)
 
-### Controlling the outputs
+![See rendered result in HTML](report_ex3.html){width=0px, height=0px}
+[See rendered result in HTML](report_ex3.html)
+
+
+## Controlling the outputs
 
 The report will always include the following plots and tables:
 
@@ -109,30 +155,37 @@ Additional plots are included by default, and can be hidden show using the follo
 - `intracorrelation=TRUE` shows the intracorrelation plot. We advise to hide it if not needed as it costly to generate.
 - `mutualinfo=TRUE` shows the mutual information between clusters and wavelengths
 
-If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the `endmember_names` and `endmember_colors` property.
 
-#### Example of hidden plots and named/colored endmembers
+### Example of hidden plots and named/colored endmembers
 
 ```{r archeospec_custom, eval=FALSE}
+# Set a seed value to ensure reproducibility
+set.seed(934587)
+
 # We might want to customize the report by removing plots which are not interesting for some cases.
 genReport(
   input_source=path,
   output="./ex4",
-  endmembers=c("red.asd", "black.asd"),
-  endmember_names=c("red", "black"),
-  endmember_colors=c("red2", "gray15")
-  kmeans=F
+  endmembers=c("signature0000.asd", "signature0001.asd", "signature0002.asd", "signature0003.asd", "signature0005.asd"),
+  endmember_names=c("orange", "red", "black", "white", "base"),
+  endmember_colors = c("darkorange2", "red2",  "gray15", "white", "green4"),
+  kmeans=F,
   clean_head=400,
   clean_tail=2400,
-  clean_points=c(1001, 1831),
+  clean_leaps=c(1001, 1831),
   intracorrelation=F,
   mutualinfo=F
-  )
+)
 ```
 
-![Generated report in pdf format]()
+![See rendered result in PDF](report_ex4.pdf){width=0px, height=0px}
+[See rendered result in PDF](report_ex4.pdf)
 
-### Controlling the output
+![See rendered result in HTML](report_ex4.html){width=0px, height=0px}
+[See rendered result in HTML](report_ex4.html)
+
+
+## Controlling the output
 
 `genReport` will produce all different outputs formats by default, if only a particular type of document is required then it can be specified with the `format` options, it takes values from:
 
@@ -141,11 +194,24 @@ genReport(
 - `word_document`
 - `all` (generating all previous document)
 
+```{r archeospec_format, eval=FALSE}
+# Set a seed value to ensure reproducibility
+set.seed(934587)
 
-### API Docs
+# We can render a single format for extended efficiency
+genReport(
+  input_source=path,
+  output="./ex5",
+  format="pdf_document"
+  endmembers=5,
+  kmeans=T
+)
+```
+
+
+## API Docs
 
 Please refer to the [documentation] for a comprehensive description of the `genReport` function
-
 
 
 

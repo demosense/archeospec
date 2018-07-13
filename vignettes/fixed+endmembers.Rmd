@@ -5,7 +5,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(archeospec)
-library(purrr)
+
+# Set a seed value to ensure reproducibility
+set.seed(934587)
 ```
 
 ## Loading the data
@@ -25,9 +27,9 @@ Fix the endmembers to a set of samples. Apply the clustering to group all the si
 ```{r vca_kmeans}
 signatures <- unmixing_fixed(
   signatures, 
-  files = c("almagre.asd.txt", "negro.asd.txt"),
-  names = c("red","black"),
-  colors = c("red2", "gray15")
+  endmember_files=c("signature0000.asd", "signature0001.asd", "signature0002.asd", "signature0003.asd", "signature0005.asd"),
+  endmember_names=c("orange", "red", "black", "white", "base"),
+  endmember_colors = c("darkorange2", "red2",  "gray15", "white", "green4")
 )
 signatures <- clustering_endmembers(signatures)
 ```

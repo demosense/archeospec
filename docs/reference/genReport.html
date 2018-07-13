@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
       </span>
     </div>
 
@@ -97,7 +97,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/demosense/archeospec/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -111,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a report</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/demosense/archeospec//blob/master/R/report.R'><code>R/report.R</code></a></small>
     <div class="hidden name"><code>genReport.Rd</code></div>
     </div>
 
@@ -121,7 +126,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>genReport</span>(<span class='no'>input_source</span>, <span class='no'>output</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='no'>endmembers</span>, <span class='kw'>kmeans</span> <span class='kw'>=</span> <span class='no'>T</span>,
+    <pre class="usage"><span class='fu'>genReport</span>(<span class='no'>input_source</span>, <span class='no'>output</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='no'>endmembers</span>, <span class='kw'>kmeans</span> <span class='kw'>=</span> <span class='no'>F</span>,
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"archeospec"</span>, <span class='kw'>clean_head</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clean_tail</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>clean_leaps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file_header</span> <span class='kw'>=</span> <span class='st'>"Wavelength\\t%s"</span>,
   <span class='kw'>wavelength_start</span> <span class='kw'>=</span> <span class='fl'>350</span>, <span class='kw'>wavelength_end</span> <span class='kw'>=</span> <span class='fl'>2500</span>, <span class='kw'>intracorrelation</span> <span class='kw'>=</span> <span class='no'>T</span>,
@@ -221,7 +226,7 @@ If endmembers is a vector of filenames, then those signatures will be selected a
 representative name and a fixed color (using endmember_names and endmember_colors), so we can easily recognize this signatures
 in the report. endmember_names is a vector of string names, and endmember_colors is a vector of string colors (check <code>colors</code>).</p>
 <p>Different outputs can optionaly be included in the report:</p><ul>
-<li><p>kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.</p></li>
+<li><p>kmeans: (TRUE) run kmeans clustering algorithms; (FALSE) use the endmembers as centroids.</p></li>
 <li><p>intracorrelation: included (TRUE) or not (FALSE).</p></li>
 <li><p>mutualinfo: included (TRUE) or not (FALSE).</p></li>
 </ul>

@@ -3,8 +3,9 @@
 #' Data preprocessing to smooth the leaps in a number of wavelengths as a consequence of different sensors usage.
 #'
 #' @export
+#' @import purrr
 #' @param signatures A spectral object built using the load_signature_files function.
-#' @param leaps Wavelengths where exists a leap in the value measurement as a consequence of a different sensor usage.
+#' @param leaps Wavelengths where there is a leap in the value measurement as a consequence of a different sensor usage.
 #' @return The processed (smoothed) signatures.
 #'
 #' @seealso \code{\link{load_signature_files}}
