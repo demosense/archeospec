@@ -104,9 +104,9 @@
 <a href="#spectral-class" class="anchor"></a>Spectral class</h2>
 <p>Let’s see the information of the signatures</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(signatures)</code></pre></div>
-<pre><code>## [1] "Spectral signatures of 5 files"</code></pre>
+<pre><code>## [1] "Spectral signatures of 30 files"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(signatures)</code></pre></div>
-<pre><code>## [1] "Spectral signatures of 5 files\n\n"
+<pre><code>## [1] "Spectral signatures of 30 files\n\n"
 ## 
 ## Ranges
 ##   Length: 2151
@@ -114,8 +114,16 @@
 ##   Max: 2500
 ## 
 ## Files
-## [1] "almagre.asd.txt" "blanco.asd.txt"  "naranja.asd.txt" "negro.asd.txt"  
-## [5] "soporte.asd.txt"</code></pre>
+##  [1] "signature0000.asd" "signature0001.asd" "signature0002.asd"
+##  [4] "signature0003.asd" "signature0004.asd" "signature0005.asd"
+##  [7] "signature0006.asd" "signature0007.asd" "signature0008.asd"
+## [10] "signature0009.asd" "signature0010.asd" "signature0011.asd"
+## [13] "signature0012.asd" "signature0013.asd" "signature0014.asd"
+## [16] "signature0015.asd" "signature0016.asd" "signature0017.asd"
+## [19] "signature0018.asd" "signature0019.asd" "signature0020.asd"
+## [22] "signature0021.asd" "signature0022.asd" "signature0023.asd"
+## [25] "signature0024.asd" "signature0025.asd" "signature0026.asd"
+## [28] "signature0027.asd" "signature0028.asd" "signature0029.asd"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/is.spectral.html">is.spectral</a></span>(signatures)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
@@ -155,19 +163,44 @@ signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <a href="#vca-results-in-tabular-format" class="anchor"></a>VCA results in tabular format</h1>
 <p>See information of VCA in tabular format</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/table_endmembers.html">table_endmembers</a></span>(signatures)</code></pre></div>
-<pre><code>##      endmember file             
-## [1,] "end1"    "almagre.asd.txt"
-## [2,] "end2"    "blanco.asd.txt"</code></pre>
+<pre><code>##      endmember file               
+## [1,] "end1"    "signature0003.asd"
+## [2,] "end2"    "signature0008.asd"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/table_residuals_summary.html">table_residuals_summary</a></span>(signatures)</code></pre></div>
-<pre><code>##              Min.      1st Qu.   Median     Mean  3rd Qu.     Max.
-## [1,] 1.834921e-13 3.310408e-13 252.1471 213.7784 268.9472 547.7976</code></pre>
+<pre><code>##      Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+## [1,]    0 31.53496 41.47999 73.86042 108.3809 206.7589</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/table_weights.html">table_weights</a></span>(signatures)</code></pre></div>
-<pre><code>##                            file          end1      end2     residual
-## almagre.asd.txt almagre.asd.txt  1.000000e+00 0.0000000 1.834921e-13
-## blanco.asd.txt   blanco.asd.txt -8.881784e-16 1.0000000 3.310408e-13
-## naranja.asd.txt naranja.asd.txt  4.098623e-01 0.5901377 5.477976e+02
-## negro.asd.txt     negro.asd.txt  3.737964e-01 0.6262036 2.689472e+02
-## soporte.asd.txt soporte.asd.txt  5.195610e-01 0.4804390 2.521471e+02</code></pre>
+<pre><code>##                                file         end1      end2     residual
+## signature0000.asd signature0000.asd 1.244772e-01 0.8755228 1.794700e+01
+## signature0001.asd signature0001.asd 2.033579e-01 0.7966421 2.712874e+01
+## signature0002.asd signature0002.asd 0.000000e+00 1.0000000 1.110384e+02
+## signature0003.asd signature0003.asd 1.000000e+00 0.0000000 0.000000e+00
+## signature0004.asd signature0004.asd 0.000000e+00 1.0000000 8.400181e+01
+## signature0005.asd signature0005.asd 1.951355e-01 0.8048645 3.831191e+01
+## signature0006.asd signature0006.asd 2.607914e-01 0.7392086 3.121188e+01
+## signature0007.asd signature0007.asd 5.827875e-01 0.4172125 2.438262e+01
+## signature0008.asd signature0008.asd 5.551115e-17 1.0000000 6.320638e-14
+## signature0009.asd signature0009.asd 5.892800e-02 0.9410720 1.614830e+01
+## signature0010.asd signature0010.asd 2.996020e-01 0.7003980 3.728891e+01
+## signature0011.asd signature0011.asd 0.000000e+00 1.0000000 2.067589e+02
+## signature0012.asd signature0012.asd 6.102835e-01 0.3897165 1.125209e+02
+## signature0013.asd signature0013.asd 9.392152e-02 0.9060785 3.337845e+01
+## signature0014.asd signature0014.asd 4.862400e-01 0.5137600 7.146232e+01
+## signature0015.asd signature0015.asd 1.933235e-01 0.8066765 3.727895e+01
+## signature0016.asd signature0016.asd 6.979570e-01 0.3020430 1.004084e+02
+## signature0017.asd signature0017.asd 4.412113e-01 0.5587887 1.842767e+02
+## signature0018.asd signature0018.asd 5.689620e-01 0.4310380 8.953630e+01
+## signature0019.asd signature0019.asd 4.265196e-02 0.9573480 2.617232e+01
+## signature0020.asd signature0020.asd 8.204294e-01 0.1795706 1.800544e+02
+## signature0021.asd signature0021.asd 1.923668e-01 0.8076332 3.250422e+01
+## signature0022.asd signature0022.asd 6.683584e-01 0.3316416 1.355704e+02
+## signature0023.asd signature0023.asd 5.556483e-01 0.4443517 9.229643e+01
+## signature0024.asd signature0024.asd 2.065922e-01 0.7934078 4.464806e+01
+## signature0025.asd signature0025.asd 6.943844e-01 0.3056156 1.410226e+02
+## signature0026.asd signature0026.asd 5.659348e-01 0.4340652 9.084280e+01
+## signature0027.asd signature0027.asd 8.240195e-01 0.1759805 1.772751e+02
+## signature0028.asd signature0028.asd 1.580937e-01 0.8419063 3.743232e+01
+## signature0029.asd signature0029.asd 8.540686e-01 0.1459314 3.491365e+01</code></pre>
 </div>
 <div id="vca-and-clustering-results-as-plots" class="section level1">
 <h1 class="hasAnchor">
@@ -184,7 +217,6 @@ signatures &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_endmember_density_bar.html">plot_endmember_density_bar</a></span>(signatures)</code></pre></div>
 <p><img src="kmeans+vga_files/figure-html/plots-5.png" width="700"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_endmember_density_box.html">plot_endmember_density_box</a></span>(signatures)</code></pre></div>
-<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_boxplot).</code></pre>
 <p><img src="kmeans+vga_files/figure-html/plots-6.png" width="700"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_residuals.html">plot_residuals</a></span>(signatures)</code></pre></div>
 <p><img src="kmeans+vga_files/figure-html/plots-7.png" width="700"></p>

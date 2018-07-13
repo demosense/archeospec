@@ -12,9 +12,9 @@ Analysis of the reflectance spectra from paintings: classification and endmember
 ```R
 # install.packages("devtools")
 # archeospec depends on this non CRAN external dependency
-devtools::install_github("jcozar87/unmixR", subdir = "pkg/unmixR")
+devtools::install_github("demosense/unmixR", subdir = "pkg/unmixR")
 # archeospec in currently only available trough github
-devtools::install_github("jacintoarias/archeospec")
+devtools::install_github("demosense/archeospec")
 ```
 
 ## Purpose
@@ -31,7 +31,7 @@ Finally, the package provides the contribution of the endmembers to each of the 
 
 ## API Docs
 
-Please refer to our comprehensive [documentation]() for a complete quickstart.
+Please refer to our comprehensive [documentation](http://demosense.github.io/archeospec) for a complete quickstart.
 
 ## Basic usage
 
@@ -60,11 +60,11 @@ The following formats are available:
 
 ### Additional configuration
 
-The reports may be configured to show/hide some of the plots and customize properties like colors and series names. Please refer to our [documentation]() for a comprehensive list of parameters.
+The reports may be configured to show/hide some of the plots and customize properties like colors and series names. Please refer to our [documentation](http://demosense.github.io/archeospec) for a comprehensive list of parameters.
 
 ## Advanced Usage
 
-We provide an advanced API for a fine grained control of the different plots. tables and statistics. You can use it to generate your own documents via `rmarkdown` or to extend the results with additional analysis. Please refer to our [documentation]() and [examples]() to explore the package's capabilities.
+We provide an advanced API for a fine grained control of the different plots. tables and statistics. You can use it to generate your own documents via `rmarkdown` or to extend the results with additional analysis. Please refer to our [documentation](http://demosense.github.io/archeospec) to explore the package's capabilities.
 
 
 ## Authors
