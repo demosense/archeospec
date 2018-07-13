@@ -1,6 +1,6 @@
 ---
 author: "Jacinto Arias"
-title: "Introduction to archeospec"
+title: "Get Started"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{pkgdown}
@@ -8,94 +8,144 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Basic usage
+## Basic usage, report generation
 
-#### Create a report composed of elements specified in the parametrization.
+The basic API encapsulates all the functionality of the package in a __single function__, `archeospec::genReport`. It allows different configuration options to generate the combination of outputs carried out in the study.
 
-First load the data from input source. This must be an ABSOLUTE path to a folder which contains .asd files, or a tree of folders which contains in the end .asd files. These files must contain the data as a pair wavelength<tab>value, and the data must starts after the line file_header (by default "Wavelength<tab>%s").
+### Data loading
 
-Then, a filtering process can be applied to the signatures if any of clean_head, clean_tail or clean_leaps are specified. This consists, respectively, on cutting the lower / higher wavelength values. clean_leaps smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes.
+Data must be provided with an __absolute__ path to directory or tree of directories containing `.asd` files. If you must configure the data format you can do so by appliying the same parametrization from the `load_signatures_files`.
 
-Finally, the signatures are unmixed. If endmembers is a number, it computes such number of endmembers using the VCA algorithm. If endmembers is a vector of filenames, then those signatures will be selected as endmembers. In this case, we can assign them a representative name and a fixed color (using endmember_names and endmember_colors), so we can easily recognize this signatures in the report. endmember_names is a vector of string names, and endmember_colors is a vector of string colors (check \code{\link{colors}}).
+We provide sample `.asd` files with the package, you can find it in the package's root folder:
 
+```{r, eval=FALSE}
+library(archeospec)
 
-Different outputs can optionaly be included in the report:
+path <- paste(path.package("archeospec"), "/extdata", sep="")   
+```
 
--   kmeans: included (TRUE) or not (FALSE). If endmembers is a number, the centroids are chosen randomly. Otherwise, they will be the selected endmembers.
--   intracorrelation: included (TRUE) or not (FALSE).
--   mutualinfo: included (TRUE) or not (FALSE).
+### Experimental approaches
 
-The report will always include:
+You may choose between different approaches for __unmixing__ and __clustering__ as explored in the original study:
+
+- Unmixing via VCA algorithm
+- Unmixing specifiying the endmembers
+
+- Kmeans clustering
+- Fixed centroid clustering (selects the endmembers as centroids)
+
+__Unmixing__ can be controlled via the `endmembers` argument, a numeric value will trigger the VCA algorithm and a list of characters values will trigger the manual unmixing, notice that the files must be existing signatures in the data.
+
+__Clustering__ can be controlled via the `kmeans` boolean argument, a positive value will perform the algorithm while a negative one will fix the endmembers.
+
+#### Example of VCA + kmeans
+
+```{r archeospec_vca, eval=FALSE}
+# A default report using VCA to compute k=3 endmembers and kmeans:
+genReport(
+  input_source=path,
+  output="/tmp/archeospec/",
+  endmembers=2,
+  kmeans=T
+)
+```
+
+![Generated report in pdf format]()
+
+#### Example of fixed endmembers and clusters
+
+```{r archeospec_fixed, eval=FALSE}
+# A default report usingfixed endmembers and clusters:
+genReport(
+  input_source=path,
+  output="/tmp/archeospec/",
+  endmembers=c("red.asd", "black.asd"),
+  kmeans=F
+)
+```
+
+![Generated report in pdf format]()
+
+### Data cleaning
+
+We can apply a cleaning process to the data using different options. Please notice that they are __disabled by default__.
+
+- `clean_head` cuts the lower wavelength values until the value specified
+- `clean_tail` cuts the lower wavelength values from the value specified
+- `clean_leaps` smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes. You may pass an arbritary number of points.
+
+```{r archeospec_filter, eval=FALSE}
+# Filter wavelengths less than 400 and above 2400, and
+# smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.
+genReport(
+  input_source=path,
+  output="/tmp/archeospec/",
+  endmembers=3,
+  kmeans=T,
+  clean_head=400,
+  clean_tail=2400,
+  smooth_points=c(1001, 1831)
+  )
+```
+
+![Generated report in pdf format]()
+
+### Controlling the outputs
+
+The report will always include the following plots and tables:
 
 - A brief description of the dataset (list of signatures)
 - The list of parameters used to create the report
 - The signature plot
 - The selected or computed endmembers, in tabular and plot formats
-- The elbow plot
+- The elbow plot (if kmeans was performed)
 - The correspondence between endmembers and clusters plot
 - The endmember weights by cluster bar and whisker box plot
 - The residual values for each signature plot
 - The summary table for the signatures and its weights by endmembers
 
-For more information refer to the documentation and Get starter section in [GitHub](https://github.com/jacintoArias/archeospec/).
+Additional plots are included by default, and can be hidden show using the following options:
 
+- `intracorrelation=TRUE` shows the intracorrelation plot. We advise to hide it if not needed as it costly to generate.
+- `mutualinfo=TRUE` shows the mutual information between clusters and wavelengths
 
-```{r archeospec_nofilter, eval=FALSE}
-# If we want a report with all the information, using VCA to compute k=3 endmembers:
-genReport(
-  input_source="/path/to/asd_folder/",
-  output="/tmp/archeospec/",
-  endmembers=3
-  )
-```
+If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the `endmember_names` and `endmember_colors` property.
 
-![Generated report in pdf format](/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf)
-
-```{r archeospec_filter, eval=FALSE}
-# The same than before, but filtering the signatures: filter out wavelengths less than 400 and above 2400, and
-# smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.
-genReport(
-  input_source="/path/to/asd_folder/",
-  output="/tmp/archeospec/",
-  endmembers=3,
-  clean_head=400,
-  clean_tail=2400,
-  smooth_points=c(1001, 1831)
-  )
-```
-
-
-![Generated report in pdf format](/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf)
-
-```{r archeospec_fixed_endmembers, eval=FALSE}
-# If we know which signatures are the endmembers, we can fix them:
-genReport(
-  input_source="/path/to/asd_folder/",
-  output="/tmp/archeospec/",
-  endmembers=c("almagre.asd.txt", "blanco.asd.txt"),
-  clean_head=400,
-  clean_tail=2400,
-  smooth_points=c(1001, 1831)
-  )
-```
-
-
-![Generated report in pdf format](/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf)
+#### Example of hidden plots and named/colored endmembers
 
 ```{r archeospec_custom, eval=FALSE}
 # We might want to customize the report by removing plots which are not interesting for some cases.
 genReport(
-  input_source="/path/to/asd_folder/",
+  input_source=path,
   output="/tmp/archeospec/",
-  endmembers=c("almagre.asd.txt", "blanco.asd.txt"),
+  endmembers=c("red.asd", "black.asd"),
+  endmember_names=c("red", "black"),
+  endmember_colors=c("red2", "gray15")
+  kmeans=F
   clean_head=400,
   clean_tail=2400,
   smooth_points=c(1001, 1831),
-  kmeans=F,
   intracorrelation=F,
   mutualinfo=F
   )
 ```
 
-![Generated report in pdf format](/private/tmp/archeospec/report_files/figure-latex/unnamed-chunk-2-1.pdf)
+![Generated report in pdf format]()
+
+### Controlling the output
+
+`genReport` will produce all different outputs formats by default, if only a particular type of document is required then it can be specified with the `format` options, it takes values from:
+
+- `html_document` (and md)
+- `pdf_document` (and LaTeX)
+- `word_document`
+- `all` (generating all previous document)
+
+
+### API Docs
+
+Please refer to the [documentation] for a comprehensive description of the `genReport` function
+
+
+
 

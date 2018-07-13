@@ -48,11 +48,11 @@ load_signature_files <- function(path, header, wavelength_start, wavelength_end)
   name <- strsplit(f, "/")[[1]]
   # We keep the last value in path
   name <- name[length(name)]
-  # Hardcoded elimination of residual .txt extension
-  name <- substr(name, 1, nchar(name)-4)
+  # Elimination of residual .txt extension
+  name <- substr(name, 1, gregexpr("\\.", name)[[1]][[1]]-1)
 
   header <- sprintf(header, name)
-  headerCol <- match(header, lines)
+  headerCol <- pmatch(header, lines)
 
   dataLines <- lines[(headerCol+1):length(lines)]
   values <- sapply(dataLines, function(x) trimws(strsplit(x, "\t")[[1]][2]), USE.NAMES = F)

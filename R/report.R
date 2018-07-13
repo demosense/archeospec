@@ -344,7 +344,7 @@ The following table and figure show the %s endmembers selected manually from the
 "
 \\newpage
 ## Clustering (kmeans)
-The following figure shows the error of the kmeans algorithm for incresing values of k, measured as the distance withing clusters. The red dot represent the selected k value.
+The following figure shows the error of the kmeans algorithm for incresing values of k, measured as the distance within clusters. The red dot represent the selected k value.
 The next figure shows the graphical representation of the dataset classified by the corresponding cluster assigned by kmeans.
 ",
         k)
@@ -447,8 +447,8 @@ output:
     .add_chunk_md(text_unmixing) %>%
     .add_chunk_anonymous("tableEndmembers", chunk_table_endmembers) %>%
     .add_chunk_anonymous("plotEndmembers", chunk_plot_endmembers) %>%
-    .add_chunk_anonymous("plotElbow", chunk_plot_elbow) %>%
     .add_chunk_md(text_clustering) %>%
+    .add_chunk_anonymous("plotElbow", chunk_plot_elbow) %>%
     .add_chunk_anonymous("plotClusters", chunk_plot_clusters) %>%
     .add_chunk_md(text_mutualinfo) %>%
     .add_chunk_anonymous("plotMutualinfo", chunk_plot_mutual_info) %>%
