@@ -44,7 +44,7 @@ __Clustering__ can be controlled via the `kmeans` boolean argument, a positive v
 # A default report using VCA to compute k=3 endmembers and kmeans:
 genReport(
   input_source=path,
-  output="/tmp/archeospec/",
+  output="./ex1",
   endmembers=2,
   kmeans=T
 )
@@ -58,7 +58,7 @@ genReport(
 # A default report usingfixed endmembers and clusters:
 genReport(
   input_source=path,
-  output="/tmp/archeospec/",
+  output="./ex2",
   endmembers=c("red.asd", "black.asd"),
   kmeans=F
 )
@@ -79,12 +79,12 @@ We can apply a cleaning process to the data using different options. Please noti
 # smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.
 genReport(
   input_source=path,
-  output="/tmp/archeospec/",
+  output="./ex3",
   endmembers=3,
   kmeans=T,
   clean_head=400,
   clean_tail=2400,
-  smooth_points=c(1001, 1831)
+  clean_points=c(1001, 1831)
   )
 ```
 
@@ -117,14 +117,14 @@ If manual endmembers are selected you may change the displayed name and color fo
 # We might want to customize the report by removing plots which are not interesting for some cases.
 genReport(
   input_source=path,
-  output="/tmp/archeospec/",
+  output="./ex4",
   endmembers=c("red.asd", "black.asd"),
   endmember_names=c("red", "black"),
   endmember_colors=c("red2", "gray15")
   kmeans=F
   clean_head=400,
   clean_tail=2400,
-  smooth_points=c(1001, 1831),
+  clean_points=c(1001, 1831),
   intracorrelation=F,
   mutualinfo=F
   )
