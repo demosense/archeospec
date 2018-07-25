@@ -17,6 +17,19 @@ devtools::install_github("demosense/unmixR", subdir = "pkg/unmixR")
 devtools::install_github("demosense/archeospec")
 ```
 
+### Installing tinytex dependencies
+
+If you want to generate pdf documents you need a LaTeX compiler. If you don't have one installed, we provide two options:
+
+- Configure the tinytex package (which is included automatically as a dependence) running the following command:
+
+```R
+tinytex::install_tinytex()
+```
+
+- Install a LaTeX distribution for your OS (e.g. MiKTeX for Windows, MacTeX for macos or TeX Live in linux).
+
+
 ## Purpose
 
 This package has been developed for managing high spectral resolution reflectance from paintings.
@@ -40,8 +53,16 @@ We provide a direct and simple API to quickly generate report documents from dat
 The following example generates a report, using VCA to compute 3 endmembers and kmeans to perform unsupervised classification.
 
 ```r
+# Absolute directory path containing .asd files and/or folders with more .asd files
+
+# In windows 10
+path <- "C:/Users/(username)/Documents/data/signatures"
+
+# In linux
+path <- "/home/(username)/data/signatures"
+
 genReport(
-  input_source="/path/to/asd_folder/",
+  input_source=path,
   output="/tmp/archeospec/",
   format="html_document"
   endmembers=3,

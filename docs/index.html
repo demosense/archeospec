@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
       </span>
     </div>
 
@@ -95,6 +95,18 @@
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"demosense/unmixR"</span>, <span class="dt">subdir =</span> <span class="st">"pkg/unmixR"</span>)
 <span class="co"># archeospec in currently only available trough github</span>
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"demosense/archeospec"</span>)</code></pre></div>
+<div id="installing-tinytex-dependencies" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installing-tinytex-dependencies" class="anchor"></a>Installing tinytex dependencies</h3>
+<p>If you want to generate pdf documents you need a LaTeX compiler. If you don’t have one installed, we provide two options:</p>
+<ul>
+<li>Configure the tinytex package (which is included automatically as a dependence) running the following command:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tinytex<span class="op">::</span><span class="kw">install_tinytex</span>()</code></pre></div>
+<ul>
+<li>Install a LaTeX distribution for your OS (e.g. MiKTeX for Windows, MacTeX for macos or TeX Live in linux).</li>
+</ul>
+</div>
 </div>
 <div id="purpose" class="section level2">
 <h2 class="hasAnchor">
@@ -115,8 +127,16 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <a href="#basic-usage" class="anchor"></a>Basic usage</h2>
 <p>We provide a direct and simple API to quickly generate report documents from data sources. It can be configured to reflect any combination of the mentioned study.</p>
 <p>The following example generates a report, using VCA to compute 3 endmembers and kmeans to perform unsupervised classification.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/genReport.html">genReport</a></span>(
-  <span class="dt">input_source=</span><span class="st">"/path/to/asd_folder/"</span>,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Absolute directory path containing .asd files and/or folders with more .asd files</span>
+
+<span class="co"># In windows 10</span>
+path &lt;-<span class="st"> "C:/Users/(username)/Documents/data/signatures"</span>
+
+<span class="co"># In linux</span>
+path &lt;-<span class="st"> "/home/(username)/data/signatures"</span>
+
+<span class="kw"><a href="reference/genReport.html">genReport</a></span>(
+  <span class="dt">input_source=</span>path,
   <span class="dt">output=</span><span class="st">"/tmp/archeospec/"</span>,
   <span class="dt">format=</span><span class="st">"html_document"</span>
   <span class="dt">endmembers=</span><span class="dv">3</span>,

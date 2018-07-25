@@ -95,21 +95,32 @@ For more details see the doc in [GitHub](https://github.com/jacintoArias/archeos
 }
 \examples{
 \dontrun{
-input_source <- "/path/to/asd/folder"
+
+# Path must be absolute
+# In windows 10
+path <- "C:/Users/(username)/Documents/data/signatures"
+# Where signatures contain .asd files and folders with more .asd files
+
+# In linux
+path <- "/home/(username)/data/signatures"
+
+path <- "/path/to/asd/folder"
+
 # generate a report computing three endmembers.
-genReport(input_source, endmembers=3)
+genReport(path, endmembers=3)
 
 # generate a report selecting two endmembers.
-genReport(input_source, endmembers=c("almagre.asd.txt", "blanco.asd.txt"))
+genReport(path, endmembers=c("almagre.asd.txt", "blanco.asd.txt"))
 
 # generate a report filtering the signatures and computing three endmembers.
-genReport(input_source, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3)
+genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3)
 
 # generate a report filtering the signatures and selecting two endmembers, giving them a name and a color.
-endmembers <- c("almagre.asd.txt", "blanco.asd.txt")
+endmembers <- c("signature0000.asd", "signature0001.asd")
 names <- c("red", "white")
 colors <- c("red2", "white")
-genReport(input_source, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831),
+
+genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831),
           endmembers=endmembers, endmember_names=names, endmember_colors=colors)
 }
 

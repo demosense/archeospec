@@ -20,14 +20,14 @@ For example:
 
 ```{r, eval=FALSE}
 library(archeospec)
+# Absolute directory path containing .asd files and/or folders with more .asd files
 
 # In windows 10
 path <- "C:/Users/(username)/Documents/data/signatures"
-# Where signatures contain .asd files and folders with more .asd files
-
 
 # In linux
 path <- "/home/(username)/data/signatures"
+
 ```
 
 

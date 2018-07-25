@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Endmembers description — table_endmembers • archeospec</title>
+<title>Changelog • archeospec</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,15 +25,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Endmembers description — table_endmembers" />
-
-<meta property="og:description" content="Generate the table which contains the endmembers and the files which they corresponds to." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -49,7 +46,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -60,7 +57,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">archeospec</a>
+        <a class="navbar-link" href="index.html">archeospec</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
       </span>
     </div>
@@ -68,16 +65,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../articles/archeospec.html">Get started</a>
+  <a href="articles/archeospec.html">Get started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -87,10 +84,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/fixed+endmembers.html">Fixed endmembers</a>
+      <a href="articles/fixed+endmembers.html">Fixed endmembers</a>
     </li>
     <li>
-      <a href="../articles/kmeans+vga.html">K-Means and VCA</a>
+      <a href="articles/kmeans+vga.html">K-Means and VCA</a>
     </li>
   </ul>
 </li>
@@ -113,64 +110,38 @@
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Endmembers description</h1>
-    <small class="dont-index">Source: <a href='https://github.com/demosense/archeospec//blob/master/R/tables.R'><code>R/tables.R</code></a></small>
-    <div class="hidden name"><code>table_endmembers.Rd</code></div>
+      <h1>Changelog</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>Generate the table which contains the endmembers and the files which they corresponds to.</p>
-    
-    </div>
+<div id="changelog" class="section level1">
 
-    <pre class="usage"><span class='fu'>table_endmembers</span>(<span class='no'>signatures</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>signatures</th>
-      <td><p>A spectral object built using the load_signature_files function.
-The spectral object needs to be unmixed (using unmixing_fixed or unmixing_vca).</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A matrix object with the tabular information.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='unmixing_fixed.html'>unmixing_fixed</a></code></p>
-<p><code><a href='unmixing_vca.html'>unmixing_vca</a></code></p>
-<p><code><a href='load_signature_files.html'>load_signature_files</a></code></p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>signatures</span>)
-<span class='no'>unmixed_signatures</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='unmixing_vca.html'>unmixing_vca</a></span>(<span class='no'>signatures</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>2</span>)
-<span class='fu'>table_endmembers</span>(<span class='no'>unmixed_signatures</span>)</div><div class='output co'>#&gt;      endmember file               
-#&gt; [1,] "end1"    "signature0003.asd"
-#&gt; [2,] "end2"    "signature0008.asd"</div><div class='input'>
-</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-  </div>
+<div id="v1-0-1-25072018" class="section level2">
+<h2 class="hasAnchor">
+<a href="#v1-0-1-25072018" class="anchor"></a>v1.0.1 (25/07/2018)</h2>
+<div id="bugfixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bugfixes" class="anchor"></a>Bugfixes</h3>
+<ul>
+<li>Some weights retrieved from the unmixing process showed numerical precision errors that could make values above 1 or below 0. These errors do not affect the numerical results but were removing particular data points from bounded boxplot graphs.</li>
+</ul>
 </div>
+<div id="other-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#other-changes" class="anchor"></a>Other changes</h3>
+<ul>
+<li><p>Added information on how to configure tinytex</p></li>
+<li><p>Updated documentation in Readme, get started vignette and genReport function</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+  </div>
+
+</div>
+
 
       <footer>
       <div class="copyright">

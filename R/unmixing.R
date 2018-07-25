@@ -98,6 +98,11 @@ unmixing_fixed <- function(signatures, endmember_files, endmember_names=NULL, en
 
   models <- apply(signatures$data, 1, FUN=function(x) .cnnls(X, matrix(as.numeric(x))) )
   weightsRaw <- data.frame( t(sapply(models, function(x) c(x$solution))) )
+
+  # Remove numeric precision errors
+  weightsRaw[weightsRaw < 0] <- 0
+  weightsRaw[weightsRaw > 1] <- 1
+
   names(weightsRaw) <- endNames
   weightsRaw
 }
