@@ -66,6 +66,8 @@
 #' @param endmember_colors Optional. If provided, it must be a list of colors (strings) to be related to selected endmembers, so we
 #' can easily recognise the endmembers in the report. If endmembers is not a list of filenames, this parameter is ignored.
 #' To check the available colors, refer to \code{\link{colors}}.
+#' @param seed A numeric value to controll randomness on the experiments.
+#' VCA and Kmeans may produce different outcomes for the same input given the seed.
 #' @return It creates a report in html, latex, pdf and / or word formats.
 #'
 #' @seealso \code{\link{load_signature_files}}
@@ -84,21 +86,21 @@
 #' path <- "/path/to/asd/folder"
 #'
 #' # generate a report computing three endmembers.
-#' genReport(path, endmembers=3)
+#' genReport(path, endmembers=3, seed=1000)
 #'
 #' # generate a report selecting two endmembers.
-#' genReport(path, endmembers=c("almagre.asd.txt", "blanco.asd.txt"))
+#' genReport(path, endmembers=c("almagre.asd.txt", "blanco.asd.txt"), seed=1000)
 #'
 #' # generate a report filtering the signatures and computing three endmembers.
-#' genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3)
+#' genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3, seed=1000)
 #'
 #' # generate a report filtering the signatures and selecting two endmembers, giving them a name and a color.
-#' endmembers <- c("signature0000.asd", "signature0001.asd")
+#' endmembers <- c("signature0000.asd", "signature0001.asd", )
 #' names <- c("red", "white")
 #' colors <- c("red2", "white")
 #'
 #' genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831),
-#'           endmembers=endmembers, endmember_names=names, endmember_colors=colors)
+#'           endmembers=endmembers, endmember_names=names, endmember_colors=colors, seed=1000)
 #' }
 #'
 genReport <- function(
@@ -117,7 +119,8 @@ genReport <- function(
   intracorrelation=T,
   mutualinfo=T,
   endmember_names=NULL,
-  endmember_colors=NULL
+  endmember_colors=NULL,
+  seed=0
 ) {
 
   ###
@@ -135,6 +138,8 @@ genReport <- function(
 
   chunk_libs <- paste0(libs, collapse="\n")
 
+  ### Seed
+  chunk_seed <- sprintf("set.seed(%s)", seed)
 
   #
   # Loading
@@ -445,6 +450,7 @@ output:
 
   document <- preamble %>%
     .add_chunk_anonymous("libraries", chunk_libs) %>%
+    .add_chunk_anonymous("seed", chunk_seed) %>%
     .add_chunk_anonymous("load", chunk_loading) %>%
     .add_chunk_anonymous("cleanLeaps", chunk_cleaning_leaps) %>%
     .add_chunk_anonymous("cleanHead", chunk_clean_head) %>%

@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">archeospec</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
 
@@ -134,15 +134,13 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <div id="example-of-vca-kmeans" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-of-vca-kmeans" class="anchor"></a>Example of VCA + kmeans</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">934587</span>)
-
-<span class="co"># A default report using VCA to compute k=3 endmembers and kmeans:</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A default report using VCA to compute k=3 endmembers and kmeans:</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
   <span class="dt">output=</span><span class="st">"./ex1"</span>,
   <span class="dt">endmembers=</span><span class="dv">5</span>,
-  <span class="dt">kmeans=</span>T
+  <span class="dt">kmeans=</span>T,
+  <span class="dt">seed=</span><span class="dv">1000</span>
 )</code></pre></div>
 <p><embed src="report_ex1.pdf" height="0"></embed><a href="report_ex1.pdf">See rendered result in PDF</a></p>
 <p><embed src="report_ex1.html" height="0"></embed><a href="report_ex1.html">See rendered result in HTML</a></p>
@@ -151,17 +149,15 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <h3 class="hasAnchor">
 <a href="#example-of-fixed-endmembers-and-clusters" class="anchor"></a>Example of fixed endmembers and clusters</h3>
 <p>If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the <code>endmember_names</code> and <code>endmember_colors</code> property.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">934587</span>)
-
-<span class="co"># A default report usingfixed endmembers and clusters:</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A default report usingfixed endmembers and clusters:</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
   <span class="dt">output=</span><span class="st">"./ex2"</span>,
   <span class="dt">endmembers=</span><span class="kw">c</span>(<span class="st">"signature0000.asd"</span>, <span class="st">"signature0001.asd"</span>, <span class="st">"signature0002.asd"</span>, <span class="st">"signature0003.asd"</span>, <span class="st">"signature0005.asd"</span>),
   <span class="dt">endmember_names=</span><span class="kw">c</span>(<span class="st">"orange"</span>, <span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"white"</span>, <span class="st">"base"</span>),
   <span class="dt">endmember_colors =</span> <span class="kw">c</span>(<span class="st">"darkorange2"</span>, <span class="st">"red2"</span>,  <span class="st">"gray15"</span>, <span class="st">"white"</span>, <span class="st">"green4"</span>),
-  <span class="dt">kmeans=</span>F
+  <span class="dt">kmeans=</span>F,
+  <span class="dt">seed=</span><span class="dv">1000</span>
 )</code></pre></div>
 <p><embed src="report_ex2.pdf" height="0"></embed><a href="report_ex2.pdf">See rendered result in PDF</a></p>
 <p><embed src="report_ex2.html" height="0"></embed><a href="report_ex2.html">See rendered result in HTML</a></p>
@@ -179,10 +175,7 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <li>
 <code>clean_leaps</code> smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes. You may pass an arbritary number of points.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">934587</span>)
-
-<span class="co"># Filter wavelengths less than 400 and above 2400, and</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter wavelengths less than 400 and above 2400, and</span>
 <span class="co"># smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
@@ -191,7 +184,8 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
   <span class="dt">kmeans=</span>F,
   <span class="dt">clean_head=</span><span class="dv">400</span>,
   <span class="dt">clean_tail=</span><span class="dv">2400</span>,
-  <span class="dt">clean_leaps=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>)
+  <span class="dt">clean_leaps=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>),
+  <span class="dt">seed=</span><span class="dv">1000</span>
 )</code></pre></div>
 <p><embed src="report_ex3.pdf" height="0"></embed><a href="report_ex3.pdf">See rendered result in PDF</a></p>
 <p><embed src="report_ex3.html" height="0"></embed><a href="report_ex3.html">See rendered result in HTML</a></p>
@@ -221,10 +215,7 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <div id="example-of-hidden-plots-and-namedcolored-endmembers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-of-hidden-plots-and-namedcolored-endmembers" class="anchor"></a>Example of hidden plots and named/colored endmembers</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">934587</span>)
-
-<span class="co"># We might want to customize the report by removing plots which are not interesting for some cases.</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We might want to customize the report by removing plots which are not interesting for some cases.</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
   <span class="dt">output=</span><span class="st">"./ex4"</span>,
@@ -236,7 +227,8 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
   <span class="dt">clean_tail=</span><span class="dv">2400</span>,
   <span class="dt">clean_leaps=</span><span class="kw">c</span>(<span class="dv">1001</span>, <span class="dv">1831</span>),
   <span class="dt">intracorrelation=</span>F,
-  <span class="dt">mutualinfo=</span>F
+  <span class="dt">mutualinfo=</span>F,
+  <span class="dt">seed=</span><span class="dv">1000</span>
 )</code></pre></div>
 <p><embed src="report_ex4.pdf" height="0"></embed><a href="report_ex4.pdf">See rendered result in PDF</a></p>
 <p><embed src="report_ex4.html" height="0"></embed><a href="report_ex4.html">See rendered result in HTML</a></p>
@@ -255,16 +247,14 @@ path &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw
 <li>
 <code>all</code> (generating all previous document)</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set a seed value to ensure reproducibility</span>
-<span class="kw">set.seed</span>(<span class="dv">934587</span>)
-
-<span class="co"># We can render a single format for extended efficiency</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We can render a single format for extended efficiency</span>
 <span class="kw"><a href="../reference/genReport.html">genReport</a></span>(
   <span class="dt">input_source=</span>path,
   <span class="dt">output=</span><span class="st">"./ex5"</span>,
   <span class="dt">format=</span><span class="st">"pdf_document"</span>
   <span class="dt">endmembers=</span><span class="dv">5</span>,
-  <span class="dt">kmeans=</span>T
+  <span class="dt">kmeans=</span>T,
+  <span class="dt">seed=</span><span class="dv">1000</span>
 )</code></pre></div>
 </div>
 <div id="api-docs" class="section level2">

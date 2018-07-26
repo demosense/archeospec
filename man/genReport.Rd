@@ -8,7 +8,8 @@ genReport(input_source, output, format = "all", endmembers, kmeans = F,
   title = "archeospec", clean_head = NULL, clean_tail = NULL,
   clean_leaps = NULL, file_header = "Wavelength\\\\t\%s",
   wavelength_start = 350, wavelength_end = 2500, intracorrelation = T,
-  mutualinfo = T, endmember_names = NULL, endmember_colors = NULL)
+  mutualinfo = T, endmember_names = NULL, endmember_colors = NULL,
+  seed = 0)
 }
 \arguments{
 \item{input_source}{The absolute path to a folder which contains .asd files (or subfolders with .asd files).
@@ -50,6 +51,9 @@ can easily recognise the endmembers in the report. If endmembers is not a list o
 \item{endmember_colors}{Optional. If provided, it must be a list of colors (strings) to be related to selected endmembers, so we
 can easily recognise the endmembers in the report. If endmembers is not a list of filenames, this parameter is ignored.
 To check the available colors, refer to \code{\link{colors}}.}
+
+\item{seed}{A numeric value to controll randomness on the experiments.
+VCA and Kmeans may produce different outcomes for the same input given the seed.}
 }
 \value{
 It creates a report in html, latex, pdf and / or word formats.
@@ -107,21 +111,21 @@ path <- "/home/(username)/data/signatures"
 path <- "/path/to/asd/folder"
 
 # generate a report computing three endmembers.
-genReport(path, endmembers=3)
+genReport(path, endmembers=3, seed=1000)
 
 # generate a report selecting two endmembers.
-genReport(path, endmembers=c("almagre.asd.txt", "blanco.asd.txt"))
+genReport(path, endmembers=c("almagre.asd.txt", "blanco.asd.txt"), seed=1000)
 
 # generate a report filtering the signatures and computing three endmembers.
-genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3)
+genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831), endmembers=3, seed=1000)
 
 # generate a report filtering the signatures and selecting two endmembers, giving them a name and a color.
-endmembers <- c("signature0000.asd", "signature0001.asd")
+endmembers <- c("signature0000.asd", "signature0001.asd", )
 names <- c("red", "white")
 colors <- c("red2", "white")
 
 genReport(path, clean_head=400, clean_tail=2400, clean_leaps=c(1001, 1831),
-          endmembers=endmembers, endmember_names=names, endmember_colors=colors)
+          endmembers=endmembers, endmember_names=names, endmember_colors=colors, seed=1000)
 }
 
 }

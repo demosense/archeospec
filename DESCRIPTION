@@ -1,7 +1,7 @@
 Package: archeospec
 Type: Package
 Title: Analysis of the Reflectance Spectra From Paintings: Classification and Endmembers.
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
   person("Jacinto", "Arias", role = c("aut", "cre"), email = "jacinto.arias@demosense.com"),
   person("Javier", "Cozar", role = c("aut"), email = "javier.cozar@demosense.com")

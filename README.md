@@ -66,7 +66,8 @@ genReport(
   output="/tmp/archeospec/",
   format="html_document"
   endmembers=3,
-  kmeans=T
+  kmeans=T,
+  seed=1000
   )
 ```
 

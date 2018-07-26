@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.2 (26/07/2018)
+
+### Bugfixes
+
+* Added a global seed to report generation to ensure that each format outputs the same results
+
 ## v1.0.1 (25/07/2018)
 
 ### Bugfixes

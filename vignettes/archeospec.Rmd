@@ -60,15 +60,14 @@ __Clustering__ can be controlled via the `kmeans` boolean argument, a positive v
 ### Example of VCA + kmeans
 
 ```{r archeospec_vca, eval=FALSE}
-# Set a seed value to ensure reproducibility
-set.seed(934587)
 
 # A default report using VCA to compute k=3 endmembers and kmeans:
 genReport(
   input_source=path,
   output="./ex1",
   endmembers=5,
-  kmeans=T
+  kmeans=T,
+  seed=1000
 )
 ```
 
@@ -83,9 +82,6 @@ genReport(
 If manual endmembers are selected you may change the displayed name and color for a more clear identification and comparison. This is done via the `endmember_names` and `endmember_colors` property.
 
 ```{r archeospec_fixed, eval=FALSE}
-# Set a seed value to ensure reproducibility
-set.seed(934587)
-
 # A default report usingfixed endmembers and clusters:
 genReport(
   input_source=path,
@@ -93,7 +89,8 @@ genReport(
   endmembers=c("signature0000.asd", "signature0001.asd", "signature0002.asd", "signature0003.asd", "signature0005.asd"),
   endmember_names=c("orange", "red", "black", "white", "base"),
   endmember_colors = c("darkorange2", "red2",  "gray15", "white", "green4"),
-  kmeans=F
+  kmeans=F,
+  seed=1000
 )
 ```
 
@@ -113,8 +110,6 @@ We can apply a cleaning process to the data using different options. Please noti
 - `clean_leaps` smooth the leaps produced when using multiple sensors for different range of wavelengths, produced between sensor changes. You may pass an arbritary number of points.
 
 ```{r archeospec_filter, eval=FALSE}
-# Set a seed value to ensure reproducibility
-set.seed(934587)
 
 # Filter wavelengths less than 400 and above 2400, and
 # smooth the leaps between wavelengths 1000 and 1001, and between 1830 and 1831.
@@ -125,7 +120,8 @@ genReport(
   kmeans=F,
   clean_head=400,
   clean_tail=2400,
-  clean_leaps=c(1001, 1831)
+  clean_leaps=c(1001, 1831),
+  seed=1000
 )
 ```
 
@@ -159,8 +155,6 @@ Additional plots are included by default, and can be hidden show using the follo
 ### Example of hidden plots and named/colored endmembers
 
 ```{r archeospec_custom, eval=FALSE}
-# Set a seed value to ensure reproducibility
-set.seed(934587)
 
 # We might want to customize the report by removing plots which are not interesting for some cases.
 genReport(
@@ -174,7 +168,8 @@ genReport(
   clean_tail=2400,
   clean_leaps=c(1001, 1831),
   intracorrelation=F,
-  mutualinfo=F
+  mutualinfo=F,
+  seed=1000
 )
 ```
 
@@ -195,8 +190,6 @@ genReport(
 - `all` (generating all previous document)
 
 ```{r archeospec_format, eval=FALSE}
-# Set a seed value to ensure reproducibility
-set.seed(934587)
 
 # We can render a single format for extended efficiency
 genReport(
@@ -204,7 +197,8 @@ genReport(
   output="./ex5",
   format="pdf_document"
   endmembers=5,
-  kmeans=T
+  kmeans=T,
+  seed=1000
 )
 ```
 
